@@ -12,10 +12,10 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="MusicLibraryLib.Song" >
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=Name}"/>
-                            <TextBlock Text="{Binding Path=Artist}"/>
-                            <TextBlock Text="{Binding Path=AlbumName}"/>
-                            <TextBlock Text="{Binding Path=Year}"/>
+                            <TextBlock Width="30" Margin="10" Text="{Binding Path=Name}"/>
+                            <TextBlock Width="30" Margin="10" Text="{Binding Path=Artist}"/>
+                            <TextBlock Width="30" Margin="10" Text="{Binding Path=AlbumName}"/>
+                            <TextBlock Width="30" Margin="10" Text="{Binding Path=Year}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

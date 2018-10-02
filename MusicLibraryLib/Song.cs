@@ -10,13 +10,21 @@ namespace MusicLibraryLib
     [Serializable]
     public class Song
     {
+        #region Private Fields
+
         private string _filePath = "";
         private string _name = "";
-        private string _albumName = "";
+        private string _albumName = "Unknown Album";
         private string _albumArtist = "";
-        private string _artist = "";
+        private string _artist = "Unknown Artist";
         private string _genre = "";
         private string _year = "";
+        private int _trackNumber = 0;
+
+        #endregion
+
+        #region Public Properties
+
         public string FilePath
         {
             get { return _filePath; }
@@ -52,11 +60,24 @@ namespace MusicLibraryLib
             get { return _year; }
             set { _year = value; FieldChanged(); }
         }
+        public int TrackNumber
+        {
+            get { return _trackNumber; }
+            set { _trackNumber = value; FieldChanged(); }
+        }
+
+        #endregion
+
+        #region Overrides
 
         public override string ToString()
         {
             return $"{Name} by {Artist} on {AlbumName} ({Year})";
         }
+
+        #endregion
+
+        #region Events/Delegates
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -67,5 +88,7 @@ namespace MusicLibraryLib
                 PropertyChanged(this, new PropertyChangedEventArgs(field));
             }
         }
+
+        #endregion
     }
 }
