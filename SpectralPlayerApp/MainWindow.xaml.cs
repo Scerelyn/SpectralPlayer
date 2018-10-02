@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicLibraryLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,19 @@ namespace SpectralPlayerApp
         public MainWindow()
         {
             InitializeComponent();
+            LibraryAllSongsListControl libraryAllSongs = new LibraryAllSongsListControl();
+            LibraryDock.Children.Add(libraryAllSongs);
+            Library l = new Library();
+            l.SongList.Add(new Song() { Name = "AAA", Artist="bbb", AlbumName="rrr", Year="1111" });
+            l.SongList.Add(new Song() { Name = "AAA", Artist = "bbb", AlbumName = "rrr", Year = "1111" });
+            l.SongList.Add(new Song() { Name = "AAA", Artist = "bbb", AlbumName = "rrr", Year = "1111" });
+            l.SongList.Add(new Song() { Name = "AAA", Artist = "bbb", AlbumName = "rrr", Year = "1111" });
+            l.SongList.Add(new Song() { Name = "AAA", Artist = "bbb", AlbumName = "rrr", Year = "1111" });
+            l.SongList.Add(new Song() { Name = "AAA", Artist = "bbb", AlbumName = "rrr", Year = "1111" });
+            l.SongList.Add(new Song() { Name = "AAA", Artist = "bbb", AlbumName = "rrr", Year = "1111" });
+            
+
+            libraryAllSongs.LibraryListView.ItemsSource = l.SongList;
         }
     }
 }

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectralPlayerApp", "SpectralPlayerApp\SpectralPlayerApp.csproj", "{D5020D75-8FD3-4744-983C-7EBA636FA457}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLibraryLib", "MusicLibraryLib\MusicLibraryLib.csproj", "{1DA8E475-7EF7-4A44-AFAD-429C74C670A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D5020D75-8FD3-4744-983C-7EBA636FA457}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5020D75-8FD3-4744-983C-7EBA636FA457}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5020D75-8FD3-4744-983C-7EBA636FA457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA8E475-7EF7-4A44-AFAD-429C74C670A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA8E475-7EF7-4A44-AFAD-429C74C670A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA8E475-7EF7-4A44-AFAD-429C74C670A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA8E475-7EF7-4A44-AFAD-429C74C670A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
