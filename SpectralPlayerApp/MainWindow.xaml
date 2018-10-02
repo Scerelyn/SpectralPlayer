@@ -6,17 +6,25 @@
         xmlns:local="clr-namespace:SpectralPlayerApp"
         mc:Ignorable="d"
         Title="Spectral Player" Height="600" Width="900">
-    <DockPanel>
+    <DockPanel> <!-- Top level container -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Test"></MenuItem>
         </Menu>
-        <Grid DockPanel.Dock="Left"
-                 x:Name="LibraryDock">
+        <Grid> <!-- Body of player -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="60*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Library section -->
+            <Grid Grid.Column="0"
+                     x:Name="LibraryDock"> 
             
-        </Grid>
-        <Grid DockPanel.Dock="Right"
-                 x:Name="MusicControllerDock">
-            
+            </Grid>
+            <!-- Music Player section -->
+            <Grid Grid.Column="1"
+                     x:Name="MusicControllerDock">
+
+            </Grid>
         </Grid>
     </DockPanel>
 </Window>

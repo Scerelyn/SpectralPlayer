@@ -6,20 +6,50 @@
              xmlns:local="clr-namespace:SpectralPlayerApp"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <ScrollViewer>
-            <ListBox x:Name="LibraryListView">
-                <ListBox.ItemTemplate>
+    <DockPanel>
+        <Grid DockPanel.Dock="Top"> <!-- Label grid -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Name"/>
+            <Label Grid.Column="1" Content="Artist"/>
+            <Label Grid.Column="2" Content="Album"/>
+            <Label Grid.Column="3" Content="Year"/>
+        </Grid>
+        
+        <ScrollViewer DockPanel.Dock="Top"> <!-- List of songs control -->
+            <ListBox x:Name="LibraryListView" SelectionMode="Extended" HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate> <!-- Template for Song objects -->
                     <DataTemplate DataType="MusicLibraryLib.Song" >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="30" Margin="10" Text="{Binding Path=Name}"/>
-                            <TextBlock Width="30" Margin="10" Text="{Binding Path=Artist}"/>
-                            <TextBlock Width="30" Margin="10" Text="{Binding Path=AlbumName}"/>
-                            <TextBlock Width="30" Margin="10" Text="{Binding Path=Year}"/>
-                        </StackPanel>
-                    </DataTemplate>
+                        <Grid Width="auto" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25*"/>
+                                <ColumnDefinition Width="25*"/>
+                                <ColumnDefinition Width="25*"/>
+                                <ColumnDefinition Width="25*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock HorizontalAlignment="Center" Grid.Column="0" Text="{Binding Path=Name}"/>
+                            <TextBlock HorizontalAlignment="Center" Grid.Column="1" Text="{Binding Path=Artist}"/>
+                            <TextBlock HorizontalAlignment="Center" Grid.Column="2" Text="{Binding Path=AlbumName}"/>
+                            <TextBlock HorizontalAlignment="Center" Grid.Column="3" Text="{Binding Path=Year}"/>
+                        </Grid>
+                    </DataTemplate>  
                 </ListBox.ItemTemplate>
+                <ListBox.ContextMenu> <!-- Context menu -->
+                    <ContextMenu>
+                        <MenuItem Header="Add song(s) to Up-Next"/>
+                        <MenuItem Header="Add song(s) to a playlist...">
+                            <MenuItem Header="Example playlist"/>
+                        </MenuItem>
+                        <MenuItem Header="Add song(s) to new Playlist"/>
+                        <MenuItem Header="Sample command"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
             </ListBox>
         </ScrollViewer>
-    </Grid>
+    </DockPanel>
+    
 </UserControl>
