@@ -1,6 +1,8 @@
 ﻿using MusicLibraryLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +45,12 @@ namespace SpectralPlayerApp
             l.SongList.Add(new Song() { Name = "swrmjdsa", Artist = "Joe", AlbumName = "OK", Year = "2017", TrackNumber = 4, Genre = "Rap" });
 
             AllSongsControl.LibraryListView.ItemsSource = l.GetOrderedListBySong();
-            AlbumsControl.AlbumListBox.ItemsSource = l.SongList.GroupBy( song => song.Name );
+
+            AlbumsControl.AlbumListBox.ItemsSource = l.GetOrderedListByAlbum();
+
+            ICollectionView view = CollectionViewSource.GetDefaultView(AlbumsControl.AlbumListBox.ItemsSource);
+            view.GroupDescriptions.Add(new PropertyGroupDescription("AlbumName"));
+
         }
     }
 }
