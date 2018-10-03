@@ -66,7 +66,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="LibraryAllSongsListControl.xaml">
+    <Page Include="LibraryViewControls\LibraryAlbumList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LibraryViewControls\LibraryAllSongsListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -78,7 +82,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LibraryAllSongsListControl.xaml.cs">
+    <Compile Include="LibraryViewControls\LibraryAlbumList.xaml.cs">
+      <DependentUpon>LibraryAlbumList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LibraryViewControls\LibraryAllSongsListControl.xaml.cs">
       <DependentUpon>LibraryAllSongsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SpectralPlayerApp
+namespace SpectralPlayerApp.LibraryViewControls
 {
     /// <summary>
     /// Interaction logic for LibraryAllSongsListControl.xaml

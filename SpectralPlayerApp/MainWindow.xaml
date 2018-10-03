@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpectralPlayerApp"
+        xmlns:libviews="clr-namespace:SpectralPlayerApp.LibraryViewControls"
         mc:Ignorable="d"
         Title="Spectral Player" Height="600" Width="900">
     <DockPanel> <!-- Top level container -->
@@ -17,8 +18,21 @@
             </Grid.ColumnDefinitions>
             <!-- Library section -->
             <Grid Grid.Column="0"
-                     x:Name="LibraryDock"> 
-            
+                     x:Name="LibraryDock">
+                <TabControl>
+                    <TabItem Header="All Songs">
+                        <libviews:LibraryAllSongsListControl x:Name="AllSongsControl"/>
+                    </TabItem>
+                    <TabItem Header="Album View">
+                        <libviews:LibraryAlbumList x:Name="AlbumsControl"/>
+                    </TabItem>
+                    <TabItem Header="Artist View">
+                        
+                    </TabItem>
+                    <TabItem Header="Genre View">
+                        
+                    </TabItem>
+                </TabControl>
             </Grid>
             <!-- Music Player section -->
             <Grid Grid.Column="1"
