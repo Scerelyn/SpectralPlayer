@@ -66,23 +66,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="LibraryViewControls\LibraryAlbumList.xaml">
+    <Page Include="LibraryViewControls\LibraryAlbumListViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LibraryViewControls\LibraryAllSongsListControl.xaml">
+    <Page Include="LibraryViewControls\LibraryAllSongsListViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LibraryViewControls\LibraryArtistList.xaml">
+    <Page Include="LibraryViewControls\LibraryArtistListViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LibraryViewControls\LibraryGenreView.xaml">
+    <Page Include="LibraryViewControls\LibraryGenreListViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LibraryViewControls\LibraryPlayListView.xaml">
+    <Page Include="LibraryViewControls\LibraryPlayListViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -94,20 +94,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LibraryViewControls\LibraryAlbumList.xaml.cs">
-      <DependentUpon>LibraryAlbumList.xaml</DependentUpon>
+    <Compile Include="LibraryViewControls\LibraryAlbumListViewControl.xaml.cs">
+      <DependentUpon>LibraryAlbumListViewControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LibraryViewControls\LibraryAllSongsListControl.xaml.cs">
-      <DependentUpon>LibraryAllSongsListControl.xaml</DependentUpon>
+    <Compile Include="LibraryViewControls\LibraryAllSongsListViewControl.xaml.cs">
+      <DependentUpon>LibraryAllSongsListViewControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LibraryViewControls\LibraryArtistList.xaml.cs">
-      <DependentUpon>LibraryArtistList.xaml</DependentUpon>
+    <Compile Include="LibraryViewControls\LibraryArtistListViewControl.xaml.cs">
+      <DependentUpon>LibraryArtistListViewControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LibraryViewControls\LibraryGenreView.xaml.cs">
-      <DependentUpon>LibraryGenreView.xaml</DependentUpon>
+    <Compile Include="LibraryViewControls\LibraryGenreListViewControl.xaml.cs">
+      <DependentUpon>LibraryGenreListViewControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LibraryViewControls\LibraryPlayListView.xaml.cs">
-      <DependentUpon>LibraryPlayListView.xaml</DependentUpon>
+    <Compile Include="LibraryViewControls\LibraryPlayListViewControl.xaml.cs">
+      <DependentUpon>LibraryPlayListViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -155,5 +155,6 @@
       <Name>MusicLibraryLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

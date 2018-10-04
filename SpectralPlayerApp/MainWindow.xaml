@@ -22,27 +22,27 @@
                 <TabControl>
                     <TabItem Header="All Songs">
                         <ScrollViewer>
-                            <libviews:LibraryAllSongsListControl x:Name="AllSongsControl"/>
+                            <libviews:LibraryAllSongsListViewControl x:Name="AllSongsControl"/>
                         </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Albums">
                         <ScrollViewer>
-                            <libviews:LibraryAlbumList x:Name="AlbumsControl"/>
+                            <libviews:LibraryAlbumListViewControl x:Name="AlbumsControl"/>
                         </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Artists">
                         <ScrollViewer>
-                            <libviews:LibraryArtistList x:Name="ArtistsControl"/>
+                            <libviews:LibraryArtistListViewControl x:Name="ArtistsControl"/>
                         </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Genres">
                         <ScrollViewer>
-                            <libviews:LibraryGenreView x:Name="GenresControl"/>
+                            <libviews:LibraryGenreListViewControl x:Name="GenresControl"/>
                         </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Playlists">
                         <ScrollViewer>
-                            <libviews:LibraryPlayListView x:Name="PlaylistControl"/>
+                            <libviews:LibraryPlayListViewControl x:Name="PlaylistControl"/>
                         </ScrollViewer>
                     </TabItem>
                 </TabControl>

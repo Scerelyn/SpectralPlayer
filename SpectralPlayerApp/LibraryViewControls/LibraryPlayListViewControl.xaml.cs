@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SpectralPlayerApp.LibraryViewControls
 {
     /// <summary>
-    /// Interaction logic for LibraryGenreView.xaml
+    /// Interaction logic for LibraryPlayListViewControl.xaml
     /// </summary>
-    public partial class LibraryGenreView : UserControl
+    public partial class LibraryPlayListViewControl : UserControl
     {
-        public LibraryGenreView()
+        public LibraryPlayListViewControl()
         {
             InitializeComponent();
         }
