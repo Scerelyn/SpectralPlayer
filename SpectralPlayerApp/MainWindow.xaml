@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpectralPlayerApp"
         xmlns:libviews="clr-namespace:SpectralPlayerApp.LibraryViewControls"
+        xmlns:playerviews="clr-namespace:SpectralPlayerApp.MusicPlayerViewControls"
         mc:Ignorable="d"
         Title="Spectral Player" Height="600" Width="900">
     <DockPanel> <!-- Top level container -->
@@ -50,7 +51,11 @@
             <!-- Music Player section -->
             <Grid Grid.Column="1"
                      x:Name="MusicControllerDock">
-                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60*"/>
+                    <RowDefinition Height="40*"/>
+                </Grid.RowDefinitions>
+                <playerviews:MusicPlayerViewControl/>
             </Grid>
         </Grid>
     </DockPanel>

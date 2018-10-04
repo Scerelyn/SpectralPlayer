@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="SpectralPlayerApp.MusicPlayerViewControls.MusicPlayerViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpectralPlayerApp.MusicPlayerViewControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top"> 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="25*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Temporary visualizer-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="70*"/>
+                    <ColumnDefinition Width="15*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="1" Content="Visualizer here" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </Grid>
+            
+            <!-- Seekbar -->
+            <DockPanel Grid.Row="1" VerticalAlignment="Center">
+                <Label x:Name="TimestampLabel" Content="0:00"/>
+                <Slider x:Name="SeekSlider"/>
+            </DockPanel>
+            
+            <!-- Button controls-->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Content="Prev"/>
+                <Button Grid.Column="2" Content="Play"/>
+                <Button Grid.Column="3" Content="Next"/>
+                <Slider Grid.Column="4" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+        
+    </DockPanel>
+</UserControl>
