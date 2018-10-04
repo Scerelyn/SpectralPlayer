@@ -21,19 +21,29 @@
                      x:Name="LibraryDock">
                 <TabControl>
                     <TabItem Header="All Songs">
-                        <libviews:LibraryAllSongsListControl x:Name="AllSongsControl"/>
+                        <ScrollViewer>
+                            <libviews:LibraryAllSongsListControl x:Name="AllSongsControl"/>
+                        </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Albums">
-                        <libviews:LibraryAlbumList x:Name="AlbumsControl"/>
+                        <ScrollViewer>
+                            <libviews:LibraryAlbumList x:Name="AlbumsControl"/>
+                        </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Artists">
-                        <libviews:LibraryArtistList x:Name="ArtistsControl"/>
+                        <ScrollViewer>
+                            <libviews:LibraryArtistList x:Name="ArtistsControl"/>
+                        </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Genres">
-                        <libviews:LibraryGenreView x:Name="GenresControl"/>
+                        <ScrollViewer>
+                            <libviews:LibraryGenreView x:Name="GenresControl"/>
+                        </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Playlists">
-                        <libviews:LibraryPlayListView x:Name="PlaylistControl"/>
+                        <ScrollViewer>
+                            <libviews:LibraryPlayListView x:Name="PlaylistControl"/>
+                        </ScrollViewer>
                     </TabItem>
                 </TabControl>
             </Grid>

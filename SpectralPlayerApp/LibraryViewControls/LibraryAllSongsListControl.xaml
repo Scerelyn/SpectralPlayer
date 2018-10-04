@@ -6,9 +6,8 @@
              xmlns:local="clr-namespace:SpectralPlayerApp.LibraryViewControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ScrollViewer DockPanel.Dock="Top">
-        <!-- List of songs control -->
-        <DataGrid x:Name="LibraryListView" 
+    <!-- List of songs control -->
+    <DataGrid x:Name="LibraryListView" 
                   SelectionMode="Extended" 
                   HorizontalContentAlignment="Stretch" 
                   AutoGenerateColumns="False"
@@ -16,24 +15,23 @@
                   RowBackground="AliceBlue"
                   AlternatingRowBackground="LightSteelBlue"
                   >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Song" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}"/>
-                <DataGridTextColumn Header="Album" Binding="{Binding AlbumName}"/>
-                <DataGridTextColumn Header="Genre" Binding="{Binding Genre}"/>
-                <DataGridTextColumn Header="Year" Binding="{Binding Year}"/>
-            </DataGrid.Columns>
-            <DataGrid.ContextMenu>
-                <!-- Context menu -->
-                <ContextMenu>
-                    <MenuItem Header="Add song(s) to Up-Next"/>
-                    <MenuItem Header="Add song(s) to a playlist...">
-                        <MenuItem Header="Example playlist"/>
-                    </MenuItem>
-                    <MenuItem Header="Add song(s) to new Playlist"/>
-                    <MenuItem Header="Sample command"/>
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-        </DataGrid>
-    </ScrollViewer>
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Song" Binding="{Binding Name}"/>
+            <DataGridTextColumn Header="Artist" Binding="{Binding Artist}"/>
+            <DataGridTextColumn Header="Album" Binding="{Binding AlbumName}"/>
+            <DataGridTextColumn Header="Genre" Binding="{Binding Genre}"/>
+            <DataGridTextColumn Header="Year" Binding="{Binding Year}"/>
+        </DataGrid.Columns>
+        <DataGrid.ContextMenu>
+            <!-- Context menu -->
+            <ContextMenu>
+                <MenuItem Header="Add song(s) to Up-Next"/>
+                <MenuItem Header="Add song(s) to a playlist...">
+                    <MenuItem Header="Example playlist"/>
+                </MenuItem>
+                <MenuItem Header="Add song(s) to new Playlist"/>
+                <MenuItem Header="Sample command"/>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+    </DataGrid>
 </UserControl>
