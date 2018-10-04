@@ -27,7 +27,7 @@
                         <libviews:LibraryAlbumList x:Name="AlbumsControl"/>
                     </TabItem>
                     <TabItem Header="Artist View">
-                        
+                        <libviews:LibraryArtistList x:Name="ArtistsControl"/>
                     </TabItem>
                     <TabItem Header="Genre View">
                         

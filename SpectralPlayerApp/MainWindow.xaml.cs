@@ -47,9 +47,12 @@ namespace SpectralPlayerApp
             AllSongsControl.LibraryListView.ItemsSource = l.GetOrderedListBySong();
 
             AlbumsControl.AlbumListBox.ItemsSource = l.GetOrderedListByAlbum();
+            ICollectionView albumGroupView = CollectionViewSource.GetDefaultView(AlbumsControl.AlbumListBox.ItemsSource);
+            albumGroupView.GroupDescriptions.Add(new PropertyGroupDescription("AlbumName"));
 
-            ICollectionView view = CollectionViewSource.GetDefaultView(AlbumsControl.AlbumListBox.ItemsSource);
-            view.GroupDescriptions.Add(new PropertyGroupDescription("AlbumName"));
+            ArtistsControl.ArtistListBox.ItemsSource = l.GetOrderedListByArtist();
+            ICollectionView artistGroupView = CollectionViewSource.GetDefaultView(ArtistsControl.ArtistListBox.ItemsSource);
+            artistGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Artist"));
 
         }
     }
