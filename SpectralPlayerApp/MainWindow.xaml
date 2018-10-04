@@ -23,14 +23,14 @@
                     <TabItem Header="All Songs">
                         <libviews:LibraryAllSongsListControl x:Name="AllSongsControl"/>
                     </TabItem>
-                    <TabItem Header="Album View">
+                    <TabItem Header="Albums">
                         <libviews:LibraryAlbumList x:Name="AlbumsControl"/>
                     </TabItem>
-                    <TabItem Header="Artist View">
+                    <TabItem Header="Artists">
                         <libviews:LibraryArtistList x:Name="ArtistsControl"/>
                     </TabItem>
-                    <TabItem Header="Genre View">
-                        
+                    <TabItem Header="Genres">
+                        <libviews:LibraryGenreView x:Name="GenresControl"/>
                     </TabItem>
                 </TabControl>
             </Grid>

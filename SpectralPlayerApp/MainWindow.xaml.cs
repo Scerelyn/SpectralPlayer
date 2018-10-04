@@ -54,6 +54,9 @@ namespace SpectralPlayerApp
             ICollectionView artistGroupView = CollectionViewSource.GetDefaultView(ArtistsControl.ArtistListBox.ItemsSource);
             artistGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Artist"));
 
+            GenresControl.GenreListBox.ItemsSource = l.GetOrderedListByArtist();
+            ICollectionView genreGroupView = CollectionViewSource.GetDefaultView(GenresControl.GenreListBox.ItemsSource);
+            genreGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Genre"));
         }
     }
 }

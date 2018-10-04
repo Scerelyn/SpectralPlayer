@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MusicLibraryLib
 {
+    /// <summary>
+    /// Represents a song in a music library
+    /// </summary>
     [Serializable]
     public class Song
     {
@@ -25,41 +28,72 @@ namespace MusicLibraryLib
 
         #region Public Properties
 
+        /// <summary>
+        /// The filepath of the song's audio file
+        /// </summary>
         public string FilePath
         {
             get { return _filePath; }
             set { _filePath = value; FieldChanged(); }
         }
+
+        /// <summary>
+        /// The name of the song
+        /// </summary>
         public string Name
         {
             get { return _name; }
             set { _name = value; FieldChanged(); }
         }
+
+        /// <summary>
+        /// The name of the album this song is on
+        /// </summary>
         public string AlbumName
         {
             get { return _albumName; }
             set { _albumName = value; FieldChanged(); }
         }
+
+        /// <summary>
+        /// The name of the artist that made the album this song is on
+        /// </summary>
         public string AlbumArtist
         {
             get { return _albumArtist; }
             set { _albumArtist = value; FieldChanged(); }
         }
+
+        /// <summary>
+        /// The name of the artist that made the song
+        /// </summary>
         public string Artist
         {
             get { return _artist; }
             set { _artist = value; FieldChanged(); }
         }
+
+        /// <summary>
+        /// The genre of music this song belongs to
+        /// </summary>
         public string Genre
         {
             get { return _genre;  }
             set { _genre = value; FieldChanged(); }
         }
+
+        /// <summary>
+        /// The year the song, or the album this song is on, is from
+        /// </summary>
         public string Year
         {
             get { return _year; }
             set { _year = value; FieldChanged(); }
         }
+
+        /// <summary>
+        /// The track number of this song on the album it is on
+        /// </summary>
         public int TrackNumber
         {
             get { return _trackNumber; }
