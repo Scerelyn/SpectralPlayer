@@ -32,12 +32,15 @@
                     <TabItem Header="Genres">
                         <libviews:LibraryGenreView x:Name="GenresControl"/>
                     </TabItem>
+                    <TabItem Header="Playlists">
+                        <libviews:LibraryPlayListView x:Name="PlaylistControl"/>
+                    </TabItem>
                 </TabControl>
             </Grid>
             <!-- Music Player section -->
             <Grid Grid.Column="1"
                      x:Name="MusicControllerDock">
-
+                
             </Grid>
         </Grid>
     </DockPanel>
