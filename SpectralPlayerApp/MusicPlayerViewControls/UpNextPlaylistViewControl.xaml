@@ -18,7 +18,7 @@
             <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Margin="10" Grid.Column="2" Content="Clear All"/>
         </Grid>
         <ScrollViewer DockPanel.Dock="Top">
-            <ListBox SelectionMode="Extended">
+            <ListBox SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding}"/>

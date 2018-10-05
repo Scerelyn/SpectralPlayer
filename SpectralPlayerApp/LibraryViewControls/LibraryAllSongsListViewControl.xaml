@@ -12,8 +12,10 @@
                   HorizontalContentAlignment="Stretch" 
                   AutoGenerateColumns="False"
                   BorderThickness="1"
-                  RowBackground="AliceBlue"
-                  AlternatingRowBackground="LightSteelBlue"
+                  RowBackground="{StaticResource Dark_HighlightBrush}"
+                  AlternatingRowBackground="{StaticResource Dark_SubSubBackgroundBrush}"
+                  Foreground="{StaticResource Dark_FontBrush}"
+                  Background="{StaticResource Dark_BackGroundBrush}"
                   >
         <DataGrid.Columns>
             <DataGridTextColumn Header="Song" Binding="{Binding Name}"/>
@@ -30,5 +32,15 @@
                 <MenuItem Header="Add song(s) to new Playlist"/>
             </ContextMenu>
         </DataGrid.ContextMenu>
+        <DataGrid.Resources>
+            <Style BasedOn="{ StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="Background" Value="{StaticResource Dark_SubBackgroundBrush}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderBrush" Value="Black"/>
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="{StaticResource Dark_FontBrush}"/>
+            </Style>
+        </DataGrid.Resources>
     </DataGrid>
 </UserControl>
