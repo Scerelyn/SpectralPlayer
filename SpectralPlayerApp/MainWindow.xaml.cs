@@ -44,6 +44,15 @@ namespace SpectralPlayerApp
             genreGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Genre"));
 
             PlaylistControl.PlaylistListBox.ItemsSource = l.PlayListList;
+
+            foreach (PlayList pl in l.PlayListList)
+            {
+                AllSongsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header=pl.Name });
+                ArtistsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
+                AlbumsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
+                GenresControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
+                PlaylistControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
+            }
         }
 
         private Library GetSampleLibrary()

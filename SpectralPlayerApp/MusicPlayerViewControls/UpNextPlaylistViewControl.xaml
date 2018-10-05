@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="SpectralPlayerApp.MusicPlayerViewControls.UpNextPlaylistViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpectralPlayerApp.MusicPlayerViewControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <Label Content="Up-Next" HorizontalAlignment="Center" FontSize="24" DockPanel.Dock="Top"/>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="10" Grid.Column="0" Content="Shuffle"/>
+            <Button Margin="10" Grid.Column="2" Content="Clear All"/>
+        </Grid>
+        <ScrollViewer DockPanel.Dock="Top">
+            <ListBox SelectionMode="Extended">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Shuffle Up-Next"/>
+                        <MenuItem Header="Clear Up-Next"/>
+                        <MenuItem Header="Remove Song(s) from Up-Next"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

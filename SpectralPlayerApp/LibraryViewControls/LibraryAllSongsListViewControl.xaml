@@ -26,11 +26,8 @@
             <!-- Context menu -->
             <ContextMenu>
                 <MenuItem Header="Add song(s) to Up-Next"/>
-                <MenuItem Header="Add song(s) to a playlist...">
-                    <MenuItem Header="Example playlist"/>
-                </MenuItem>
+                <MenuItem Header="Add song(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add song(s) to new Playlist"/>
-                <MenuItem Header="Sample command"/>
             </ContextMenu>
         </DataGrid.ContextMenu>
     </DataGrid>

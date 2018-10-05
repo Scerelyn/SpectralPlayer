@@ -9,18 +9,27 @@
     <ListBox x:Name="PlaylistListBox" SelectionMode="Extended">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <DockPanel>
-                    <TextBlock Text="{Binding Name}"/>
-                    <TextBlock Text="  "/>
-                    <ListBox ItemsSource="{Binding SongList}" SelectionMode="Extended">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="  "/>
+                        <Expander IsExpanded="False">
+                            <ListBox ItemsSource="{Binding SongList}" SelectionMode="Extended">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Expander>
+                    </DockPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
+        <ListBox.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Add song(s) to Up-Next"/>
+                <MenuItem Header="Add song(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
+                <MenuItem Header="Add song(s) to new Playlist"/>
+            </ContextMenu>
+        </ListBox.ContextMenu>
     </ListBox>
 </UserControl>
