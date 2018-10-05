@@ -7,15 +7,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel>
-        <Label Content="Up-Next" HorizontalAlignment="Center" FontSize="24" DockPanel.Dock="Top"/>
+        <Label Content="Up-Next" HorizontalAlignment="Center" FontSize="24" DockPanel.Dock="Top"  Foreground="{StaticResource ResourceKey=Dark_FontBrush}"/>
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*"/>
                 <ColumnDefinition Width="80*"/>
                 <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
-            <Button Margin="10" Grid.Column="0" Content="Shuffle"/>
-            <Button Margin="10" Grid.Column="2" Content="Clear All"/>
+            <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Margin="10" Grid.Column="0" Content="Shuffle"/>
+            <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Margin="10" Grid.Column="2" Content="Clear All"/>
         </Grid>
         <ScrollViewer DockPanel.Dock="Top">
             <ListBox SelectionMode="Extended">

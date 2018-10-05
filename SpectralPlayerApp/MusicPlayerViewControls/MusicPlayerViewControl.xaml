@@ -26,7 +26,7 @@
             
             <!-- Seekbar -->
             <DockPanel Grid.Row="1" VerticalAlignment="Center">
-                <Label x:Name="TimestampLabel" Content="0:00"/>
+                <Label  Foreground="{StaticResource ResourceKey=Dark_FontBrush}" x:Name="TimestampLabel" Content="0:00"/>
                 <Slider x:Name="SeekSlider"/>
             </DockPanel>
             
@@ -39,9 +39,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" Content="Prev"/>
-                <Button Grid.Column="2" Content="Play"/>
-                <Button Grid.Column="3" Content="Next"/>
+                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="1" Content="Prev"/>
+                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="2" Content="Play"/>
+                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="3" Content="Next"/>
                 <Slider Grid.Column="4" VerticalAlignment="Center"/>
             </Grid>
         </Grid>

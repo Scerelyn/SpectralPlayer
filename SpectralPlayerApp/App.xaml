@@ -4,6 +4,22 @@
              xmlns:local="clr-namespace:SpectralPlayerApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Color x:Key="Dark_BackgroundColor">#252525</Color>
+        <Color x:Key="Dark_SubBackgroundColor">#595959</Color>
+        <Color x:Key="Dark_FontColor">#D9D9D9</Color>
+        <Color x:Key="Dark_HighlightColor">#8C8C8C</Color>
+        <Color x:Key="Dark_BrightHighlightColor">#F2F2F2</Color>
+
+        <SolidColorBrush x:Key="Dark_BackGroundBrush" Color="{StaticResource Dark_BackgroundColor}"/>
+        <SolidColorBrush x:Key="Dark_SubBackgroundBrush" Color="{StaticResource Dark_SubBackgroundColor}"/>
+        <SolidColorBrush x:Key="Dark_FontBrush" Color="{StaticResource Dark_FontColor}"/>
+        <SolidColorBrush x:Key="Dark_HighlightBrush" Color="{StaticResource Dark_HighlightColor}"/>
+        <SolidColorBrush x:Key="Dark_BrightHighlightBrush" Color="{StaticResource Dark_BrightHighlightColor}"/>
+
+        <Style x:Key="Dark_ButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource ResourceKey=Dark_FontBrush}"/>
+            <Setter Property="Background" Value="{StaticResource ResourceKey=Dark_SubBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=Dark_BrightHighlightBrush}"/>
+        </Style>
     </Application.Resources>
 </Application>

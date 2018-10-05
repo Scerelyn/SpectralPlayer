@@ -8,7 +8,7 @@
         xmlns:playerviews="clr-namespace:SpectralPlayerApp.MusicPlayerViewControls"
         mc:Ignorable="d"
         Title="Spectral Player" Height="600" Width="900">
-    <DockPanel> <!-- Top level container -->
+    <DockPanel Background="{StaticResource ResourceKey=Dark_BackGroundBrush}"> <!-- Top level container -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Test"></MenuItem>
         </Menu>
@@ -46,6 +46,29 @@
                             <libviews:LibraryPlayListViewControl x:Name="PlaylistControl"/>
                         </ScrollViewer>
                     </TabItem>
+
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="20,5,0,0">
+                                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ResourceKey=Dark_HighlightBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ResourceKey=Dark_SubBackgroundBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="{StaticResource ResourceKey=Dark_FontBrush}"/>
+                        </Style>
+                    </TabControl.Resources>
                 </TabControl>
             </Grid>
             <!-- Music Player section -->
