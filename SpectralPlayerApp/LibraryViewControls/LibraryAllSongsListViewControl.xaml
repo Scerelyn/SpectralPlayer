@@ -42,6 +42,14 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="Foreground" Value="{StaticResource Dark_FontBrush}"/>
             </Style>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource Dark_BrightHighlightColor}"/>
+            <Style TargetType="DataGridCell">
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Foreground" Value="Black"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </DataGrid.Resources>
     </DataGrid>
 </UserControl>
