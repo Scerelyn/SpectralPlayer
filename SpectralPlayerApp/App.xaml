@@ -22,7 +22,7 @@
             <Setter Property="Foreground" Value="{StaticResource ResourceKey=Dark_FontBrush}"/>
             <Setter Property="Background" Value="{StaticResource ResourceKey=Dark_SubBackgroundBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=Dark_BrightHighlightBrush}"/>
-            <Setter Property="Template"> <!-- for some reason triggers dont work unless i have this template thing -->
+            <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}">
@@ -38,5 +38,10 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="Dark_TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Dark_FontBrush}" />
+            
+        </Style>
+        
     </Application.Resources>
 </Application>
