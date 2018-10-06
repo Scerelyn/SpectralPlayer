@@ -16,6 +16,7 @@
                   AlternatingRowBackground="{StaticResource Dark_SubSubBackgroundBrush}"
                   Foreground="{StaticResource Dark_FontBrush}"
                   Background="{StaticResource Dark_BackGroundBrush}"
+                  IsReadOnly="True"
                   >
         <DataGrid.Columns>
             <DataGridTextColumn Header="Song" Binding="{Binding Name}"/>
