@@ -39,9 +39,22 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="1" Content="Prev"/>
-                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="2" Content="Play"/>
-                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="3" Content="Next"/>
+                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="1">
+                    <Button.Content>
+                        <Image Source="pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/prev.png"/>
+                    </Button.Content>
+                </Button>
+
+                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="2">
+                    <Button.Content>
+                        <Image Source="pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/play.png"/>
+                    </Button.Content>
+                </Button>
+                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="3">
+                    <Button.Content>
+                        <Image Source="pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/next.png"/>
+                    </Button.Content>
+                </Button>
                 <Slider Grid.Column="4" VerticalAlignment="Center"/>
             </Grid>
         </Grid>
