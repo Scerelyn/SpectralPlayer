@@ -10,7 +10,9 @@
         Title="Spectral Player" Height="600" Width="900">
     <DockPanel Background="{StaticResource ResourceKey=Dark_BackGroundBrush}"> <!-- Top level container -->
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Test"></MenuItem>
+            <MenuItem Header="_File">
+                <MenuItem Header="_Add file to library" Click="DoAddFile"/>
+            </MenuItem>
         </Menu>
         <Grid> <!-- Body of player -->
             <Grid.ColumnDefinitions>

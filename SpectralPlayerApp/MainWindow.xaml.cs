@@ -1,4 +1,5 @@
-﻿using MusicLibraryLib;
+﻿using Microsoft.Win32;
+using MusicLibraryLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,36 +24,62 @@ namespace SpectralPlayerApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public OpenFileDialog OpenAudioFileDialog { get; } = new OpenFileDialog();
+        public Library SongLibrary { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            Library l = GetSampleLibrary();
+            SongLibrary = GetSampleLibrary();
 
-            AllSongsControl.LibraryListView.ItemsSource = l.GetOrderedListBySong();
+            UpdateLists();
 
-            AlbumsControl.AlbumListBox.ItemsSource = l.GetOrderedListByAlbum();
-            ICollectionView albumGroupView = CollectionViewSource.GetDefaultView(AlbumsControl.AlbumListBox.ItemsSource);
-            albumGroupView.GroupDescriptions.Add(new PropertyGroupDescription("AlbumName"));
+            PlaylistControl.PlaylistListBox.ItemsSource = SongLibrary.PlayListList;
 
-            ArtistsControl.ArtistListBox.ItemsSource = l.GetOrderedListByArtist();
-            ICollectionView artistGroupView = CollectionViewSource.GetDefaultView(ArtistsControl.ArtistListBox.ItemsSource);
-            artistGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Artist"));
-
-            GenresControl.GenreListBox.ItemsSource = l.GetOrderedListByArtist();
-            ICollectionView genreGroupView = CollectionViewSource.GetDefaultView(GenresControl.GenreListBox.ItemsSource);
-            genreGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Genre"));
-
-            PlaylistControl.PlaylistListBox.ItemsSource = l.PlayListList;
-
-            foreach (PlayList pl in l.PlayListList)
+            foreach (PlayList pl in SongLibrary.PlayListList)
             {
-                AllSongsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header=pl.Name });
+                AllSongsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
                 ArtistsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
                 AlbumsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
                 GenresControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
                 PlaylistControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
             }
+
+            
+            OpenAudioFileDialog.Multiselect = true;
+            OpenAudioFileDialog.Filter = "Audio (*.mp3;*.wav;*.flac)|*.mp3;*.wav;*.flac";
+            
+        }
+
+        public void DoAddFile(object sender, RoutedEventArgs args)
+        {
+            bool? result = OpenAudioFileDialog.ShowDialog();
+            if (result ?? false)
+            {
+                foreach(string name in OpenAudioFileDialog.SafeFileNames)
+                {
+                    SongLibrary.SongList.Add(new Song() { Name=name, FilePath=name });
+                }
+                UpdateLists();
+            }
+        }
+
+        public void UpdateLists()
+        {
+            AllSongsControl.LibraryListView.ItemsSource = SongLibrary.GetOrderedListBySong();
+
+            AlbumsControl.AlbumListBox.ItemsSource = SongLibrary.GetOrderedListByAlbum();
+            ICollectionView albumGroupView = CollectionViewSource.GetDefaultView(AlbumsControl.AlbumListBox.ItemsSource);
+            albumGroupView.GroupDescriptions.Add(new PropertyGroupDescription("AlbumName"));
+
+            ArtistsControl.ArtistListBox.ItemsSource = SongLibrary.GetOrderedListByArtist();
+            ICollectionView artistGroupView = CollectionViewSource.GetDefaultView(ArtistsControl.ArtistListBox.ItemsSource);
+            artistGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Artist"));
+
+            GenresControl.GenreListBox.ItemsSource = SongLibrary.GetOrderedListByGenre();
+            ICollectionView genreGroupView = CollectionViewSource.GetDefaultView(GenresControl.GenreListBox.ItemsSource);
+            genreGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Genre"));
         }
 
         private Library GetSampleLibrary()
