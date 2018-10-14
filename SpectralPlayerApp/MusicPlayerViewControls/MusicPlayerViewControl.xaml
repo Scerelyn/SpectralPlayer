@@ -45,7 +45,7 @@
                     </Button.Content>
                 </Button>
 
-                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="2">
+                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="2" Click="DoPlayPauseButtonAction">
                     <Button.Content>
                         <Image Source="pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/play.png"/>
                     </Button.Content>
@@ -55,7 +55,11 @@
                         <Image Source="pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/next.png"/>
                     </Button.Content>
                 </Button>
-                <Slider Grid.Column="4" VerticalAlignment="Center"/>
+                <Slider Grid.Column="4" 
+                        VerticalAlignment="Center" 
+                        Value="1" Maximum="1" Minimum="0" TickFrequency="0.05" IsSnapToTickEnabled="True" 
+                        Thumb.DragCompleted="DoVolumeChange"
+                        x:Name="VolumeSlider"/>
             </Grid>
         </Grid>
         

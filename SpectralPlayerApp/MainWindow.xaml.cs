@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MusicLibraryLib;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -65,6 +66,9 @@ namespace SpectralPlayerApp
             }
         }
 
+        /// <summary>
+        /// Refreshes the music lists for the UI when the SongLibrary's song list changes
+        /// </summary>
         public void UpdateLists()
         {
             AllSongsControl.LibraryListView.ItemsSource = SongLibrary.GetOrderedListBySong();
@@ -82,6 +86,10 @@ namespace SpectralPlayerApp
             genreGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Genre"));
         }
 
+        /// <summary>
+        /// Generates a sample music library for testing purposes
+        /// </summary>
+        /// <returns>A library instance with dummy Song and Playlist instances</returns>
         private Library GetSampleLibrary()
         {
             Library l = new Library();
