@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Resources;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -27,6 +28,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         private IWavePlayer player;
         private WaveStream inputStream;
         private DispatcherTimer timer = new DispatcherTimer(); // better than the normal timer bc no threading issues nor needing to use Dispatcher.Invoke
+        private bool stopLock = false; // determines if a stop is deliberate, ie: to clear the audio buffer, or not
 
         private double _seekBarPos = 0;
         public double SeekBarPos
@@ -45,7 +47,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             player = new WaveOut();
             timer.Interval = TimeSpan.FromMilliseconds(500);
             timer.Tick += DoSeekBarUpdate;
-            TimestampLabel.Content = "0:00";
+            TimestampLabel.Content = "00:00";
             SeekSlider.IsEnabled = false;
         }
 
@@ -72,15 +74,25 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 //play
                 player.Play();
 
+                //set the button's pause image
+                Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/pause.png")) };
+
                 //handle onstop
-                player.PlaybackStopped += (stoppedSender, stoppedArgs) => 
+                player.PlaybackStopped += (stoppedSender, stoppedArgs) =>
                 {
-                    inputStream.Close();
-                    inputStream = null;
-                    SeekBarPos = 0;
-                    SeekSlider.Value = 0;
-                    SeekSlider.IsEnabled = false;
-                    timer.Stop();
+                    if (!stopLock) // stop is called either by automatic end of stream, or some error
+                    {
+                        inputStream.Close();
+                        inputStream = null;
+                        SeekBarPos = 0;
+                        SeekSlider.Value = 0;
+                        SeekSlider.IsEnabled = false;
+                        timer.Stop();
+                    }
+                    else // stop is called when seeking
+                    {
+                        stopLock = false;
+                    }
                 };
 
                 //start the seekbar updater
@@ -90,17 +102,25 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             {
                 timer.Start();
                 player.Play();
+                Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/pause.png")) };
             }
             else if (player.PlaybackState == PlaybackState.Playing)
             {
                 timer.Stop();
                 player.Pause();
+                Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/play.png")) };
+            }
+            else if (player.PlaybackState == PlaybackState.Stopped && inputStream != null) // hits here when the seekbar is moved when paused
+            {
+                timer.Start();
+                player.Play();
+                Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/pause.png")) };
             }
         }
 
         public void DoSeekBarUpdate(object sender, EventArgs args)
         {
-            TimestampLabel.Content = inputStream?.CurrentTime.ToString(@"mm\:ss") ?? "0:00";
+            TimestampLabel.Content = inputStream?.CurrentTime.ToString(@"mm\:ss") ?? "00:00";
             SeekBarPos = inputStream.CurrentTime.TotalSeconds;
             SeekSlider.Value = inputStream.CurrentTime.TotalSeconds;
         }
@@ -115,6 +135,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             if (inputStream != null)
             {
                 inputStream.CurrentTime = TimeSpan.FromSeconds(SeekSlider.Value);
+                if (player.PlaybackState == PlaybackState.Paused)
+                {
+                    stopLock = true;
+                    player.Stop(); // to flush the buffer, or else we get some of the song from before we moved playing
+                }
             }
             TimestampLabel.Content = inputStream.CurrentTime.ToString(@"mm\:ss");
         }

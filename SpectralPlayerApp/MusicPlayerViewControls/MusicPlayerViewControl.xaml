@@ -45,7 +45,7 @@
                     </Button.Content>
                 </Button>
 
-                <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="2" Click="DoPlayPauseButtonAction">
+                <Button x:Name="Playbutton" Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Grid.Column="2" Click="DoPlayPauseButtonAction">
                     <Button.Content>
                         <Image Source="pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/play.png"/>
                     </Button.Content>
