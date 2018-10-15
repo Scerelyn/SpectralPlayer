@@ -26,8 +26,8 @@
             
             <!-- Seekbar -->
             <DockPanel Grid.Row="1" VerticalAlignment="Center">
-                <Label  Foreground="{StaticResource ResourceKey=Dark_FontBrush}" x:Name="TimestampLabel" Content="0:00"/>
-                <Slider x:Name="SeekSlider"/>
+                <Label  Foreground="{StaticResource ResourceKey=Dark_FontBrush}" x:Name="TimestampLabel" Content="{Binding SeekBarPos}"/>
+                <Slider x:Name="SeekSlider" Value="{Binding SeekBarPos, Mode=TwoWay}" Thumb.DragCompleted="DoSeek"/>
             </DockPanel>
             
             <!-- Button controls-->
