@@ -18,7 +18,7 @@
             <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Margin="10" Grid.Column="2" Content="Clear All"/>
         </Grid>
         <ScrollViewer DockPanel.Dock="Top">
-            <ListBox SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}">
+            <ListBox x:Name="UpNextPlaylistListBox" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding}"/>
@@ -26,9 +26,9 @@
                 </ListBox.ItemTemplate>
                 <ListBox.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Shuffle Up-Next"/>
-                        <MenuItem Header="Clear Up-Next"/>
-                        <MenuItem Header="Remove Song(s) from Up-Next"/>
+                        <MenuItem Header="Shuffle Up-Next" Click="DoShuffle"/>
+                        <MenuItem Header="Clear Up-Next" Click="DoClear"/>
+                        <MenuItem Header="Remove Song(s) from Up-Next" Click="DoRemoveSelected"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>
             </ListBox>

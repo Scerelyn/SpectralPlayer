@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicLibraryLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,29 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
     /// </summary>
     public partial class UpNextPlaylistViewControl : UserControl
     {
+        public PlayList UpNext { get; } = new PlayList();
         public UpNextPlaylistViewControl()
         {
             InitializeComponent();
+            UpNextPlaylistListBox.ItemsSource = UpNext.SongList;
+        }
+
+        public void DoShuffle(object sender, RoutedEventArgs args)
+        {
+            UpNext.Shuffle();
+        }
+
+        public void DoClear(object sender, RoutedEventArgs args)
+        {
+            UpNext.SongList.Clear();
+        }
+
+        public void DoRemoveSelected(object sender, RoutedEventArgs args)
+        {
+            foreach(Song s in UpNextPlaylistListBox.SelectedItems)
+            {
+                UpNext.SongList.Remove(s);
+            }
         }
     }
 }

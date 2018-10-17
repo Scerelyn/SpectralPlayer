@@ -38,6 +38,62 @@ namespace MusicLibraryLib
 
         #endregion
 
+        #region Public Methods
+
+        /// <summary>
+        /// Removes and returns the first song in the playlist
+        /// </summary>
+        /// <returns>The first song in the playlist, or null if there are no new songs</returns>
+        public Song PopNextSong()
+        {
+            if (SongList.Count() <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                Song popped = SongList.First();
+                SongList.RemoveAt(0);
+                return popped;
+            }
+        }
+
+        /// <summary>
+        /// Inserts an IEnumerable of Song objects randomly into SongList
+        /// </summary>
+        /// <param name="songsToAdd">The songs to insert randomly</param>
+        public void ShuffleSongsInto(IEnumerable<Song> songsToAdd)
+        {
+            Random r = new Random();
+            foreach (Song s in songsToAdd)
+            {
+                SongList.Insert(r.Next(songsToAdd.Count()), s);
+            }
+        }
+
+        /// <summary>
+        /// Randomizes the order of songs in SongList
+        /// </summary>
+        public void Shuffle()
+        {
+            Random r = new Random();
+            ObservableCollection<Song> newSongList = new ObservableCollection<Song>();
+            while(SongList.Count() > 0)
+            {
+                // randomly get via index, remove and add to a new list
+                int randIndex = r.Next(SongList.Count());
+                Song rand = SongList[randIndex];
+                SongList.RemoveAt(randIndex);
+                newSongList.Add(rand);
+            }
+            // neewSongList is now in a new random order, so readd to SongList and its shuffled
+            foreach (Song s in newSongList)
+            {
+                SongList.Add(s);
+            }
+        }
+        #endregion
+
         #region Events/Delegates
 
         [field: NonSerialized]
