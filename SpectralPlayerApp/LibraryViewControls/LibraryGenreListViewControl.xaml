@@ -38,7 +38,7 @@
         </ListBox.ItemTemplate>
         <ListBox.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Add song(s) to Up-Next"/>
+                <MenuItem Header="Add song(s) to Up-Next" Click="DoAddSongsToUpNext"/>
                 <MenuItem Header="Add song(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add song(s) to new Playlist"/>
             </ContextMenu>

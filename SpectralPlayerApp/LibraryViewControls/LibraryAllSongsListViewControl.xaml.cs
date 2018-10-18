@@ -34,9 +34,12 @@ namespace SpectralPlayerApp.LibraryViewControls
 
         public void DoAddSongsToUpNext(object sender, RoutedEventArgs args)
         {
-            foreach(Song s in LibraryListView.SelectedItems)
+            if (LibraryListView.SelectedItems.Count > 0)
             {
-                UpNextControl.UpNext.SongList.Add(s);
+                foreach(Song s in LibraryListView.SelectedItems)
+                {
+                    UpNextControl.UpNext.SongList.Add(s);
+                }
             }
         }
     }

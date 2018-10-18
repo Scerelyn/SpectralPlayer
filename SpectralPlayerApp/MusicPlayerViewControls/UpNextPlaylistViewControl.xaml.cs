@@ -40,9 +40,12 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
 
         public void DoRemoveSelected(object sender, RoutedEventArgs args)
         {
-            foreach(Song s in UpNextPlaylistListBox.SelectedItems)
+            if (UpNextPlaylistListBox.SelectedItems.Count > 0)
             {
-                UpNext.SongList.Remove(s);
+                foreach(Song s in UpNextPlaylistListBox.SelectedItems)
+                {
+                    UpNext.SongList.Remove(s);
+                }
             }
         }
     }

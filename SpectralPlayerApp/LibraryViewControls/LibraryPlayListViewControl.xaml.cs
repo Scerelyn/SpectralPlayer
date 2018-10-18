@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MusicLibraryLib;
+using SpectralPlayerApp.MusicPlayerViewControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,31 @@ namespace SpectralPlayerApp.LibraryViewControls
     /// </summary>
     public partial class LibraryPlayListViewControl : UserControl
     {
+        /// <summary>
+        /// The UpNext control to access and change the upnext playlist with
+        /// </summary>
+        public UpNextPlaylistViewControl UpNextControl { get; set; }
+
         public LibraryPlayListViewControl()
         {
             InitializeComponent();
+        }
+
+        public void DoAddSongsToUpNext(object sender, RoutedEventArgs args)
+        {
+            if (PlaylistListBox.SelectedItems.Count > 0)
+            {
+                foreach (PlayList playlist in PlaylistListBox.SelectedItems)
+                {
+                    if (playlist.SongList.Count > 0)
+                    {
+                        foreach (Song s in playlist.SongList)
+                        {
+                            UpNextControl.UpNext.SongList.Add(s);
+                        }
+                    }
+                }
+            }
         }
     }
 }

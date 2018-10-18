@@ -53,7 +53,10 @@ namespace SpectralPlayerApp
 
             AllSongsControl.UpNextControl = UpNextControl;
             MusicPlayerControl.UpNextControl = UpNextControl;
-            
+            ArtistsControl.UpNextControl = UpNextControl;
+            AlbumsControl.UpNextControl = UpNextControl;
+            GenresControl.UpNextControl = UpNextControl;
+            PlaylistControl.UpNextControl = UpNextControl;
         }
 
         public void DoAddFile(object sender, RoutedEventArgs args)
