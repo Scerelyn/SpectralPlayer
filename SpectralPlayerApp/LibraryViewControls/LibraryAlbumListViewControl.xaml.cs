@@ -42,5 +42,30 @@ namespace SpectralPlayerApp.LibraryViewControls
                 }
             }
         }
+
+        public void DoSelectionChanged(object sender, RoutedEventArgs args)
+        {
+            if (AlbumListBox.SelectedItems.Count == 1)
+            {
+                AddAlbumMenuItem.Visibility = Visibility.Visible;
+                AddAlbumMenuItem.Header = $"Add Album {(AlbumListBox.SelectedItems[0] as Song).AlbumName} to Up-Next";
+            }
+            else
+            {
+                AddAlbumMenuItem.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void DoAddAlbumToUpNext(object sender, RoutedEventArgs args)
+        {
+            Song selected = (Song)AlbumListBox.SelectedItems[0];
+            foreach (Song s in AlbumListBox.Items)
+            {
+                if (s.AlbumName == selected.AlbumName)
+                {
+                    UpNextControl.UpNext.SongList.Add(s);
+                }
+            }
+        }
     }
 }

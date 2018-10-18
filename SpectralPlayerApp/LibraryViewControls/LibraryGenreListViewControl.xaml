@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SpectralPlayerApp.LibraryViewControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListBox x:Name="GenreListBox" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}">
+    <ListBox x:Name="GenreListBox" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}" Selector.SelectionChanged="DoSelectionChanged">
         <ListBox.GroupStyle>
             <GroupStyle>
                 <GroupStyle.ContainerStyle>
@@ -39,6 +39,7 @@
         <ListBox.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Add song(s) to Up-Next" Click="DoAddSongsToUpNext"/>
+                <MenuItem Header="Add Genre ... to Up-Next" x:Name="AddGenreMenuItem" Click="DoAddGenreToUpNext"/>
                 <MenuItem Header="Add song(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add song(s) to new Playlist"/>
             </ContextMenu>

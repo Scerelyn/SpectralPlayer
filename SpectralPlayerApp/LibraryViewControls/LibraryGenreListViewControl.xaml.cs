@@ -42,5 +42,30 @@ namespace SpectralPlayerApp.LibraryViewControls
                 }
             }
         }
+
+        public void DoSelectionChanged(object sender, RoutedEventArgs args)
+        {
+            if (GenreListBox.SelectedItems.Count == 1)
+            {
+                AddGenreMenuItem.Visibility = Visibility.Visible;
+                AddGenreMenuItem.Header = $"Add Genre {(GenreListBox.SelectedItems[0] as Song).Genre} to Up-Next";
+            }
+            else
+            {
+                AddGenreMenuItem.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void DoAddGenreToUpNext(object sender, RoutedEventArgs args)
+        {
+            Song selected = (Song)GenreListBox.SelectedItems[0];
+            foreach (Song s in GenreListBox.Items)
+            {
+                if (s.Genre == selected.Genre)
+                {
+                    UpNextControl.UpNext.SongList.Add(s);
+                }
+            }
+        }
     }
 }
