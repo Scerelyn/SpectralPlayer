@@ -49,7 +49,10 @@ namespace SpectralPlayerApp
 
             
             OpenAudioFileDialog.Multiselect = true;
-            OpenAudioFileDialog.Filter = "Audio (*.mp3;*.wav;*.flac)|*.mp3;*.wav;*.flac";
+            OpenAudioFileDialog.Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac)|*.mp3;*.wav;*.flac;*.ogg;*.aac";
+
+            AllSongsControl.UpNextControl = UpNextControl;
+            MusicPlayerControl.UpNextControl = UpNextControl;
             
         }
 
@@ -58,7 +61,7 @@ namespace SpectralPlayerApp
             bool? result = OpenAudioFileDialog.ShowDialog();
             if (result ?? false)
             {
-                foreach(string name in OpenAudioFileDialog.SafeFileNames)
+                foreach(string name in OpenAudioFileDialog.FileNames)
                 {
                     SongLibrary.SongList.Add(new Song() { Name=name, FilePath=name });
                 }

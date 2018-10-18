@@ -1,8 +1,12 @@
-﻿using NAudio.Wave;
+﻿using MusicLibraryLib;
+using NAudio.Flac;
+using NAudio.Vorbis;
+using NAudio.Wave;
 using NVorbis.Ogg;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +45,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             }
         }
 
+        /// <summary>
+        /// The UpNext control to get the songs to play from
+        /// </summary>
+        public UpNextPlaylistViewControl UpNextControl { get; set; }
+
         public MusicPlayerViewControl()
         {
             InitializeComponent();
@@ -56,12 +65,9 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         /// </summary>
         public void DoPlayPauseButtonAction(object sender, RoutedEventArgs args)
         {
-            if (inputStream == null)
+            if (inputStream == null && UpNextControl.UpNext.SongList.Count > 0) // first click on play button
             {
-                //AudioFileReader for most, use the  vorbus for ogg
-                //sample file
-                NAudio.Vorbis.VorbisWaveReader fileStream = new NAudio.Vorbis.VorbisWaveReader("c:/temp/one_shortened.ogg");
-                inputStream = fileStream;
+                SetupNextInputStream();
                 player.Init(inputStream);
 
                 //set the seek bar 
@@ -82,12 +88,22 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 {
                     if (!stopLock) // stop is called either by automatic end of stream, or some error
                     {
-                        inputStream.Close();
-                        inputStream = null;
-                        SeekBarPos = 0;
-                        SeekSlider.Value = 0;
-                        SeekSlider.IsEnabled = false;
-                        timer.Stop();
+                        if (stoppedArgs.Exception == null) // end of song reached
+                        {
+                            inputStream.Close();
+                            SetupNextInputStream();
+                            player.Init(inputStream);
+                            player.Play();
+                        }
+                        else //error occured, shut it all down
+                        {
+                            inputStream.Close();
+                            inputStream = null;
+                            SeekBarPos = 0;
+                            SeekSlider.Value = 0;
+                            SeekSlider.IsEnabled = false;
+                            timer.Stop();
+                        }
                     }
                     else // stop is called when seeking
                     {
@@ -115,6 +131,35 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 timer.Start();
                 player.Play();
                 Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/pause.png")) };
+            }
+        }
+
+        private void SetupNextInputStream()
+        {
+            Song nextSong = null;
+            do  // loop through songs until a valid/existing file is found. Ideally, this loops once
+            {
+                nextSong = UpNextControl.UpNext.PopNextSong();
+            }
+            while (!File.Exists(nextSong.FilePath));
+
+            if (File.Exists(nextSong.FilePath))
+            {
+                if (nextSong.FilePath.EndsWith(".ogg")) // use the vorbis library
+                {
+                    VorbisWaveReader fileStream = new VorbisWaveReader(nextSong.FilePath);
+                    inputStream = fileStream;
+                }
+                else if (nextSong.FilePath.EndsWith(".flac")) // use the flac library
+                {
+                    FlacReader fileStream = new FlacReader(nextSong.FilePath);
+                    inputStream = fileStream;
+                }
+                else // for anything else, presumably something that naudio supports
+                {
+                    AudioFileReader fileStream = new AudioFileReader(nextSong.FilePath);
+                    inputStream = fileStream;
+                }
             }
         }
 

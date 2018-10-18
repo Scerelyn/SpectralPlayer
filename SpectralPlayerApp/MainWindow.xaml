@@ -80,8 +80,8 @@
                     <RowDefinition Height="60*"/>
                     <RowDefinition Height="40*"/>
                 </Grid.RowDefinitions>
-                <playerviews:MusicPlayerViewControl Grid.Row="0"/>
-                <playerviews:UpNextPlaylistViewControl Grid.Row="1"/>
+                <playerviews:MusicPlayerViewControl x:Name="MusicPlayerControl" Grid.Row="0"/>
+                <playerviews:UpNextPlaylistViewControl x:Name="UpNextControl" Grid.Row="1"/>
             </Grid>
         </Grid>
     </DockPanel>
