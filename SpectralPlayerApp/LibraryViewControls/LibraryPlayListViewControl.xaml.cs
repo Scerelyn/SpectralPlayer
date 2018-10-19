@@ -26,6 +26,7 @@ namespace SpectralPlayerApp.LibraryViewControls
         /// The UpNext control to access and change the upnext playlist with
         /// </summary>
         public UpNextPlaylistViewControl UpNextControl { get; set; }
+        public MainWindow ParentWindow { get; set; }
 
         public LibraryPlayListViewControl()
         {
@@ -63,6 +64,24 @@ namespace SpectralPlayerApp.LibraryViewControls
                 }
                 UpNextControl.UpNext.ShuffleSongsInto(songs);
             }
+        }
+
+        public void DoDeletePlaylist(object sender, RoutedEventArgs args)
+        {
+            
+            for (int i = 0; i < ParentWindow.SongLibrary.PlayListList.Count(); i++)
+            {
+                if (ParentWindow.SongLibrary.PlayListList.Contains(PlaylistListBox.SelectedItems[i] as PlayList))
+                {
+                    ParentWindow.SongLibrary.PlayListList.Remove(PlaylistListBox.SelectedItems[i] as PlayList);
+                    i--;
+                }
+                if (PlaylistListBox.SelectedItems.Count <= 0)
+                {
+                    break;
+                }
+            }
+            ParentWindow.UpdateLists();
         }
     }
 }

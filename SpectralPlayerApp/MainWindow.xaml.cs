@@ -47,6 +47,8 @@ namespace SpectralPlayerApp
             AlbumsControl.UpNextControl = UpNextControl;
             GenresControl.UpNextControl = UpNextControl;
             PlaylistControl.UpNextControl = UpNextControl;
+
+            PlaylistControl.ParentWindow = this;
         }
 
         public void DoAddFile(object sender, RoutedEventArgs args)
