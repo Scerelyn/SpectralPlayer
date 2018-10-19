@@ -49,10 +49,13 @@ namespace SpectralPlayerApp.LibraryViewControls
             {
                 AddGenreMenuItem.Visibility = Visibility.Visible;
                 AddGenreMenuItem.Header = $"Add Genre {(GenreListBox.SelectedItems[0] as Song).Genre} to Up-Next";
+                AddGenrePlaylistMenuItem.Visibility = Visibility.Visible;
+                AddGenrePlaylistMenuItem.Header = $"Add Genre {(GenreListBox.SelectedItems[0] as Song).Genre} to playlist...";
             }
             else
             {
                 AddGenreMenuItem.Visibility = Visibility.Collapsed;
+                AddGenrePlaylistMenuItem.Visibility = Visibility.Collapsed;
             }
         }
 

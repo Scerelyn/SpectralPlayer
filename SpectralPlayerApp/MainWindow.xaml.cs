@@ -106,36 +106,74 @@ namespace SpectralPlayerApp
                         pl.SongList.Add(s);
                     }
                 };
-                MenuItem albumPlayListMenuItem = new MenuItem() { Header = pl.Name };
-                albumPlayListMenuItem.Click += (sender, args) =>
+                MenuItem albumControlAddSongsMenuItem = new MenuItem() { Header = pl.Name }; //album control add selected songs to playlist
+                albumControlAddSongsMenuItem.Click += (sender, args) =>
                 {
                     foreach (Song s in AlbumsControl.AlbumListBox.SelectedItems)
                     {
                         pl.SongList.Add(s);
                     }
                 };
-                MenuItem artistPlayListMenuItem = new MenuItem() { Header = pl.Name };
-                artistPlayListMenuItem.Click += (sender, args) =>
+                MenuItem albumControlAddAlbumMenuItem = new MenuItem() { Header = pl.Name }; //album control add selected album to playlist
+                albumControlAddAlbumMenuItem.Click += (sender, args) =>
+                {
+                    Song selected = (Song)AlbumsControl.AlbumListBox.SelectedItems[0];
+                    foreach (Song s in AlbumsControl.AlbumListBox.Items)
+                    {
+                        if (s.AlbumName == selected.AlbumName)
+                        {
+                            pl.SongList.Add(s);
+                        }
+                    }
+                };
+                MenuItem artistControlAddSongsMenuItem = new MenuItem() { Header = pl.Name };
+                artistControlAddSongsMenuItem.Click += (sender, args) =>
                 {
                     foreach (Song s in ArtistsControl.ArtistListBox.SelectedItems)
                     {
                         pl.SongList.Add(s);
                     }
                 };
-                MenuItem genrePlayListMenuItem = new MenuItem() { Header = pl.Name };
-                genrePlayListMenuItem.Click += (sender, args) =>
+                MenuItem artistControlAddArtistMenuItem = new MenuItem() { Header = pl.Name }; //add artist to playlist
+                artistControlAddArtistMenuItem.Click += (sender, args) =>
+                {
+                    Song selected = (Song)ArtistsControl.ArtistListBox.SelectedItems[0];
+                    foreach (Song s in ArtistsControl.ArtistListBox.Items)
+                    {
+                        if (s.Artist == selected.Artist)
+                        {
+                            pl.SongList.Add(s);
+                        }
+                    }
+                };
+                MenuItem genreControlAddSongsMenuItem = new MenuItem() { Header = pl.Name };
+                genreControlAddSongsMenuItem.Click += (sender, args) =>
                 {
                     foreach (Song s in GenresControl.GenreListBox.SelectedItems)
                     {
                         pl.SongList.Add(s);
                     }
                 };
-
+                MenuItem genreControlAddGenreMenuItem = new MenuItem() { Header = pl.Name }; //genre control add selected genre to playlist
+                genreControlAddGenreMenuItem.Click += (sender, args) =>
+                {
+                    Song selected = (Song)GenresControl.GenreListBox.SelectedItems[0];
+                    foreach (Song s in GenresControl.GenreListBox.Items)
+                    {
+                        if (s.Genre == selected.Genre)
+                        {
+                            pl.SongList.Add(s);
+                        }
+                    }
+                };
                 //add the menuitems to the context menu
                 AllSongsControl.AddPlaylistMenuItem.Items.Add(allSongsPlayListMenuItem);
-                ArtistsControl.AddPlaylistMenuItem.Items.Add(artistPlayListMenuItem);
-                AlbumsControl.AddPlaylistMenuItem.Items.Add(albumPlayListMenuItem);
-                GenresControl.AddPlaylistMenuItem.Items.Add(genrePlayListMenuItem);
+                ArtistsControl.AddPlaylistMenuItem.Items.Add(artistControlAddSongsMenuItem);
+                ArtistsControl.AddArtistPlaylistMenuItem.Items.Add(artistControlAddArtistMenuItem);
+                AlbumsControl.AddPlaylistMenuItem.Items.Add(albumControlAddSongsMenuItem);
+                AlbumsControl.AddAlbumPlaylistMenuItem.Items.Add(albumControlAddAlbumMenuItem);
+                GenresControl.AddPlaylistMenuItem.Items.Add(genreControlAddSongsMenuItem);
+                GenresControl.AddGenrePlaylistMenuItem.Items.Add(genreControlAddGenreMenuItem);
             }
         }
 
