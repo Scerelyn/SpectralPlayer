@@ -38,16 +38,6 @@ namespace SpectralPlayerApp
 
             PlaylistControl.PlaylistListBox.ItemsSource = SongLibrary.PlayListList;
 
-            foreach (PlayList pl in SongLibrary.PlayListList)
-            {
-                AllSongsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
-                ArtistsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
-                AlbumsControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
-                GenresControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
-                PlaylistControl.AddPlaylistMenuItem.Items.Add(new MenuItem() { Header = pl.Name });
-            }
-
-            
             OpenAudioFileDialog.Multiselect = true;
             OpenAudioFileDialog.Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac)|*.mp3;*.wav;*.flac;*.ogg;*.aac";
 
@@ -90,6 +80,63 @@ namespace SpectralPlayerApp
             GenresControl.GenreListBox.ItemsSource = SongLibrary.GetOrderedListByGenre();
             ICollectionView genreGroupView = CollectionViewSource.GetDefaultView(GenresControl.GenreListBox.ItemsSource);
             genreGroupView.GroupDescriptions.Add(new PropertyGroupDescription("Genre"));
+
+            UpdatePlayListContextMenuItems();
+        }
+
+        public void UpdatePlayListContextMenuItems()
+        {
+            //playlist context menu setup
+            //first clear the original lists
+            AllSongsControl.AddPlaylistMenuItem.Items.Clear();
+            ArtistsControl.AddPlaylistMenuItem.Items.Clear();
+            AlbumsControl.AddPlaylistMenuItem.Items.Clear();
+            GenresControl.AddPlaylistMenuItem.Items.Clear();
+            PlaylistControl.AddPlaylistMenuItem.Items.Clear();
+            //and readd them
+            foreach (PlayList pl in SongLibrary.PlayListList)
+            {
+                // set the playlist menu items per playlist, for each control
+                MenuItem allSongsPlayListMenuItem = new MenuItem() { Header = pl.Name };
+                // set the onClick for the menuitem
+                allSongsPlayListMenuItem.Click += (sender, args) =>
+                {
+                    foreach (Song s in AllSongsControl.LibraryListView.SelectedItems)
+                    {
+                        pl.SongList.Add(s);
+                    }
+                };
+                MenuItem albumPlayListMenuItem = new MenuItem() { Header = pl.Name };
+                albumPlayListMenuItem.Click += (sender, args) =>
+                {
+                    foreach (Song s in AlbumsControl.AlbumListBox.SelectedItems)
+                    {
+                        pl.SongList.Add(s);
+                    }
+                };
+                MenuItem artistPlayListMenuItem = new MenuItem() { Header = pl.Name };
+                artistPlayListMenuItem.Click += (sender, args) =>
+                {
+                    foreach (Song s in ArtistsControl.ArtistListBox.SelectedItems)
+                    {
+                        pl.SongList.Add(s);
+                    }
+                };
+                MenuItem genrePlayListMenuItem = new MenuItem() { Header = pl.Name };
+                genrePlayListMenuItem.Click += (sender, args) =>
+                {
+                    foreach (Song s in GenresControl.GenreListBox.SelectedItems)
+                    {
+                        pl.SongList.Add(s);
+                    }
+                };
+
+                //add the menuitems to the context menu
+                AllSongsControl.AddPlaylistMenuItem.Items.Add(allSongsPlayListMenuItem);
+                ArtistsControl.AddPlaylistMenuItem.Items.Add(artistPlayListMenuItem);
+                AlbumsControl.AddPlaylistMenuItem.Items.Add(albumPlayListMenuItem);
+                GenresControl.AddPlaylistMenuItem.Items.Add(genrePlayListMenuItem);
+            }
         }
 
         /// <summary>
