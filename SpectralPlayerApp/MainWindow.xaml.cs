@@ -90,9 +90,13 @@ namespace SpectralPlayerApp
             //first clear the original lists
             AllSongsControl.AddPlaylistMenuItem.Items.Clear();
             ArtistsControl.AddPlaylistMenuItem.Items.Clear();
+            ArtistsControl.AddArtistPlaylistMenuItem.Items.Clear();
             AlbumsControl.AddPlaylistMenuItem.Items.Clear();
+            AlbumsControl.AddAlbumPlaylistMenuItem.Items.Clear();
             GenresControl.AddPlaylistMenuItem.Items.Clear();
+            GenresControl.AddGenrePlaylistMenuItem.Items.Clear();
             PlaylistControl.AddPlaylistMenuItem.Items.Clear();
+
             //and readd them
             foreach (PlayList pl in SongLibrary.PlayListList)
             {
@@ -166,6 +170,29 @@ namespace SpectralPlayerApp
                         }
                     }
                 };
+                MenuItem playlistControlAddSongsMenuItem = new MenuItem() { Header = pl.Name };
+                playlistControlAddSongsMenuItem.Click += (sender, args) =>
+                {
+                    int oldPlaylistcount = pl.SongList.Count(); //to deal with recursive adding
+                    foreach (PlayList playlist in PlaylistControl.PlaylistListBox.SelectedItems)
+                    {
+                        if (playlist.Equals(pl))
+                        {
+                            for (int i = 0; i < oldPlaylistcount; i++) //add the songs that were not just added in
+                            {
+                                pl.SongList.Add(playlist.SongList[i]);
+                            }
+                        }
+                        else
+                        {
+                            foreach (Song s in playlist.SongList)
+                            {
+                                pl.SongList.Add(s);
+                            }
+                        }
+                    }
+                };
+
                 //add the menuitems to the context menu
                 AllSongsControl.AddPlaylistMenuItem.Items.Add(allSongsPlayListMenuItem);
                 ArtistsControl.AddPlaylistMenuItem.Items.Add(artistControlAddSongsMenuItem);
@@ -174,6 +201,7 @@ namespace SpectralPlayerApp
                 AlbumsControl.AddAlbumPlaylistMenuItem.Items.Add(albumControlAddAlbumMenuItem);
                 GenresControl.AddPlaylistMenuItem.Items.Add(genreControlAddSongsMenuItem);
                 GenresControl.AddGenrePlaylistMenuItem.Items.Add(genreControlAddGenreMenuItem);
+                PlaylistControl.AddPlaylistMenuItem.Items.Add(playlistControlAddSongsMenuItem);
             }
         }
 
