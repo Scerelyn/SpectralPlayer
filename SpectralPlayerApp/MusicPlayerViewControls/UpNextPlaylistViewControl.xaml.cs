@@ -42,10 +42,21 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         {
             if (UpNextPlaylistListBox.SelectedItems.Count > 0)
             {
-                foreach(Song s in UpNextPlaylistListBox.SelectedItems)
+                List<Song> toRemove = new List<Song>();
+                foreach (Song s in UpNextPlaylistListBox.SelectedItems)
                 {
-                    UpNext.SongList.Remove(s);
+                    toRemove.Add(s);
                 }
+                
+                for (int i = 0; i < UpNext.SongList.Count; i++)
+                {
+                    if (toRemove.Contains(UpNext.SongList[i]))
+                    {
+                        UpNext.SongList.RemoveAt(i);
+                        i--;
+                    }
+                }
+                
             }
         }
     }
