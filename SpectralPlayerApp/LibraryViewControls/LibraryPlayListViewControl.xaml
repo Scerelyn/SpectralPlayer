@@ -41,6 +41,7 @@
         <ListBox.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Add Playlist(s) to Up-Next" Click="DoAddSongsToUpNext"/>
+                <MenuItem Header="Shuffle Playlists(s) into Up-Next" Click="DoShuffleInto"/>
                 <MenuItem Header="Add Playlist(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add Playlist(s) to new Playlist"/>
             </ContextMenu>

@@ -67,7 +67,7 @@ namespace MusicLibraryLib
             Random r = new Random();
             foreach (Song s in songsToAdd)
             {
-                SongList.Insert(r.Next(songsToAdd.Count()), s);
+                SongList.Insert(r.Next(SongList.Count()), s);
             }
         }
 

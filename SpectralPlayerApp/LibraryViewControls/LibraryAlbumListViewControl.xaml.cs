@@ -67,5 +67,18 @@ namespace SpectralPlayerApp.LibraryViewControls
                 }
             }
         }
+
+        public void DoShuffleInto(object sender, RoutedEventArgs args)
+        {
+            if (AlbumListBox.SelectedItems.Count > 0)
+            {
+                List<Song> songs = new List<Song>();
+                foreach (Song s in AlbumListBox.SelectedItems)
+                {
+                    songs.Add(s);
+                }
+                UpNextControl.UpNext.ShuffleSongsInto(songs);
+            }
+        }
     }
 }
