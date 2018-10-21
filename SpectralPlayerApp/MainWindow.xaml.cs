@@ -98,6 +98,7 @@ namespace SpectralPlayerApp
             GenresControl.AddPlaylistMenuItem.Items.Clear();
             GenresControl.AddGenrePlaylistMenuItem.Items.Clear();
             PlaylistControl.AddPlaylistMenuItem.Items.Clear();
+            PlaylistControl.AddSongsMenuItem.Items.Clear();
 
             //and readd them
             foreach (PlayList pl in SongLibrary.PlayListList)
@@ -194,6 +195,17 @@ namespace SpectralPlayerApp
                         }
                     }
                 };
+                MenuItem playlistControlAddSelectedSongsMenuItem = new MenuItem() { Header = pl.Name };
+                playlistControlAddSelectedSongsMenuItem.Click += (sender, args) => 
+                {
+                    foreach (ListBox lb in PlaylistControl.InnerListBoxes)
+                    {
+                        foreach (Song s in lb.SelectedItems)
+                        {
+                            pl.SongList.Add(s);
+                        }
+                    }
+                };
 
                 //add the menuitems to the context menu
                 AllSongsControl.AddPlaylistMenuItem.Items.Add(allSongsPlayListMenuItem);
@@ -204,6 +216,7 @@ namespace SpectralPlayerApp
                 GenresControl.AddPlaylistMenuItem.Items.Add(genreControlAddSongsMenuItem);
                 GenresControl.AddGenrePlaylistMenuItem.Items.Add(genreControlAddGenreMenuItem);
                 PlaylistControl.AddPlaylistMenuItem.Items.Add(playlistControlAddSongsMenuItem);
+                PlaylistControl.AddSongsMenuItem.Items.Add(playlistControlAddSelectedSongsMenuItem);
             }
         }
 
