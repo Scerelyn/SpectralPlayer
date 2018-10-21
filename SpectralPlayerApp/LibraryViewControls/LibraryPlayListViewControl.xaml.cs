@@ -2,6 +2,7 @@
 using SpectralPlayerApp.MusicPlayerViewControls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,14 @@ namespace SpectralPlayerApp.LibraryViewControls
         /// The UpNext control to access and change the upnext playlist with
         /// </summary>
         public UpNextPlaylistViewControl UpNextControl { get; set; }
+        /// <summary>
+        /// The parent mainwindow instance
+        /// </summary>
         public MainWindow ParentWindow { get; set; }
+        /// <summary>
+        /// A list of the inner listboxes of the outer PlaylistListBox
+        /// </summary>
+        public List<ListBox> InnerListBoxes { get; } = new List<ListBox>();
 
         public LibraryPlayListViewControl()
         {
@@ -82,6 +90,38 @@ namespace SpectralPlayerApp.LibraryViewControls
                 }
             }
             ParentWindow.UpdateLists();
+        }
+
+        public void DoRemoveSongFromPlayList(object sender, RoutedEventArgs args)
+        {
+            foreach (ListBox lb in InnerListBoxes)
+            {
+                while (lb.SelectedItems.Count > 0)
+                {
+                    (lb.ItemsSource as ObservableCollection<Song>).Remove(lb.SelectedItems[0] as Song);
+                }
+            }
+        }
+
+        public void DoAddSelectedSongsToUpNext(object sender, RoutedEventArgs args)
+        {
+            foreach (ListBox lb in InnerListBoxes)
+            {
+                foreach (Song s in lb.SelectedItems)
+                {
+                    UpNextControl.UpNext.SongList.Add(s);
+                }
+            }
+        }
+
+        public void DoInnerListBoxSelectionChanged(object sender, RoutedEventArgs args)
+        {
+            //since there is no easy was to access all the listbox instances inside a listbox's data template, i have to do this
+            ListBox lb = sender as ListBox; //get the sender, the innerlist box
+            if (!InnerListBoxes.Contains(lb))
+            {
+                InnerListBoxes.Add(lb); //and add it to the list of listboxes if it is not already in it
+            }
         }
     }
 }

@@ -68,6 +68,10 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             if (inputStream == null && UpNextControl.UpNext.SongList.Count > 0) // first click on play button
             {
                 SetupNextInputStream();
+                if (inputStream == null) // if the SetupNextInputStream method fails due to an invalid song filepath, inputstream will be null
+                {
+                    return; // in that case, cutoff the method since nothing can be done with a null stream
+                }
                 player.Init(inputStream);
 
                 //set the seek bar 
@@ -137,9 +141,15 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         private void SetupNextInputStream()
         {
             Song nextSong = null;
+            //TODO: improve the failing song filepath behavior. Currently, the silent skipping isnt very user friendly in telling why
             do  // loop through songs until a valid/existing file is found. Ideally, this loops once
             {
                 nextSong = UpNextControl.UpNext.PopNextSong();
+                if (nextSong == null) // null means the upnext list is empty
+                {
+                    inputStream = null; // null the inputstream
+                    return; //and just cutoff the method
+                }
             }
             while (!File.Exists(nextSong.FilePath));
 

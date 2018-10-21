@@ -13,7 +13,7 @@
                 <TextBlock Style="{StaticResource Dark_TextBlockStyle}" Text="{Binding Name}"/>
                 <TextBlock Style="{StaticResource Dark_TextBlockStyle}" Text="  "/>
                     <Expander IsExpanded="False">
-                        <ListBox ItemsSource="{Binding SongList}" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}">
+                        <ListBox x:Name="InnerPlaylistListBox" ItemsSource="{Binding SongList}" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}" SelectionChanged="DoInnerListBoxSelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource Dark_TextBlockStyle}" Text="{Binding}"/>
@@ -27,7 +27,28 @@
                                                 <Border x:Name="ItemBorder"  BorderThickness="1" CornerRadius="5" Padding="5">
                                                     <ContentPresenter/>
                                                 </Border>
-                                                
+                                                <ControlTemplate.Triggers>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsSelected" Value="true" />
+                                                            <Condition Property="Selector.IsSelectionActive" Value="true" />
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter TargetName="ItemBorder" Value="{StaticResource ResourceKey=Dark_HighlightBrush}" Property="Background" />
+                                                    </MultiTrigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsSelected" Value="true" />
+                                                            <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter TargetName="ItemBorder" Value="{StaticResource ResourceKey=Dark_HighlightBrush}" Property="Background" />
+                                                    </MultiTrigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsMouseOver" Value="True"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource ResourceKey=Dark_SubSubBackgroundBrush}"/>
+                                                    </MultiTrigger>
+                                                </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -40,10 +61,12 @@
         </ListBox.ItemTemplate>
         <ListBox.ContextMenu>
             <ContextMenu>
+                <MenuItem Header="Add selected song(s) to Up-Next" Click="DoAddSelectedSongsToUpNext"/>
                 <MenuItem Header="Add Playlist(s) to Up-Next" Click="DoAddSongsToUpNext"/>
                 <MenuItem Header="Shuffle Playlist(s) into Up-Next" Click="DoShuffleInto"/>
                 <MenuItem Header="Add Playlist(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add Playlist(s) to new Playlist"/>
+                <MenuItem Header="Delete selected song(s) from playlist(s)" Click="DoRemoveSongFromPlayList"/>
                 <MenuItem Header="Delete Playlist(s)" Click="DoDeletePlaylist"/>
             </ContextMenu>
         </ListBox.ContextMenu>
