@@ -96,8 +96,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         {
                             inputStream.Close();
                             SetupNextInputStream();
-                            player.Init(inputStream);
-                            player.Play();
+                            if (inputStream != null)
+                            {
+                                player.Init(inputStream);
+                                player.Play();
+                            }
                         }
                         else //error occured, shut it all down
                         {

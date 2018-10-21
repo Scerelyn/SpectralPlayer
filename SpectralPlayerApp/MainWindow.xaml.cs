@@ -53,6 +53,7 @@ namespace SpectralPlayerApp
             ArtistsControl.ParentWindow = this;
             AlbumsControl.ParentWindow = this;
             GenresControl.ParentWindow = this;
+            
         }
 
         public void DoAddFile(object sender, RoutedEventArgs args)
@@ -62,7 +63,20 @@ namespace SpectralPlayerApp
             {
                 foreach(string name in OpenAudioFileDialog.FileNames)
                 {
-                    SongLibrary.SongList.Add(new Song() { Name=name, FilePath=name });
+                    var tagFile = TagLib.File.Create(name);
+                    var tags = tagFile.Tag;
+
+                    SongLibrary.SongList.Add(new Song()
+                    {
+                        Name = tags.Title == "" ? "Unknown Song" : tags.Title,
+                        FilePath = name,
+                        Artist = tags.FirstPerformer == "" ? "Unknown Artist" : tags.FirstPerformer,
+                        AlbumName = tags.Album == "" ? "Unknown Album" : tags.Album,
+                        AlbumArtist = tags.FirstAlbumArtist,
+                        Genre = tags.FirstGenre,
+                        TrackNumber = (int)tags.Track,
+                        Year = tags.Year == 0 ? "" : tags.Year+"",
+                    });
                 }
                 UpdateLists();
             }
