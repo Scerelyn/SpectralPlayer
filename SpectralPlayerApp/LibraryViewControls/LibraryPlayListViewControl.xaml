@@ -62,10 +62,13 @@
         <ListBox.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Add selected song(s) to Up-Next" Click="DoAddSelectedSongsToUpNext"/>
-                <MenuItem Header="Add Playlist(s) to Up-Next" Click="DoAddSongsToUpNext"/>
-                <MenuItem Header="Shuffle Playlist(s) into Up-Next" Click="DoShuffleInto"/>
+                <MenuItem Header="Add Playlist(s) to Up-Next" Click="DoAddSelectedPlaylistsToUpNext"/>
+                <MenuItem Header="Shuffle selected song(s) into Up-Next" Click="DoAddSelectedSongsToUpNext"/>
+                <MenuItem Header="Shuffle Playlist(s) into Up-Next" Click="DoPlaylistShuffleInto"/>
+                <MenuItem Header="Add selected song(s) to a playlist..." x:Name="AddSongsMenuItem"/>
                 <MenuItem Header="Add Playlist(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
-                <MenuItem Header="Add Playlist(s) to new Playlist"/>
+                <MenuItem Header="Add seleceted song(s) to a new Playlist" Click="DoAddSelectedSongsToNewPlayList"/>
+                <MenuItem Header="Add Playlist(s) to new Playlist" Click="DoAddSelectedPlaylistsToNewPlayList"/>
                 <MenuItem Header="Delete selected song(s) from playlist(s)" Click="DoRemoveSongFromPlayList"/>
                 <MenuItem Header="Delete Playlist(s)" Click="DoDeletePlaylist"/>
             </ContextMenu>

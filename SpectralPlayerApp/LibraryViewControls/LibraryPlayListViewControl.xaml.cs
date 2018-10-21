@@ -41,7 +41,7 @@ namespace SpectralPlayerApp.LibraryViewControls
             InitializeComponent();
         }
 
-        public void DoAddSongsToUpNext(object sender, RoutedEventArgs args)
+        public void DoAddSelectedPlaylistsToUpNext(object sender, RoutedEventArgs args)
         {
             if (PlaylistListBox.SelectedItems.Count > 0)
             {
@@ -58,7 +58,7 @@ namespace SpectralPlayerApp.LibraryViewControls
             }
         }
 
-        public void DoShuffleInto(object sender, RoutedEventArgs args)
+        public void DoPlaylistShuffleInto(object sender, RoutedEventArgs args)
         {
             if (PlaylistListBox.SelectedItems.Count > 0)
             {
@@ -72,6 +72,19 @@ namespace SpectralPlayerApp.LibraryViewControls
                 }
                 UpNextControl.UpNext.ShuffleSongsInto(songs);
             }
+        }
+
+        public void DoSongsShuffleInto(object sender, RoutedEventArgs args)
+        {
+            List<Song> songs = new List<Song>();
+            foreach (ListBox lb in InnerListBoxes)
+            {
+                foreach (Song s in lb.SelectedItems)
+                {
+                    songs.Add(s);
+                }
+            }
+            UpNextControl.UpNext.ShuffleSongsInto(songs);
         }
 
         public void DoDeletePlaylist(object sender, RoutedEventArgs args)
@@ -122,6 +135,16 @@ namespace SpectralPlayerApp.LibraryViewControls
             {
                 InnerListBoxes.Add(lb); //and add it to the list of listboxes if it is not already in it
             }
+        }
+
+        public void DoAddSelectedSongsToNewPlayList(object sender, RoutedEventArgs args)
+        {
+
+        }
+
+        public void DoAddSelectedPlaylistsToNewPlayList(object sender, RoutedEventArgs args)
+        {
+
         }
     }
 }
