@@ -98,8 +98,10 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     {
                         if (stoppedArgs.Exception == null) // end of song reached
                         {
+                            timer.Stop();
                             inputStream.Close();
                             SetupNextInputStream();
+                            SetupImageVisualizer();
                             if (inputStream != null) //not null means a song after the finished on exists
                             {
                                 //set the seek bar 
@@ -108,7 +110,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                                 //setup the player
                                 player.Init(inputStream);
                                 player.Play();
-
+                                timer.Start();
                             }
                         }
                         else //error occured, shut it all down
@@ -189,23 +191,31 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
 
         public void SetupImageVisualizer()
         {
-            Tag tags = TagLib.File.Create(activeSong.FilePath).Tag;
-            if (tags.Pictures.Length > 0)
+            if (inputStream != null)
             {
-                IPicture albumArt = tags.Pictures[0];
-                using (MemoryStream ms = new MemoryStream(albumArt.Data.Data))
+                Tag tags = TagLib.File.Create(activeSong.FilePath).Tag;
+                if (tags.Pictures.Length > 0)
                 {
-                    ms.Seek(0, SeekOrigin.Begin);
-                    BitmapImage image = new BitmapImage();
-                    image.BeginInit();
-                    image.StreamSource = ms;
-                    image.EndInit();
-                    ImageHoldingLabel.Background = new ImageBrush(image);
+                    IPicture albumArt = tags.Pictures[0];
+                    using (MemoryStream ms = new MemoryStream(albumArt.Data.Data))
+                    {
+                        ms.Seek(0, SeekOrigin.Begin);
+                        BitmapImage image = new BitmapImage();
+                        image.BeginInit();
+                        image.CacheOption = BitmapCacheOption.OnLoad;
+                        image.StreamSource = ms;
+                        image.EndInit();
+                        image.Freeze();
+                        ImageBrush ib = new ImageBrush(image);
+                        //MessageBox.Show(image.PixelWidth + " by " + image.PixelHeight);
+                        ImageHoldingLabel.Background = ib;
+                        ib.Stretch = Stretch.Uniform;
+                    }
                 }
-            }
-            else
-            {
-                ImageHoldingLabel.Background = Brushes.Azure;
+                else
+                {
+                    ImageHoldingLabel.Background = Brushes.Azure;
+                }
             }
         }
 
