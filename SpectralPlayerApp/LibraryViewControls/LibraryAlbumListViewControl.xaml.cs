@@ -26,6 +26,10 @@ namespace SpectralPlayerApp.LibraryViewControls
         /// The UpNext control to access and change the upnext playlist with
         /// </summary>
         public UpNextPlaylistViewControl UpNextControl { get; set; }
+        /// <summary>
+        /// The parent mainwindow instance
+        /// </summary>
+        public MainWindow ParentWindow { get; set; }
 
         public LibraryAlbumListViewControl()
         {
@@ -82,6 +86,17 @@ namespace SpectralPlayerApp.LibraryViewControls
                 }
                 UpNextControl.UpNext.ShuffleSongsInto(songs);
             }
+        }
+
+        public void DoAddSongsToNewPlayList(object sender, RoutedEventArgs args)
+        {
+            PlayList pl = new PlayList() { Name = "New Playlist" };
+            foreach (Song s in AlbumListBox.SelectedItems)
+            {
+                pl.SongList.Add(s);
+            }
+            ParentWindow.SongLibrary.PlayListList.Add(pl);
+            ParentWindow.UpdatePlayListContextMenuItems();
         }
     }
 }

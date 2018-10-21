@@ -43,7 +43,7 @@
                 <MenuItem Header="Add Genre ... to Up-Next" x:Name="AddGenreMenuItem" Click="DoAddGenreToUpNext" Visibility="Collapsed"/>
                 <MenuItem Header="Add song(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add Genre ... to a playlist..." x:Name="AddGenrePlaylistMenuItem" Visibility="Collapsed"/>
-                <MenuItem Header="Add song(s) to new Playlist"/>
+                <MenuItem Header="Add song(s) to new Playlist" Click="DoAddSongsToNewPlayList"/>
             </ContextMenu>
         </ListBox.ContextMenu>
         <ListBox.ItemContainerStyle>

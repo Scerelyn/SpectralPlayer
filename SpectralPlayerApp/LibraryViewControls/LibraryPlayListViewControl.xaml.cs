@@ -139,12 +139,30 @@ namespace SpectralPlayerApp.LibraryViewControls
 
         public void DoAddSelectedSongsToNewPlayList(object sender, RoutedEventArgs args)
         {
-
+            PlayList pl = new PlayList() { Name = "New Playlist" };
+            foreach (ListBox lb in InnerListBoxes)
+            {
+                foreach (Song s in lb.SelectedItems)
+                {
+                    pl.SongList.Add(s);
+                }
+            }
+            ParentWindow.SongLibrary.PlayListList.Add(pl);
+            ParentWindow.UpdatePlayListContextMenuItems();
         }
 
         public void DoAddSelectedPlaylistsToNewPlayList(object sender, RoutedEventArgs args)
         {
-
+            PlayList newPlaylist = new PlayList() { Name = "New Playlist" };
+            foreach (PlayList pl in PlaylistListBox.SelectedItems)
+            {
+                foreach (Song s in pl.SongList)
+                {
+                    newPlaylist.SongList.Add(s);
+                }
+            }
+            ParentWindow.SongLibrary.PlayListList.Add(newPlaylist);
+            ParentWindow.UpdatePlayListContextMenuItems();
         }
     }
 }
