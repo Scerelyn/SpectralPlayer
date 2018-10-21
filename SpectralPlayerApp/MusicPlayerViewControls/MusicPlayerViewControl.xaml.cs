@@ -21,6 +21,7 @@ using System.Windows.Navigation;
 using System.Windows.Resources;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using TagLib;
 
 namespace SpectralPlayerApp.MusicPlayerViewControls
 {
@@ -33,6 +34,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         private WaveStream inputStream;
         private DispatcherTimer timer = new DispatcherTimer(); // better than the normal timer bc no threading issues nor needing to use Dispatcher.Invoke
         private bool stopLock = false; // determines if a stop is deliberate, ie: to clear the audio buffer, or not
+        private Song activeSong = null;
 
         private double _seekBarPos = 0;
         public double SeekBarPos
@@ -74,6 +76,8 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 }
                 player.Init(inputStream);
 
+                SetupImageVisualizer();
+
                 //set the seek bar 
                 SeekSlider.Maximum = inputStream.TotalTime.TotalSeconds;
                 SeekSlider.IsEnabled = true;
@@ -96,10 +100,15 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         {
                             inputStream.Close();
                             SetupNextInputStream();
-                            if (inputStream != null)
+                            if (inputStream != null) //not null means a song after the finished on exists
                             {
+                                //set the seek bar 
+                                SeekSlider.Maximum = inputStream.TotalTime.TotalSeconds;
+                                SeekSlider.IsEnabled = true;
+                                //setup the player
                                 player.Init(inputStream);
                                 player.Play();
+
                             }
                         }
                         else //error occured, shut it all down
@@ -154,9 +163,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     return; //and just cutoff the method
                 }
             }
-            while (!File.Exists(nextSong.FilePath));
+            while (!System.IO.File.Exists(nextSong.FilePath));
 
-            if (File.Exists(nextSong.FilePath))
+            activeSong = nextSong;
+
+            if (System.IO.File.Exists(nextSong.FilePath))
             {
                 if (nextSong.FilePath.EndsWith(".ogg")) // use the vorbis library
                 {
@@ -173,6 +184,28 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     AudioFileReader fileStream = new AudioFileReader(nextSong.FilePath);
                     inputStream = fileStream;
                 }
+            }
+        }
+
+        public void SetupImageVisualizer()
+        {
+            Tag tags = TagLib.File.Create(activeSong.FilePath).Tag;
+            if (tags.Pictures.Length > 0)
+            {
+                IPicture albumArt = tags.Pictures[0];
+                using (MemoryStream ms = new MemoryStream(albumArt.Data.Data))
+                {
+                    ms.Seek(0, SeekOrigin.Begin);
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = ms;
+                    image.EndInit();
+                    ImageHoldingLabel.Background = new ImageBrush(image);
+                }
+            }
+            else
+            {
+                ImageHoldingLabel.Background = Brushes.Azure;
             }
         }
 

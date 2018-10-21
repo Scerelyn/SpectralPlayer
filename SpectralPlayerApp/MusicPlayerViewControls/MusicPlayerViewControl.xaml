@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="70*"/>
                     <ColumnDefinition Width="15*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="1" Content="Visualizer here" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Label x:Name="ImageHoldingLabel" Grid.Column="1" Content="Visualizer here" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
             
             <!-- Seekbar -->
