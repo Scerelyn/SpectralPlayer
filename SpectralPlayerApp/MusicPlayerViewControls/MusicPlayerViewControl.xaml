@@ -9,7 +9,8 @@
     <DockPanel>
         <Grid DockPanel.Dock="Top"> 
             <Grid.RowDefinitions>
-                <RowDefinition Height="50*"/>
+                <RowDefinition Height="45*"/>
+                <RowDefinition Height="8*"/>
                 <RowDefinition Height="10*"/>
                 <RowDefinition Height="25*"/>
             </Grid.RowDefinitions>
@@ -23,15 +24,17 @@
                 </Grid.ColumnDefinitions>
                 <Label x:Name="ImageHoldingLabel" Grid.Column="1" Content="Visualizer here" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
-            
+
+            <Label x:Name="NowPlayingLabel" Grid.Row="1" Foreground="{StaticResource Dark_FontBrush}" HorizontalContentAlignment="Center" Content="Nothing is playing..."/>
+
             <!-- Seekbar -->
-            <DockPanel Grid.Row="1" VerticalAlignment="Center">
+            <DockPanel Grid.Row="2" VerticalAlignment="Center">
                 <Label  Foreground="{StaticResource ResourceKey=Dark_FontBrush}" x:Name="TimestampLabel" Content="{Binding SeekBarPos}"/>
-                <Slider x:Name="SeekSlider" Value="{Binding SeekBarPos, Mode=TwoWay}" Thumb.DragCompleted="DoSeek"/>
+                <Slider x:Name="SeekSlider" Value="{Binding SeekBarPos, Mode=TwoWay}" Thumb.DragCompleted="DoSeek" ValueChanged="DoHoldTimer"/>
             </DockPanel>
             
             <!-- Button controls-->
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>

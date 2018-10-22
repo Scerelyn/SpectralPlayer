@@ -77,7 +77,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 player.Init(inputStream);
 
                 SetupImageVisualizer();
-
+                SetupNowPlayingLabel();
                 //set the seek bar 
                 SeekSlider.Maximum = inputStream.TotalTime.TotalSeconds;
                 SeekSlider.IsEnabled = true;
@@ -102,6 +102,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                             inputStream.Close();
                             SetupNextInputStream();
                             SetupImageVisualizer();
+                            SetupNowPlayingLabel();
                             if (inputStream != null) //not null means a song after the finished on exists
                             {
                                 //set the seek bar 
@@ -219,6 +220,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             }
         }
 
+        public void SetupNowPlayingLabel()
+        {
+            NowPlayingLabel.Content = $"Now playing: {activeSong.Name} by {activeSong.Artist}";
+        }
+
         public void DoSeekBarUpdate(object sender, EventArgs args)
         {
             TimestampLabel.Content = inputStream?.CurrentTime.ToString(@"mm\:ss") ?? "00:00";
@@ -243,8 +249,13 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 }
             }
             TimestampLabel.Content = inputStream.CurrentTime.ToString(@"mm\:ss");
+            timer.Start();
         }
 
+        public void DoHoldTimer(object sender, RoutedEventArgs args)
+        {
+            timer.Stop();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void FieldChanged(string field = null)
