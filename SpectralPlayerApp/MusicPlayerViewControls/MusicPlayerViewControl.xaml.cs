@@ -39,7 +39,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         private double _seekBarPos = 0;
         public double SeekBarPos
         {
-            get => SeekBarPos;
+            get => _seekBarPos;
             set
             {
                 _seekBarPos = value;
@@ -194,28 +194,31 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         {
             if (inputStream != null)
             {
-                Tag tags = TagLib.File.Create(activeSong.FilePath).Tag;
-                if (tags.Pictures.Length > 0)
+                using (TagLib.File file = TagLib.File.Create(activeSong.FilePath))
                 {
-                    IPicture albumArt = tags.Pictures[0];
-                    using (MemoryStream ms = new MemoryStream(albumArt.Data.Data))
+                    Tag tags = file.Tag;
+                    if (tags.Pictures.Length > 0)
                     {
-                        ms.Seek(0, SeekOrigin.Begin);
-                        BitmapImage image = new BitmapImage();
-                        image.BeginInit();
-                        image.CacheOption = BitmapCacheOption.OnLoad;
-                        image.StreamSource = ms;
-                        image.EndInit();
-                        image.Freeze();
-                        ImageBrush ib = new ImageBrush(image);
-                        //MessageBox.Show(image.PixelWidth + " by " + image.PixelHeight);
-                        ImageHoldingLabel.Background = ib;
-                        ib.Stretch = Stretch.Uniform;
+                        IPicture albumArt = tags.Pictures[0];
+                        using (MemoryStream ms = new MemoryStream(albumArt.Data.Data))
+                        {
+                            ms.Seek(0, SeekOrigin.Begin);
+                            BitmapImage image = new BitmapImage();
+                            image.BeginInit();
+                            image.CacheOption = BitmapCacheOption.OnLoad;
+                            image.StreamSource = ms;
+                            image.EndInit();
+                            image.Freeze();
+                            ImageBrush ib = new ImageBrush(image);
+                            //MessageBox.Show(image.PixelWidth + " by " + image.PixelHeight);
+                            ImageHoldingLabel.Background = ib;
+                            ib.Stretch = Stretch.Uniform;
+                        }
                     }
-                }
-                else
-                {
-                    ImageHoldingLabel.Background = Brushes.Azure;
+                    else
+                    {
+                        ImageHoldingLabel.Background = Brushes.Azure;
+                    }
                 }
             }
         }

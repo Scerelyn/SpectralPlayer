@@ -1,9 +1,11 @@
 ﻿using MusicLibraryLib;
+using SpectralPlayerApp.Dialogs;
 using SpectralPlayerApp.MusicPlayerViewControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TagLib;
 
 namespace SpectralPlayerApp.LibraryViewControls
 {
@@ -69,6 +72,23 @@ namespace SpectralPlayerApp.LibraryViewControls
             }
             ParentWindow.SongLibrary.PlayListList.Add(pl);
             ParentWindow.UpdatePlayListContextMenuItems();
+        }
+
+        public void DoSelectionChanged(object sender, RoutedEventArgs args)
+        {
+            if (LibraryListView.SelectedItems.Count == 1)
+            {
+                EditSongInfoMenuItem.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                EditSongInfoMenuItem.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void DoEditSong(object sender, RoutedEventArgs args)
+        {
+            ParentWindow.EditSongData(LibraryListView.SelectedItems[0] as Song);
         }
     }
 }

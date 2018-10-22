@@ -17,6 +17,7 @@
                   Foreground="{StaticResource Dark_FontBrush}"
                   Background="{StaticResource Dark_BackGroundBrush}"
                   IsReadOnly="True"
+                  SelectionChanged="DoSelectionChanged"
                   >
         <DataGrid.Columns>
             <DataGridTextColumn Header="Song" Binding="{Binding Name}"/>
@@ -32,6 +33,7 @@
                 <MenuItem Header="Shuffle song(s) into Up-Next" Click="DoShuffleInto"/>
                 <MenuItem Header="Add song(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add song(s) to new Playlist" Click="DoAddSongsToNewPlayList"/>
+                <MenuItem Header="Edit Song Info" x:Name="EditSongInfoMenuItem" Click="DoEditSong" Visibility="Collapsed"/>
             </ContextMenu>
         </DataGrid.ContextMenu>
         <DataGrid.Resources>

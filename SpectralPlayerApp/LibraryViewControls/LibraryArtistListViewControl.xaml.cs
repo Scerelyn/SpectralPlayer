@@ -55,11 +55,13 @@ namespace SpectralPlayerApp.LibraryViewControls
                 AddArtistMenuItem.Header = $"Add Artist {(ArtistListBox.SelectedItems[0] as Song).Artist} to Up-Next";
                 AddArtistPlaylistMenuItem.Visibility = Visibility.Visible;
                 AddArtistPlaylistMenuItem.Header = $"Add Artist {(ArtistListBox.SelectedItems[0] as Song).Artist} to playlist...";
+                EditSongInfoMenuItem.Visibility = Visibility.Visible;
             }
             else
             {
                 AddArtistMenuItem.Visibility = Visibility.Collapsed;
                 AddArtistPlaylistMenuItem.Visibility = Visibility.Collapsed;
+                EditSongInfoMenuItem.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -97,6 +99,11 @@ namespace SpectralPlayerApp.LibraryViewControls
             }
             ParentWindow.SongLibrary.PlayListList.Add(pl);
             ParentWindow.UpdatePlayListContextMenuItems();
+        }
+
+        public void DoEditSong(object sender, RoutedEventArgs args)
+        {
+            ParentWindow.EditSongData(ArtistListBox.SelectedItems[0] as Song);
         }
     }
 }

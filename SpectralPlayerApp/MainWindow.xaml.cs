@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using MusicLibraryLib;
 using NAudio.Wave;
+using SpectralPlayerApp.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TagLib;
 
 namespace SpectralPlayerApp
 {
@@ -53,7 +55,6 @@ namespace SpectralPlayerApp
             ArtistsControl.ParentWindow = this;
             AlbumsControl.ParentWindow = this;
             GenresControl.ParentWindow = this;
-            
         }
 
         public void DoAddFile(object sender, RoutedEventArgs args)
@@ -104,6 +105,9 @@ namespace SpectralPlayerApp
             UpdatePlayListContextMenuItems();
         }
 
+        /// <summary>
+        /// Updates the playlist context menus of each library ViewControl
+        /// </summary>
         public void UpdatePlayListContextMenuItems()
         {
             //playlist context menu setup
@@ -235,6 +239,76 @@ namespace SpectralPlayerApp
                 GenresControl.AddGenrePlaylistMenuItem.Items.Add(genreControlAddGenreMenuItem);
                 PlaylistControl.AddPlaylistMenuItem.Items.Add(playlistControlAddSongsMenuItem);
                 PlaylistControl.AddSongsMenuItem.Items.Add(playlistControlAddSelectedSongsMenuItem);
+            }
+        }
+
+        /// <summary>
+        /// Edits the Song data via a dialog, and attempts to save the new tag information onto the Song's respective filepath
+        /// </summary>
+        /// <param name="selectedSong">The Song to modify</param>
+        public void EditSongData(Song selectedSong)
+        {
+            EditSongDialog esd = new EditSongDialog(selectedSong);
+            esd.ShowDialog();
+            if (esd.DialogResult ?? false)
+            {
+                selectedSong.Name = esd.SongNameTextBox.Text;
+                selectedSong.Artist = esd.SongArtistTextBox.Text;
+                selectedSong.AlbumName = esd.AlbumTextBox.Text;
+                selectedSong.AlbumArtist = esd.AlbumArtistTextBox.Text;
+                selectedSong.Genre = esd.GenreTextBox.Text;
+                selectedSong.TrackNumber = int.Parse(esd.TrackNumberTextBox.Text);
+                selectedSong.Year = esd.YearTextBox.Text;
+                selectedSong.FilePath = esd.FilepathTextBox.Text;
+                try
+                {
+                    using (TagLib.File file = TagLib.File.Create(selectedSong.FilePath))
+                    {
+                        //set the file metadata
+                        file.Tag.Title = selectedSong.Name;
+
+                        if (file.Tag.Performers.Length == 0)
+                        {
+                            file.Tag.Performers = null;
+                            file.Tag.Performers = new string[1] { selectedSong.Artist }; //to edit the array tags, change out the ENTIRE array with values already in it
+                        }
+                        else
+                        {
+                            file.Tag.Performers[0] = selectedSong.Artist;
+                        }
+
+                        file.Tag.Album = selectedSong.AlbumName;
+
+                        if (file.Tag.AlbumArtists.Length == 0)
+                        {
+                            file.Tag.AlbumArtists = null;
+                            file.Tag.AlbumArtists = new string[1] { selectedSong.AlbumArtist };
+                        }
+                        else
+                        {
+                            file.Tag.AlbumArtists[0] = selectedSong.AlbumArtist;
+                        }
+
+                        if (file.Tag.Genres.Length == 0)
+                        {
+                            file.Tag.Genres = null;
+                            file.Tag.Genres = new string[1] { selectedSong.Genre };
+                        }
+                        else
+                        {
+                            file.Tag.Genres[0] = selectedSong.Genre;
+                        }
+
+                        file.Tag.Year = (uint)int.Parse(selectedSong.Year);
+                        file.Tag.Track = (uint)selectedSong.TrackNumber;
+                        file.Save();
+                    }
+                    UpdateLists();
+                }
+                catch (UnsupportedFormatException ufe)
+                {
+                    MessageBox.Show("Cannot save tags to the given file, but the tags will still be saved on the program.");
+                }
             }
         }
 
