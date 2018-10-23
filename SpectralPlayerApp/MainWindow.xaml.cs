@@ -34,7 +34,7 @@ namespace SpectralPlayerApp
         {
             InitializeComponent();
 
-            SongLibrary = GetSampleLibrary();
+            SongLibrary = new Library();//GetSampleLibrary();
 
             UpdateLists();
 

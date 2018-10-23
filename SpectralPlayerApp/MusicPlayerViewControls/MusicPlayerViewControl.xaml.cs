@@ -255,7 +255,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             timer.Start();
         }
 
-        public void DoHoldTimer(object sender, RoutedEventArgs args)
+        public void DoHoldTimer(object sender, MouseButtonEventArgs args)
         {
             timer.Stop();
         }
