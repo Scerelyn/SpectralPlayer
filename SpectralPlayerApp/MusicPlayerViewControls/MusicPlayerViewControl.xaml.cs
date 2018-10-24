@@ -34,7 +34,9 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         private WaveStream inputStream;
         private DispatcherTimer timer = new DispatcherTimer(); // better than the normal timer bc no threading issues nor needing to use Dispatcher.Invoke
         private bool stopLock = false; // determines if a stop is deliberate, ie: to clear the audio buffer, or not
+        private bool prevRecord = false; // determines if a stop should record the previously playing song into the history stack
         private Song activeSong = null;
+        private Stack<Song> previousSongs = new Stack<Song>(); // holds a history of previously played songs
 
         private double _seekBarPos = 0;
         public double SeekBarPos
@@ -60,6 +62,53 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             timer.Tick += DoSeekBarUpdate;
             TimestampLabel.Content = "00:00";
             SeekSlider.IsEnabled = false;
+            
+            //handle onstop
+            player.PlaybackStopped += (stoppedSender, stoppedArgs) =>
+            {
+                if (!stopLock) // stop is called either by automatic end of stream, or some error
+                {
+                    if (stoppedArgs.Exception == null) // end of song reached
+                    {
+                        timer.Stop();
+                        inputStream.Close();
+                        if(prevRecord)
+                        {
+                            previousSongs.Push(activeSong); // push just played song onto the history stack
+                        }
+                        else
+                        {
+                            prevRecord = true;
+                        }
+                        SetupNextInputStream();
+                        SetupImageVisualizer();
+                        SetupNowPlayingLabel();
+                        if (inputStream != null) //not null means a song after the finished on exists
+                        {
+                            //set the seek bar 
+                            SeekSlider.Maximum = inputStream.TotalTime.TotalSeconds;
+                            SeekSlider.IsEnabled = true;
+                            //setup the player
+                            player.Init(inputStream);
+                            player.Play();
+                            timer.Start();
+                        }
+                    }
+                    else //error occured, shut it all down
+                    {
+                        inputStream.Close();
+                        inputStream = null;
+                        SeekBarPos = 0;
+                        SeekSlider.Value = 0;
+                        SeekSlider.IsEnabled = false;
+                        timer.Stop();
+                    }
+                }
+                else // stop is called when seeking
+                {
+                    stopLock = false;
+                }
+            };
         }
 
         /// <summary>
@@ -90,45 +139,6 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
 
                 //set the button's pause image
                 Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/pause.png")) };
-
-                //handle onstop
-                player.PlaybackStopped += (stoppedSender, stoppedArgs) =>
-                {
-                    if (!stopLock) // stop is called either by automatic end of stream, or some error
-                    {
-                        if (stoppedArgs.Exception == null) // end of song reached
-                        {
-                            timer.Stop();
-                            inputStream.Close();
-                            SetupNextInputStream();
-                            SetupImageVisualizer();
-                            SetupNowPlayingLabel();
-                            if (inputStream != null) //not null means a song after the finished on exists
-                            {
-                                //set the seek bar 
-                                SeekSlider.Maximum = inputStream.TotalTime.TotalSeconds;
-                                SeekSlider.IsEnabled = true;
-                                //setup the player
-                                player.Init(inputStream);
-                                player.Play();
-                                timer.Start();
-                            }
-                        }
-                        else //error occured, shut it all down
-                        {
-                            inputStream.Close();
-                            inputStream = null;
-                            SeekBarPos = 0;
-                            SeekSlider.Value = 0;
-                            SeekSlider.IsEnabled = false;
-                            timer.Stop();
-                        }
-                    }
-                    else // stop is called when seeking
-                    {
-                        stopLock = false;
-                    }
-                };
 
                 //start the seekbar updater
                 timer.Start();
@@ -258,6 +268,26 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         public void DoHoldTimer(object sender, MouseButtonEventArgs args)
         {
             timer.Stop();
+        }
+
+        public void DoSkipCurrentSong(object sender, RoutedEventArgs args)
+        {
+            if (UpNextControl.UpNext.SongList.Count > 0)
+            {
+                previousSongs.Push(activeSong); // push just played song onto the history stack
+                prevRecord = true; //tell the stop we want to record the previous song
+                player.Stop(); //call the onstopped, this will take care of the rest, like the next song
+            }
+        }
+
+        public void DoBackASong(object sender, RoutedEventArgs args)
+        {
+            if (previousSongs.Count > 0)
+            {
+                UpNextControl.UpNext.SongList.Insert(0, previousSongs.Pop());
+                prevRecord = false; //tell the stop to not record the previous song
+                player.Stop();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
