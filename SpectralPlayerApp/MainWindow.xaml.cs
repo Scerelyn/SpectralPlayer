@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 using TagLib;
 
 namespace SpectralPlayerApp
@@ -354,6 +355,19 @@ namespace SpectralPlayerApp
             l.PlayListList.Add(p3);
 
             return l;
+        }
+
+        public void DoExport(object sender, RoutedEventArgs args)
+        {
+            XMLSerializeLibrary();
+        }
+
+        public void XMLSerializeLibrary()
+        {
+            string samplePath = "c:/temp/spec_test/library.xml";
+            XmlSerializer ser = new XmlSerializer(typeof(Library));
+            System.IO.FileStream export = System.IO.File.Create(samplePath);
+            ser.Serialize(export, SongLibrary);
         }
     }
 }

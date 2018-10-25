@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MusicLibraryLib
 {
@@ -21,6 +22,7 @@ namespace MusicLibraryLib
         /// </summary>
         public ObservableCollection<Song> SongList { get; } = new ObservableCollection<Song>();
 
+        [XmlArray]
         /// <summary>
         /// The list of every playlist in the music library
         /// </summary>
