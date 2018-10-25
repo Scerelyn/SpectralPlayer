@@ -56,12 +56,14 @@ namespace SpectralPlayerApp.LibraryViewControls
                 AddAlbumPlaylistMenuItem.Visibility = Visibility.Visible;
                 AddAlbumPlaylistMenuItem.Header = $"Add Album {(AlbumListBox.SelectedItems[0] as Song).AlbumName} to playlist...";
                 EditSongInfoMenuItem.Visibility = Visibility.Visible;
+                ShuffleAlbumIntoMenuItem.Header = $"Shuffle Album {(AlbumListBox.SelectedItems[0] as Song).AlbumName}";
             }
             else
             {
                 AddAlbumMenuItem.Visibility = Visibility.Collapsed;
                 AddAlbumPlaylistMenuItem.Visibility = Visibility.Collapsed;
                 EditSongInfoMenuItem.Visibility = Visibility.Collapsed;
+                ShuffleAlbumIntoMenuItem.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -104,6 +106,20 @@ namespace SpectralPlayerApp.LibraryViewControls
         public void DoEditSong(object sender, RoutedEventArgs args)
         {
             ParentWindow.EditSongData(AlbumListBox.SelectedItems[0] as Song);
+        }
+
+        public void DoShuffleAlbumInto(object sender, RoutedEventArgs args)
+        {
+            Song selected = (Song)AlbumListBox.SelectedItems[0];
+            List<Song> songs = new List<Song>();
+            foreach (Song s in AlbumListBox.Items)
+            {
+                if (s.AlbumName == selected.AlbumName)
+                {
+                    songs.Add(s);
+                }
+            }
+            UpNextControl.UpNext.ShuffleSongsInto(songs);
         }
     }
 }

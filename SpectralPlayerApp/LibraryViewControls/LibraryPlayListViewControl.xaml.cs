@@ -164,5 +164,6 @@ namespace SpectralPlayerApp.LibraryViewControls
             ParentWindow.SongLibrary.PlayListList.Add(newPlaylist);
             ParentWindow.UpdatePlayListContextMenuItems();
         }
+
     }
 }

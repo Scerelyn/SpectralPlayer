@@ -55,12 +55,12 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             }
         }
 
-        #endregion
-
         /// <summary>
         /// The UpNext control to get the songs to play from
         /// </summary>
         public UpNextPlaylistViewControl UpNextControl { get; set; }
+        
+        #endregion
 
         public MusicPlayerViewControl()
         {

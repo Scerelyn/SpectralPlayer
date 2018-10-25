@@ -46,6 +46,7 @@
                 <MenuItem Header="Add song(s) to Up-Next" Click="DoAddSongsToUpNext"/>
                 <MenuItem Header="Shuffle song(s) into Up-Next" Click="DoShuffleInto"/>
                 <MenuItem Header="Add Artist ... to Up-Next" x:Name="AddArtistMenuItem" Click="DoAddArtistToUpNext" Visibility="Collapsed"/>
+                <MenuItem Header="Shuffle Artist ... into Up-Next" x:Name="ShuffleArtistIntoMenuItem" Click="DoShuffleArtistInto"/>
                 <MenuItem Header="Add song(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add Artist ... to a playlist..." x:Name="AddArtistPlaylistMenuItem" Visibility="Collapsed"/>
                 <MenuItem Header="Add song(s) to new Playlist" Click="DoAddSongsToNewPlayList"/>
