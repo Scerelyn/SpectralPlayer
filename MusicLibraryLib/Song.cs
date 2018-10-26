@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MusicLibraryLib
 {
@@ -28,6 +29,7 @@ namespace MusicLibraryLib
 
         #region Public Properties
 
+        [XmlElement]
         /// <summary>
         /// The filepath of the song's audio file
         /// </summary>
@@ -37,6 +39,7 @@ namespace MusicLibraryLib
             set { _filePath = value; FieldChanged(); }
         }
 
+        [XmlElement]
         /// <summary>
         /// The name of the song
         /// </summary>
@@ -46,6 +49,7 @@ namespace MusicLibraryLib
             set { _name = value; FieldChanged(); }
         }
 
+        [XmlElement]
         /// <summary>
         /// The name of the album this song is on
         /// </summary>
@@ -55,6 +59,7 @@ namespace MusicLibraryLib
             set { _albumName = value; FieldChanged(); }
         }
 
+        [XmlElement]
         /// <summary>
         /// The name of the artist that made the album this song is on
         /// </summary>
@@ -64,6 +69,7 @@ namespace MusicLibraryLib
             set { _albumArtist = value; FieldChanged(); }
         }
 
+        [XmlElement]
         /// <summary>
         /// The name of the artist that made the song
         /// </summary>
@@ -82,6 +88,7 @@ namespace MusicLibraryLib
             set { _genre = value; FieldChanged(); }
         }
 
+        [XmlElement]
         /// <summary>
         /// The year the song, or the album this song is on, is from
         /// </summary>
@@ -91,6 +98,7 @@ namespace MusicLibraryLib
             set { _year = value; FieldChanged(); }
         }
 
+        [XmlElement]
         /// <summary>
         /// The track number of this song on the album it is on
         /// </summary>

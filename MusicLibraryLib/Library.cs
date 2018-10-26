@@ -13,10 +13,12 @@ namespace MusicLibraryLib
     /// Represents a music library of saved songs
     /// </summary>
     [Serializable]
+    [XmlRoot]
     public class Library
     {
         #region Public Properties
 
+        [XmlArray]
         /// <summary>
         /// The list of every song in the music library
         /// </summary>

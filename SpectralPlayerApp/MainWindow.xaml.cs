@@ -39,8 +39,6 @@ namespace SpectralPlayerApp
 
             UpdateLists();
 
-            PlaylistControl.PlaylistListBox.ItemsSource = SongLibrary.PlayListList;
-
             OpenAudioFileDialog.Multiselect = true;
             OpenAudioFileDialog.Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac)|*.mp3;*.wav;*.flac;*.ogg;*.aac";
 
@@ -90,6 +88,7 @@ namespace SpectralPlayerApp
         public void UpdateLists()
         {
             AllSongsControl.LibraryListView.ItemsSource = SongLibrary.GetOrderedListBySong();
+            PlaylistControl.PlaylistListBox.ItemsSource = SongLibrary.PlayListList;
 
             AlbumsControl.AlbumListBox.ItemsSource = SongLibrary.GetOrderedListByAlbum();
             ICollectionView albumGroupView = CollectionViewSource.GetDefaultView(AlbumsControl.AlbumListBox.ItemsSource);
@@ -362,12 +361,33 @@ namespace SpectralPlayerApp
             XMLSerializeLibrary();
         }
 
+        public void DoImport(object sender, RoutedEventArgs args)
+        {
+            XMLDeserializeLibrary();
+        }
+
         public void XMLSerializeLibrary()
         {
             string samplePath = "c:/temp/spec_test/library.xml";
-            XmlSerializer ser = new XmlSerializer(typeof(Library));
-            System.IO.FileStream export = System.IO.File.Create(samplePath);
-            ser.Serialize(export, SongLibrary);
+            XmlRootAttribute xmlRoot = new XmlRootAttribute("Library");
+            XmlSerializer ser = new XmlSerializer(typeof(Library), xmlRoot);
+            using (System.IO.FileStream export = System.IO.File.Create(samplePath))
+            {
+                ser.Serialize(export, SongLibrary);
+            }
+                
+        }
+
+        public void XMLDeserializeLibrary()
+        {
+            string samplePath = "c:/temp/spec_test/library.xml";
+            XmlRootAttribute xmlRoot = new XmlRootAttribute("Library");
+            XmlSerializer ser = new XmlSerializer(typeof(Library), xmlRoot);
+            using (System.IO.FileStream import = System.IO.File.Open(samplePath, System.IO.FileMode.Open))
+            {
+                SongLibrary = ser.Deserialize(import) as Library;
+            }
+            UpdateLists();
         }
     }
 }

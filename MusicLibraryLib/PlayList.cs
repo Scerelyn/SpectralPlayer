@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MusicLibraryLib
 {
@@ -22,11 +23,13 @@ namespace MusicLibraryLib
 
         #region Public Properties
 
+        [XmlArray]
         /// <summary>
         /// The list of songs on this playlist
         /// </summary>
         public ObservableCollection<Song> SongList { get; } = new ObservableCollection<Song>();
 
+        [XmlElement]
         /// <summary>
         /// The name of the playlist
         /// </summary>
