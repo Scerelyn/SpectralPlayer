@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpectralPlayerApp.Dialogs"
         mc:Ignorable="d"
-        Title="ConvertFileDialog" Height="450" Width="800">
+        Title="Convert Audio File" Height="450" Width="800">
     <Grid Background="{StaticResource Dark_BackGroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
@@ -31,14 +31,15 @@
                Grid.Column="1" 
                Grid.Row="1"
                Foreground="{StaticResource Dark_FontBrush}"/>
-        <ComboBox x:Name="OutputFileType" 
+        <ComboBox x:Name="OutputFileTypeComboBox" 
                   Grid.Column="2"
                   Grid.Row="1"/>
         <Button Content="Export"
                 FontSize="24"
                 Grid.Column="1" 
                 Grid.Row="5"
-                Style="{StaticResource Dark_ButtonStyle}"/>
+                Style="{StaticResource Dark_ButtonStyle}"
+                Click="DoFileConvert"/>
         <Label Content="File to convert:"
                HorizontalContentAlignment="Center"
                VerticalContentAlignment="Center"
@@ -47,7 +48,10 @@
                Grid.Row="3"
                Foreground="{StaticResource Dark_FontBrush}"/>
         <DockPanel Grid.Column="2" Grid.Row="3">
-            <Button Content="  Select  " Style="{StaticResource Dark_ButtonStyle}" Padding="5"/>
+            <Button Content="  Select  " 
+                    Style="{StaticResource Dark_ButtonStyle}" 
+                    Padding="5"
+                    Click="DoFileSelect"/>
             <Label x:Name="FileLabel" 
                    Content="Select a file..." 
                    VerticalContentAlignment="Center"

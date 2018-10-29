@@ -366,6 +366,12 @@ namespace SpectralPlayerApp
             XMLDeserializeLibrary();
         }
 
+        public void DoConvertFile(object sender, RoutedEventArgs args)
+        {
+            ConvertFileDialog cfd = new ConvertFileDialog();
+            cfd.ShowDialog();
+        }
+
         public void XMLSerializeLibrary()
         {
             string samplePath = "c:/temp/spec_test/library.xml";
