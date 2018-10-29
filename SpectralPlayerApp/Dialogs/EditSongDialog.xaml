@@ -6,9 +6,47 @@
         xmlns:local="clr-namespace:SpectralPlayerApp.Dialogs"
         mc:Ignorable="d"
         Title="Edit Song" Height="450" Width="800">
-    <Grid>
+    <Grid Background="{StaticResource Dark_BackGroundBrush}">
         <DockPanel>
-            <Grid DockPanel.Dock="Bottom" Margin="10">
+            <Label Content="Edit Attributes" 
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   FontSize="30"
+                   DockPanel.Dock="Top"
+                   Foreground="{StaticResource Dark_FontBrush}"/>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Label Content="Song Name" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
+                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="SongNameTextBox"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Label Content="Song Artist" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
+                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="SongArtistTextBox"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Label Content="Album" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
+                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="AlbumTextBox"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Label Content="Album Artist" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
+                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="AlbumArtistTextBox"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Label Content="Year" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
+                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="YearTextBox"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Label Content="Track Number" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
+                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="TrackNumberTextBox"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Label Content="Genre" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
+                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="GenreTextBox"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Label Content="Filepath" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
+                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="FilepathTextBox"/>
+            </DockPanel>
+            <Grid DockPanel.Dock="Top" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"/>
                     <ColumnDefinition Width="15*"/>
@@ -16,46 +54,10 @@
                     <ColumnDefinition Width="15*"/>
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" Content="Save"   Click="DoSave"/>
-                <Button Grid.Column="3" Content="Cancel" Click="DoCancel"/>
+                <Button Grid.Column="1" Content="Save"   Click="DoSave" Style="{StaticResource Dark_ButtonStyle}"/>
+                <Button Grid.Column="3" Content="Cancel" Click="DoCancel" Style="{StaticResource Dark_ButtonStyle}"/>
             </Grid>
-            <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <Label Content="Filepath" VerticalContentAlignment="Center" Width="100"/>
-                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="FilepathTextBox"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <Label Content="Year" VerticalContentAlignment="Center" Width="100"/>
-                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="YearTextBox"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <Label Content="Track Number" VerticalContentAlignment="Center" Width="100"/>
-                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="TrackNumberTextBox"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <Label Content="Genre" VerticalContentAlignment="Center" Width="100"/>
-                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="GenreTextBox"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <Label Content="Album Artist" VerticalContentAlignment="Center" Width="100"/>
-                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="AlbumArtistTextBox"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <Label Content="Album" VerticalContentAlignment="Center" Width="100"/>
-                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="AlbumTextBox"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <Label Content="Song Artist" VerticalContentAlignment="Center" Width="100"/>
-                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="SongArtistTextBox"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <Label Content="Song Name" VerticalContentAlignment="Center" Width="100"/>
-                <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="SongNameTextBox"/>
-            </DockPanel>
-            <Label Content="Edit Attributes" 
-                   HorizontalContentAlignment="Center"
-                   VerticalContentAlignment="Center"
-                   FontSize="30"
-                   DockPanel.Dock="Bottom"/>
+            <Label/>
         </DockPanel>
     </Grid>
 </Window>

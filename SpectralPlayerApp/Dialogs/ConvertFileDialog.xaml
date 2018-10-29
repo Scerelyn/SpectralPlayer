@@ -1,0 +1,57 @@
+﻿<Window x:Class="SpectralPlayerApp.Dialogs.ConvertFileDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpectralPlayerApp.Dialogs"
+        mc:Ignorable="d"
+        Title="ConvertFileDialog" Height="450" Width="800">
+    <Grid Background="{StaticResource Dark_BackGroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="65*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+        
+        
+        <Label Content="Output File Type" 
+               HorizontalContentAlignment="Center" 
+               VerticalContentAlignment="Center" 
+               FontSize="24" 
+               Grid.Column="1" 
+               Grid.Row="1"
+               Foreground="{StaticResource Dark_FontBrush}"/>
+        <ComboBox x:Name="OutputFileType" 
+                  Grid.Column="2"
+                  Grid.Row="1"/>
+        <Button Content="Export"
+                FontSize="24"
+                Grid.Column="1" 
+                Grid.Row="5"
+                Style="{StaticResource Dark_ButtonStyle}"/>
+        <Label Content="File to convert:"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               FontSize="24"
+               Grid.Column="1" 
+               Grid.Row="3"
+               Foreground="{StaticResource Dark_FontBrush}"/>
+        <DockPanel Grid.Column="2" Grid.Row="3">
+            <Button Content="  Select  " Style="{StaticResource Dark_ButtonStyle}" Padding="5"/>
+            <Label x:Name="FileLabel" 
+                   Content="Select a file..." 
+                   VerticalContentAlignment="Center"
+                   Foreground="{StaticResource Dark_FontBrush}"/>
+        </DockPanel>
+    </Grid>
+</Window>
