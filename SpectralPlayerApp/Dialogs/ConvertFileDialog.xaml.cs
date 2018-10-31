@@ -85,7 +85,7 @@ namespace SpectralPlayerApp.Dialogs
                     Dispatcher.Invoke(() => 
                     {
                         selectedFileType = OutputFileTypeComboBox.SelectedItem as string;
-                        WaitingLabel.Content = $"Now converting {safeFileNames[i]} to {selectedFileType.Substring(selectedFileType.IndexOf("("),5)}";
+                        WaitingLabel.Content = $"Now converting {safeFileNames[i]} to {selectedFileType.Substring(selectedFileType.IndexOf("(")+1,4)}";
                     });  
                     if (selectedFileType.EndsWith("(.mp3)"))
                     {
