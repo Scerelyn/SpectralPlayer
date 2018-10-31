@@ -24,9 +24,9 @@ namespace SpectralPlayerApp.Dialogs
     /// </summary>
     public partial class ConvertFileDialog : Window
     {
-        private OpenFileDialog openFileDialog = new OpenFileDialog() { Multiselect=false };
-        private string filePath = "";
-        private string safeFileName = "";
+        private OpenFileDialog openFileDialog = new OpenFileDialog() { Multiselect=true };
+        private string[] filePaths = new string[0];
+        private string[] safeFileNames = new string[0];
 
         public ConvertFileDialog()
         {
@@ -38,35 +38,58 @@ namespace SpectralPlayerApp.Dialogs
             };
             OutputFileTypeComboBox.ItemsSource = Filetypes;
             OutputFileTypeComboBox.SelectedIndex = 0;
+
         }
 
-        public void DoFileConvert(object sender, RoutedEventArgs args)
+        public async void DoFileConvert(object sender, RoutedEventArgs args)
         {
-            if (string.IsNullOrEmpty(filePath))
+            if (filePaths.Count() <= 0)
             {
-                MessageBox.Show("Select a file first!");
+                MessageBox.Show("Select files first!");
             }
             else
             {
-                WaveStream inputStream = null;
+                WaitingProgressBar.Value = WaitingProgressBar.Minimum;
+                WaitingProgressBar.IsIndeterminate = true;
+                WaitingProgressBar.Visibility = Visibility.Visible;
+                WaitingLabel.Visibility = Visibility.Visible;
+                WaitingLabel.Content = "Converting files, hang on...";
+                await Task.Factory.StartNew( async () => {
+                    await ConvertFiles(ConvertCallBack);
+                });
+            }
+        }
+
+        private async Task ConvertFiles(Func<Task> callBack)
+        {
+            await Task.Delay(250); // give time for rendering changes
+            WaveStream inputStream = null;
+            for (int i = 0; i < filePaths.Count(); i++)
+            {
                 try
                 {
-                    if (filePath.EndsWith(".ogg"))
+                    if (filePaths[i].EndsWith(".ogg"))
                     {
-                        inputStream = new VorbisWaveReader(filePath);
+                        inputStream = new VorbisWaveReader(filePaths[i]);
                     }
-                    else if (filePath.EndsWith(".flac"))
+                    else if (filePaths[i].EndsWith(".flac"))
                     {
-                        inputStream = new FlacReader(filePath);
+                        inputStream = new FlacReader(filePaths[i]);
                     }
                     else
                     {
-                        inputStream = new AudioFileReader(filePath);
+                        inputStream = new AudioFileReader(filePaths[i]);
                     }
-                    string selectedFileType = OutputFileTypeComboBox.SelectedItem as string;
+
+                    string selectedFileType = "";
+                    Dispatcher.Invoke(() => 
+                    {
+                        selectedFileType = OutputFileTypeComboBox.SelectedItem as string;
+                        WaitingLabel.Content = $"Now converting {safeFileNames[i]} to {selectedFileType.Substring(selectedFileType.IndexOf("("),5)}";
+                    });  
                     if (selectedFileType.EndsWith("(.mp3)"))
                     {
-                        using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileName}.mp3"))
+                        using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3"))
                         using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, inputStream.WaveFormat, 320000))
                         {
                             byte[] buffer = new byte[4096];
@@ -89,7 +112,7 @@ namespace SpectralPlayerApp.Dialogs
                     //}
                     else if (selectedFileType.EndsWith("(.wav)"))
                     {
-                        using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileName}.wav"))
+                        using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.wav"))
                         using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
                         {
                             byte[] buffer = new byte[4096];
@@ -102,15 +125,27 @@ namespace SpectralPlayerApp.Dialogs
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    MessageBox.Show("Error occured: " + e.Message);
+                    MessageBox.Show("Error converting " + filePaths[i] + ", message: " + e.Message);
                 }
                 finally
                 {
                     inputStream?.Close();
                 }
             }
+            await callBack();
+            MessageBox.Show("File(s) successfully converted!");
+        }
+
+        private async Task ConvertCallBack()
+        {
+            Dispatcher.Invoke(() => 
+            {
+                WaitingLabel.Content = "Conversion Done";
+                WaitingProgressBar.IsIndeterminate = false;
+                WaitingProgressBar.Value = WaitingProgressBar.Maximum;
+            });
         }
 
         public void DoFileSelect(object sender, RoutedEventArgs args)
@@ -118,9 +153,13 @@ namespace SpectralPlayerApp.Dialogs
             bool? result = openFileDialog.ShowDialog();
             if (result ?? false)
             {
-                filePath = openFileDialog.FileName;
-                safeFileName = openFileDialog.SafeFileName;
-                FileLabel.Content = filePath;
+                filePaths = openFileDialog.FileNames;
+                safeFileNames = openFileDialog.SafeFileNames;
+                FileLabel.Content = "";
+                foreach (string s in filePaths)
+                {
+                    FileLabel.Content = FileLabel.Content + s + ", ";
+                }
             }
         }
     }

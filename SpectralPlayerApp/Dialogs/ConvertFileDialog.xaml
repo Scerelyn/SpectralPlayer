@@ -20,7 +20,8 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="20*"/>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         
         
@@ -40,6 +41,17 @@
                 Grid.Row="5"
                 Style="{StaticResource Dark_ButtonStyle}"
                 Click="DoFileConvert"/>
+        <ProgressBar x:Name="WaitingProgressBar" 
+                     IsIndeterminate="True"
+                     Grid.Column="2"
+                     Grid.Row="5"
+                     Visibility="Collapsed"/>
+        <Label x:Name="WaitingLabel"
+               Content="Converting files, hold on..." 
+               Grid.Column="2" 
+               Grid.Row="6"
+               Visibility="Collapsed"
+               Foreground="{StaticResource Dark_FontBrush}"/>
         <Label Content="File to convert:"
                HorizontalContentAlignment="Center"
                VerticalContentAlignment="Center"
