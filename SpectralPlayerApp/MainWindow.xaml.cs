@@ -35,7 +35,10 @@ namespace SpectralPlayerApp
         {
             InitializeComponent();
 
-            SongLibrary = new Library();//GetSampleLibrary();
+            if (!XMLDeserializeLibrary())
+            {
+                SongLibrary = new Library();
+            }
 
             UpdateLists();
 
@@ -79,6 +82,8 @@ namespace SpectralPlayerApp
                     });
                 }
                 UpdateLists();
+                XMLSerializeLibrary();
+                
             }
         }
 
@@ -304,6 +309,7 @@ namespace SpectralPlayerApp
                         file.Save();
                     }
                     UpdateLists();
+                    XMLSerializeLibrary();
                 }
                 catch (UnsupportedFormatException ufe)
                 {
@@ -313,9 +319,11 @@ namespace SpectralPlayerApp
         }
 
         /// <summary>
-        /// Generates a sample music library for testing purposes
+        /// Generates a sample music library for testing purposes.
+        /// Now that songs can now be loading in properly, this method is deprecated.
         /// </summary>
         /// <returns>A library instance with dummy Song and Playlist instances</returns>
+        [Obsolete]
         private Library GetSampleLibrary()
         {
             Library l = new Library();
@@ -372,28 +380,40 @@ namespace SpectralPlayerApp
             cfd.ShowDialog();
         }
 
-        public void XMLSerializeLibrary()
+        /// <summary>
+        /// Serializes the SongLibrary instance into an XML document
+        /// </summary>
+        /// <param name="path">The path to write the XML file to</param>
+        public void XMLSerializeLibrary(string path="data/library.xml")
         {
-            string samplePath = "c:/temp/spec_test/library.xml";
             XmlRootAttribute xmlRoot = new XmlRootAttribute("Library");
             XmlSerializer ser = new XmlSerializer(typeof(Library), xmlRoot);
-            using (System.IO.FileStream export = System.IO.File.Create(samplePath))
+            using (System.IO.FileStream export = System.IO.File.Create(path))
             {
                 ser.Serialize(export, SongLibrary);
             }
                 
         }
 
-        public void XMLDeserializeLibrary()
+        /// <summary>
+        /// Deserializes the XML file from the given path. Returns true if read properly, false if the file does not exist
+        /// </summary>
+        /// <param name="path">The path of the XML file to read</param>
+        /// <returns>True if the file was found and deserialized. False if the file was not found</returns>
+        public bool XMLDeserializeLibrary(string path="data/library.xml")
         {
-            string samplePath = "c:/temp/spec_test/library.xml";
             XmlRootAttribute xmlRoot = new XmlRootAttribute("Library");
             XmlSerializer ser = new XmlSerializer(typeof(Library), xmlRoot);
-            using (System.IO.FileStream import = System.IO.File.Open(samplePath, System.IO.FileMode.Open))
+            if (System.IO.File.Exists(path))
             {
-                SongLibrary = ser.Deserialize(import) as Library;
+                using (System.IO.FileStream import = System.IO.File.Open(path, System.IO.FileMode.Open))
+                {
+                    SongLibrary = ser.Deserialize(import) as Library;
+                }
+                UpdateLists();
+                return true;
             }
-            UpdateLists();
+            return false;
         }
     }
 }

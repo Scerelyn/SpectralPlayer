@@ -12,8 +12,8 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_Add file to library" Click="DoAddFile"/>
-                <MenuItem Header="_Export to XML" Click="DoExport"/>
-                <MenuItem Header="_Import XML" Click="DoImport"/>
+                <MenuItem Header="_Save Library" Click="DoExport"/>
+                <MenuItem Header="_Load Library" Click="DoImport"/>
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Convert File" Click="DoConvertFile"/>
