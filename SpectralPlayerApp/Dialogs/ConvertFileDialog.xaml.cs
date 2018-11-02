@@ -32,13 +32,21 @@ namespace SpectralPlayerApp.Dialogs
         {
             InitializeComponent();
             List<string> Filetypes = new List<string>() {
-                "Windows Media Audio (.wma)",
+                //"Windows Media Audio (.wma)",
                 "Waveform Audio File Format (.wav)",
                 "MPEG Audio Layer III (.mp3)",
             };
             OutputFileTypeComboBox.ItemsSource = Filetypes;
             OutputFileTypeComboBox.SelectedIndex = 0;
 
+            List<string> MSTypes = new List<string>()
+            {
+                "Leave as is",
+                "Mono",
+                "Stereo",
+            };
+            MSConvertComboBox.ItemsSource = MSTypes;
+            MSConvertComboBox.SelectedIndex = 0;
         }
 
         public async void DoFileConvert(object sender, RoutedEventArgs args)
@@ -89,16 +97,39 @@ namespace SpectralPlayerApp.Dialogs
                     });  
                     if (selectedFileType.EndsWith("(.mp3)"))
                     {
-                        using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3"))
-                        using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, inputStream.WaveFormat, 320000))
+                        string monoStereoSelection = "";
+                        Dispatcher.Invoke(() =>
                         {
-                            byte[] buffer = new byte[4096];
-                            int bytesRead = 0;
-                            do
+                            monoStereoSelection = MSConvertComboBox.SelectedItem as string;
+                        });
+                        if (monoStereoSelection != "Leave as is" && monoStereoSelection != "")
+                        {
+                            IWaveProvider provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
+                            using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3"))
+                            using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, provider.WaveFormat, 320000))
                             {
-                                bytesRead = inputStream.Read(buffer, 0, buffer.Length);
-                                writer.Write(buffer, 0, bytesRead);
-                            } while (bytesRead > 0);
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                                    writer.Write(buffer, 0, bytesRead);
+                                } while (bytesRead > 0);
+                            }
+                        }
+                        else
+                        {
+                            using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3"))
+                            using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, inputStream.WaveFormat, 320000))
+                            {
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                                    writer.Write(buffer, 0, bytesRead);
+                                } while (bytesRead > 0);
+                            }
                         }
                     }
                     //else if (selectedFileType.EndsWith("(.wma)"))
@@ -112,22 +143,48 @@ namespace SpectralPlayerApp.Dialogs
                     //}
                     else if (selectedFileType.EndsWith("(.wav)"))
                     {
-                        using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.wav"))
-                        using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
+                        string monoStereoSelection = "";
+                        Dispatcher.Invoke(() => 
                         {
-                            byte[] buffer = new byte[4096];
-                            int bytesRead = 0;
-                            do
+                            monoStereoSelection = MSConvertComboBox.SelectedItem as string;
+                        });
+                        if (monoStereoSelection != "Leave as is" && monoStereoSelection != "")
+                        {
+                            IWaveProvider provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
+                            using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.wav"))
+                            using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
                             {
-                                bytesRead = inputStream.Read(buffer, 0, buffer.Length);
-                                writer.Write(buffer, 0, bytesRead);
-                            } while (bytesRead > 0);
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                                    writer.Write(buffer, 0, bytesRead);
+                                } while (bytesRead > 0);
+                            }
+                        }
+                        else
+                        {
+                            using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.wav"))
+                            using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
+                            {
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                                    writer.Write(buffer, 0, bytesRead);
+                                } while (bytesRead > 0);
+                            }
                         }
                     }
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show("Error converting " + filePaths[i] + ", message: " + e.Message);
+                    await callBack();
+                    inputStream?.Close();
+                    return;
                 }
                 finally
                 {
@@ -146,6 +203,28 @@ namespace SpectralPlayerApp.Dialogs
                 WaitingProgressBar.IsIndeterminate = false;
                 WaitingProgressBar.Value = WaitingProgressBar.Maximum;
             });
+        }
+
+        /// <summary>
+        /// Converts the given input wavestream into mono or stereo
+        /// </summary>
+        /// <param name="input">The input WaveStream to convert</param>
+        /// <param name="toMono">True for mono output, or false for stereo output</param>
+        /// <returns>A converted IWaveProvider of the original input in either mono or stereo</returns>
+        public IWaveProvider MonoStereoConvert(WaveStream input, bool toMono)
+        {
+            if (toMono)
+            {
+                var stmp = new StereoToMonoProvider16(input);
+                return stmp;
+            }
+            else
+            {
+                var mtsp = new MonoToStereoProvider16(input);
+                mtsp.LeftVolume = 0.7f;
+                mtsp.RightVolume = 0.7f; //0.7 on each to avoid double loud
+                return mtsp;
+            }
         }
 
         public void DoFileSelect(object sender, RoutedEventArgs args)
