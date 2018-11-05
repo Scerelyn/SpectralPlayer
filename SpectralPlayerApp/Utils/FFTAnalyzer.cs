@@ -70,7 +70,7 @@ namespace SpectralPlayerApp.Utils
         /// <summary>
         /// Performs FFT on a single float array of samples, then adds it into the ConvertedSampleFrames list
         /// </summary>
-        /// <param name="sampleFrame">The float array to transform viua FFT</param>
+        /// <param name="sampleFrame">The float array to transform via FFT</param>
         public void AnalyzeStep(float[] sampleFrame)
         {
             float[] transformed = new float[sampleFrame.Length];
