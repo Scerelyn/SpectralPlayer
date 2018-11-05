@@ -35,6 +35,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
 
         private IWavePlayer player;
         private ISampleProvider playerInputStream; //the stream that the player will use
+        private WaveStream backingWaveStream; //the backing wavestream that is the origin of the playerInputStream. Kept in order to allow for seeking and repositioning
         private DispatcherTimer timer = new DispatcherTimer(); // better than the normal timer bc no threading issues nor needing to use Dispatcher.Invoke
         private bool stopLock = false; // determines if a stop is deliberate, ie: to clear the audio buffer, or not
         private bool prevRecord = false; // determines if a stop should record the previously playing song into the history stack
@@ -189,7 +190,13 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     AudioFileReader fileStream = new AudioFileReader(nextSong.FilePath);
                     playerInputStream = fileStream;
                 }
-                FFTAnalyzer fft = new FFTAnalyzer(playerInputStream);
+                backingWaveStream = playerInputStream as WaveStream; // keep track of the old filestream, since its the only thing letting the app do seeking
+                if (playerInputStream.WaveFormat.BitsPerSample == 16) // convert if needed
+                {
+                    Wave16ToFloatProvider w16ToFloat = new Wave16ToFloatProvider(playerInputStream as IWaveProvider);
+                    playerInputStream = w16ToFloat.ToSampleProvider();
+                }
+                FFTAnalyzer fft = new FFTAnalyzer(playerInputStream, 1024, backingWaveStream);
                 playerInputStream = fft;
                 SpectrumAnalyzer.FFTAnalyzer = fft;
             }
@@ -218,7 +225,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 }
                 else
                 {
-                    SeekSlider.Maximum = (playerInputStream as WaveStream).TotalTime.TotalSeconds;
+                    SeekSlider.Maximum = backingWaveStream.TotalTime.TotalSeconds;
                 }
                 SeekSlider.IsEnabled = true;
 

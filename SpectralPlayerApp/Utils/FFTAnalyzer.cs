@@ -49,10 +49,17 @@ namespace SpectralPlayerApp.Utils
 
         public WaveFormat WaveFormat { get => Samples.WaveFormat; }
 
-        public WaveStream WaveStream { get => Samples as WaveStream; }
+        public WaveStream WaveStream { get; set; }
 
-        public FFTAnalyzer(ISampleProvider samples, int fftLength = 1024)
+        /// <summary>
+        /// Creates a Fourier Fast Transform analyzer ISampleProvider
+        /// </summary>
+        /// <param name="samples">The ISampleProvider to use</param>
+        /// <param name="fftLength">The length of the FFT grouping, should be a power of two, or left empty for a 1024 default</param>
+        /// <param name="backingStream">The backing WaveStream</param>
+        public FFTAnalyzer(ISampleProvider samples, int fftLength = 1024, WaveStream backingStream = null)
         {
+            WaveStream = backingStream;
             Samples = samples;
             FFTLength = fftLength;
             Channels = Samples.WaveFormat.Channels;
