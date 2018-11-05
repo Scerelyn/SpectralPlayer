@@ -22,7 +22,7 @@ namespace MusicLibraryLib
         private string _albumArtist = "";
         private string _artist = "Unknown Artist";
         private string _genre = "";
-        private string _year = "";
+        private string _year = "0";
         private int _trackNumber = 0;
 
         #endregion
