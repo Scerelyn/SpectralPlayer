@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SpectralPlayerApp.Utils
 {
-    public class FFTAnalyzer
+    public class FFTAnalyzer : ISampleProvider
     {
         /// <summary>
         /// An ISampleProvider to obtain samples from
@@ -21,9 +21,9 @@ namespace SpectralPlayerApp.Utils
         private Complex[] Data { get; set; }
 
         /// <summary>
-        /// A list of float arrays that are the transformed buffers from the sample provider
+        /// The FFT transformed float sample array
         /// </summary>
-        public List<float[]> ConvertedSampleFrames { get; private set; } = new List<float[]>();
+        private float[] Transformed { get; set; }
 
         /// <summary>
         /// The M value for FFT
@@ -40,6 +40,15 @@ namespace SpectralPlayerApp.Utils
         /// </summary>
         private int FFTLength { get; set; }
 
+        /// <summary>
+        /// Current write position for the Data array
+        /// </summary>
+        private int DataPos { get; set; } = 0;
+
+        public event EventHandler<float[]> CalculationDone;
+
+        public WaveFormat WaveFormat { get => Samples.WaveFormat; }
+
         public FFTAnalyzer(ISampleProvider samples, int fftLength = 1024)
         {
             Samples = samples;
@@ -50,47 +59,39 @@ namespace SpectralPlayerApp.Utils
         }
 
         /// <summary>
-        /// Reads all sample from Samples and creates a list of float arrays to transform
-        /// </summary>
-        /// <returns>A list of float arrays to be transformed via FFT</returns>
-        public List<float[]> GetFrames()
-        {
-            List<float[]> frames = new List<float[]>();
-            float[] buffer = new float[FFTLength];
-            int samplesRead = Samples.Read(buffer, 0, FFTLength);
-            while (samplesRead != 0)
-            {
-                frames.Add(buffer); //add to frame liist
-                buffer = new float[FFTLength]; //new array to clear the buffer
-                samplesRead = Samples.Read(buffer, 0, FFTLength); //read again
-            }
-            return frames;
-        }
-
-        /// <summary>
         /// Performs FFT on a single float array of samples, then adds it into the ConvertedSampleFrames list
         /// </summary>
-        /// <param name="sampleFrame">The float array to transform via FFT</param>
-        public void AnalyzeStep(float[] sampleFrame)
+        /// <param name="sample">The float sample to analyze</param>
+        public void AnalyzeStep(float sample)
         {
-            float[] transformed = new float[sampleFrame.Length];
-            int dataPos = 0;
-            for(int i = 0; i < sampleFrame.Length; i++)
+            Data[DataPos].X = (float)(sample * FastFourierTransform.HammingWindow(DataPos, FFTLength));
+            Data[DataPos].Y = 0;
+            DataPos++;
+            if (DataPos >= Data.Length) //reached the end of the data
             {
-                Data[dataPos].X = (float)(sampleFrame[i] * FastFourierTransform.HammingWindow(i, FFTLength));
-                Data[dataPos].Y = 0;
-                dataPos++;
-                if (dataPos >= Data.Length) //reached the end of the data
+                DataPos = 0; //reset
+                FastFourierTransform.FFT(true, M, Data); //transform
+                for(int j = 0; j < Data.Length; j++) //then write
                 {
-                    dataPos = 0; //reset
-                    FastFourierTransform.FFT(true, M, Data); //transform
-                    for(int j = 0; j < Data.Length; j++) //then write
-                    {
-                        transformed[j] = (float)Math.Sqrt((Data[j].X * Data[j].X) + (Data[j].Y * Data[j].Y));
-                    }
-                    ConvertedSampleFrames.Add(transformed);
+                    Transformed[j] = (float)Math.Sqrt((Data[j].X * Data[j].X) + (Data[j].Y * Data[j].Y));
                 }
+                //fire the event saying the transforming is done
+                CalculationDone(this, Transformed);
             }
+        }
+
+        public int Read(float[] buffer, int offset, int count)
+        {
+            int samplesRead = Samples.Read(buffer, offset, count); //let the other sampleprovider to that work
+            
+            //analyze the floats that came in
+            for(int i = 0; i < samplesRead; i++)
+            {
+                AnalyzeStep(buffer[i]);
+            }
+
+            //then give the samples read
+            return samplesRead;
         }
     }
 }

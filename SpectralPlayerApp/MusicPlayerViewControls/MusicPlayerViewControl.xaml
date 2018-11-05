@@ -22,7 +22,8 @@
                     <ColumnDefinition Width="70*"/>
                     <ColumnDefinition Width="15*"/>
                 </Grid.ColumnDefinitions>
-                <Label x:Name="ImageHoldingLabel" Grid.Column="1" Content="Visualizer here" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                
+                <Label Grid.Column="1" Visibility="Visible" x:Name="ImageHoldingLabel" Content="Visualizer here" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
 
             <Label x:Name="NowPlayingLabel" Grid.Row="1" Foreground="{StaticResource Dark_FontBrush}" HorizontalContentAlignment="Center" Content="Nothing is playing..."/>
