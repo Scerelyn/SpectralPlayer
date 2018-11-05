@@ -49,6 +49,8 @@ namespace SpectralPlayerApp.Utils
 
         public WaveFormat WaveFormat { get => Samples.WaveFormat; }
 
+        public WaveStream WaveStream { get => Samples as WaveStream; }
+
         public FFTAnalyzer(ISampleProvider samples, int fftLength = 1024)
         {
             Samples = samples;
@@ -56,6 +58,8 @@ namespace SpectralPlayerApp.Utils
             Channels = Samples.WaveFormat.Channels;
             M = (int)Math.Log(fftLength, 2);
             Data = new Complex[fftLength];
+            Transformed = new float[fftLength];
+            CalculationDone += (s, f) => { };
         }
 
         /// <summary>
@@ -77,6 +81,7 @@ namespace SpectralPlayerApp.Utils
                 }
                 //fire the event saying the transforming is done
                 CalculationDone(this, Transformed);
+
             }
         }
 
@@ -93,5 +98,6 @@ namespace SpectralPlayerApp.Utils
             //then give the samples read
             return samplesRead;
         }
+
     }
 }

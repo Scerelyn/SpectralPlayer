@@ -3,6 +3,7 @@ using NAudio.Flac;
 using NAudio.Vorbis;
 using NAudio.Wave;
 using NVorbis.Ogg;
+using SpectralPlayerApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -79,7 +80,14 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     if (stoppedArgs.Exception == null) // end of song reached
                     {
                         timer.Stop();
-                        (playerInputStream as WaveStream).Close();
+                        if (playerInputStream is FFTAnalyzer)
+                        {
+                            (playerInputStream as FFTAnalyzer).WaveStream.Close();
+                        }
+                        else
+                        {
+                            (playerInputStream as WaveStream).Close();
+                        }
                         if(prevRecord)
                         {
                             previousSongs.Push(activeSong); // push just played song onto the history stack
@@ -94,7 +102,14 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         if (playerInputStream != null) //not null means a song after the finished on exists
                         {
                             //set the seek bar 
-                            SeekSlider.Maximum = (playerInputStream as WaveStream).TotalTime.TotalSeconds;
+                            if (playerInputStream is FFTAnalyzer)
+                            {
+                                SeekSlider.Maximum = (playerInputStream as FFTAnalyzer).WaveStream.TotalTime.TotalSeconds;
+                            }
+                            else
+                            {
+                                SeekSlider.Maximum = (playerInputStream as WaveStream).TotalTime.TotalSeconds;
+                            }
                             SeekSlider.IsEnabled = true;
                             //setup the player
                             player.Init(playerInputStream);
@@ -112,7 +127,14 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     }
                     else //error occured, shut it all down
                     {
-                        (playerInputStream as WaveStream).Close();
+                        if (playerInputStream is FFTAnalyzer)
+                        {
+                            (playerInputStream as FFTAnalyzer).WaveStream.Close();
+                        }
+                        else
+                        {
+                            (playerInputStream as WaveStream).Close();
+                        }
                         playerInputStream = null;
                         SeekBarPos = 0;
                         SeekSlider.Value = 0;
@@ -167,6 +189,8 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     AudioFileReader fileStream = new AudioFileReader(nextSong.FilePath);
                     playerInputStream = fileStream;
                 }
+                FFTAnalyzer fft = new FFTAnalyzer(playerInputStream);
+                playerInputStream = fft;
             }
         }
 
@@ -187,7 +211,14 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 SetupImageVisualizer();
                 SetupNowPlayingLabel();
                 //set the seek bar 
-                SeekSlider.Maximum = (playerInputStream as WaveStream).TotalTime.TotalSeconds;
+                if (playerInputStream is FFTAnalyzer)
+                {
+                    SeekSlider.Maximum = (playerInputStream as FFTAnalyzer).WaveStream.TotalTime.TotalSeconds;
+                }
+                else
+                {
+                    SeekSlider.Maximum = (playerInputStream as WaveStream).TotalTime.TotalSeconds;
+                }
                 SeekSlider.IsEnabled = true;
 
                 //set volume
@@ -301,9 +332,18 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         /// <param name="args">The related event arguments with the event</param>
         public void DoSeekBarUpdate(object sender, EventArgs args)
         {
-            TimestampLabel.Content = (playerInputStream as WaveStream)?.CurrentTime.ToString(@"mm\:ss") ?? "00:00";
-            SeekBarPos = (playerInputStream as WaveStream).CurrentTime.TotalSeconds;
-            SeekSlider.Value = (playerInputStream as WaveStream).CurrentTime.TotalSeconds;
+            if (playerInputStream is FFTAnalyzer)
+            {
+                TimestampLabel.Content = (playerInputStream as FFTAnalyzer).WaveStream?.CurrentTime.ToString(@"mm\:ss") ?? "00:00";
+                SeekBarPos = (playerInputStream as FFTAnalyzer).WaveStream.CurrentTime.TotalSeconds;
+                SeekSlider.Value = (playerInputStream as FFTAnalyzer).WaveStream.CurrentTime.TotalSeconds;
+            }
+            else
+            {
+                TimestampLabel.Content = (playerInputStream as WaveStream)?.CurrentTime.ToString(@"mm\:ss") ?? "00:00";
+                SeekSlider.Value = (playerInputStream as WaveStream).CurrentTime.TotalSeconds;
+                SeekBarPos = (playerInputStream as WaveStream).CurrentTime.TotalSeconds;
+            }
         }
 
         /// <summary>
@@ -325,14 +365,28 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         {
             if (playerInputStream != null)
             {
-                (playerInputStream as WaveStream).CurrentTime = TimeSpan.FromSeconds(SeekSlider.Value);
+                if (playerInputStream is FFTAnalyzer)
+                {
+                    (playerInputStream as FFTAnalyzer).WaveStream.CurrentTime = TimeSpan.FromSeconds(SeekSlider.Value);
+                }
+                else
+                {
+                    (playerInputStream as WaveStream).CurrentTime = TimeSpan.FromSeconds(SeekSlider.Value);
+                }
                 if (player.PlaybackState == PlaybackState.Paused)
                 {
                     stopLock = true;
                     player.Stop(); // to flush the buffer, or else we get some of the song from before we moved playing
                 }
             }
-            TimestampLabel.Content = (playerInputStream as WaveStream).CurrentTime.ToString(@"mm\:ss");
+            if (playerInputStream is FFTAnalyzer)
+            {
+                TimestampLabel.Content = (playerInputStream as FFTAnalyzer).WaveStream.CurrentTime.ToString(@"mm\:ss");
+            }
+            else
+            {
+                TimestampLabel.Content = (playerInputStream as WaveStream).CurrentTime.ToString(@"mm\:ss");
+            }
             timer.Start();
         }
 
