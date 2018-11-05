@@ -191,6 +191,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 }
                 FFTAnalyzer fft = new FFTAnalyzer(playerInputStream);
                 playerInputStream = fft;
+                SpectrumAnalyzer.FFTAnalyzer = fft;
             }
         }
 

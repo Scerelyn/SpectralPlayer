@@ -22,8 +22,8 @@
                     <ColumnDefinition Width="70*"/>
                     <ColumnDefinition Width="15*"/>
                 </Grid.ColumnDefinitions>
-                
-                <Label Grid.Column="1" Visibility="Visible" x:Name="ImageHoldingLabel" Content="Visualizer here" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <local:SpectrumAnalyzerViewControl x:Name="SpectrumAnalyzer" Visibility="Visible" Grid.Column="1"/>
+                <Label Grid.Column="1" Visibility="Collapsed" x:Name="ImageHoldingLabel" Content="Visualizer here" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
 
             <Label x:Name="NowPlayingLabel" Grid.Row="1" Foreground="{StaticResource Dark_FontBrush}" HorizontalContentAlignment="Center" Content="Nothing is playing..."/>
