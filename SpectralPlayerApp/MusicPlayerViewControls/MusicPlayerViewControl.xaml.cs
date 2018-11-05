@@ -33,7 +33,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         #region Private fields
 
         private IWavePlayer player;
-        private WaveStream playerInputStream; //the stream that the player will use
+        private ISampleProvider playerInputStream; //the stream that the player will use
         private DispatcherTimer timer = new DispatcherTimer(); // better than the normal timer bc no threading issues nor needing to use Dispatcher.Invoke
         private bool stopLock = false; // determines if a stop is deliberate, ie: to clear the audio buffer, or not
         private bool prevRecord = false; // determines if a stop should record the previously playing song into the history stack
@@ -79,7 +79,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     if (stoppedArgs.Exception == null) // end of song reached
                     {
                         timer.Stop();
-                        playerInputStream.Close();
+                        (playerInputStream as WaveStream).Close();
                         if(prevRecord)
                         {
                             previousSongs.Push(activeSong); // push just played song onto the history stack
@@ -94,7 +94,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         if (playerInputStream != null) //not null means a song after the finished on exists
                         {
                             //set the seek bar 
-                            SeekSlider.Maximum = playerInputStream.TotalTime.TotalSeconds;
+                            SeekSlider.Maximum = (playerInputStream as WaveStream).TotalTime.TotalSeconds;
                             SeekSlider.IsEnabled = true;
                             //setup the player
                             player.Init(playerInputStream);
@@ -112,7 +112,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     }
                     else //error occured, shut it all down
                     {
-                        playerInputStream.Close();
+                        (playerInputStream as WaveStream).Close();
                         playerInputStream = null;
                         SeekBarPos = 0;
                         SeekSlider.Value = 0;
@@ -187,7 +187,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 SetupImageVisualizer();
                 SetupNowPlayingLabel();
                 //set the seek bar 
-                SeekSlider.Maximum = playerInputStream.TotalTime.TotalSeconds;
+                SeekSlider.Maximum = (playerInputStream as WaveStream).TotalTime.TotalSeconds;
                 SeekSlider.IsEnabled = true;
 
                 //set volume
@@ -301,9 +301,9 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         /// <param name="args">The related event arguments with the event</param>
         public void DoSeekBarUpdate(object sender, EventArgs args)
         {
-            TimestampLabel.Content = playerInputStream?.CurrentTime.ToString(@"mm\:ss") ?? "00:00";
-            SeekBarPos = playerInputStream.CurrentTime.TotalSeconds;
-            SeekSlider.Value = playerInputStream.CurrentTime.TotalSeconds;
+            TimestampLabel.Content = (playerInputStream as WaveStream)?.CurrentTime.ToString(@"mm\:ss") ?? "00:00";
+            SeekBarPos = (playerInputStream as WaveStream).CurrentTime.TotalSeconds;
+            SeekSlider.Value = (playerInputStream as WaveStream).CurrentTime.TotalSeconds;
         }
 
         /// <summary>
@@ -325,14 +325,14 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         {
             if (playerInputStream != null)
             {
-                playerInputStream.CurrentTime = TimeSpan.FromSeconds(SeekSlider.Value);
+                (playerInputStream as WaveStream).CurrentTime = TimeSpan.FromSeconds(SeekSlider.Value);
                 if (player.PlaybackState == PlaybackState.Paused)
                 {
                     stopLock = true;
                     player.Stop(); // to flush the buffer, or else we get some of the song from before we moved playing
                 }
             }
-            TimestampLabel.Content = playerInputStream.CurrentTime.ToString(@"mm\:ss");
+            TimestampLabel.Content = (playerInputStream as WaveStream).CurrentTime.ToString(@"mm\:ss");
             timer.Start();
         }
 
