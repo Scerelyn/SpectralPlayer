@@ -377,6 +377,17 @@ namespace SpectralPlayerApp
             cfd.ShowDialog();
         }
 
+        public void DoVisualizerSettings(object sender, RoutedEventArgs args)
+        {
+            VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(MusicPlayerControl.SpectrumAnalyzer.GraphLineBrush as SolidColorBrush, MusicPlayerControl.SpectrumAnalyzer.BackgroundBrush as SolidColorBrush);
+            vsd.ShowDialog();
+            if (vsd.DialogResult ?? false)
+            {
+                MusicPlayerControl.SpectrumAnalyzer.BackgroundBrush = vsd.SelectedBackgroundBrush;
+                MusicPlayerControl.SpectrumAnalyzer.GraphLineBrush = vsd.SelectedForegroundBrush;
+            }
+        }
+
         #endregion
     }
 }

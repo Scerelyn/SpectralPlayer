@@ -1,6 +1,7 @@
 ﻿using SpectralPlayerApp.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
     /// <summary>
     /// Interaction logic for SpectrumAnalyzerViewControl.xaml
     /// </summary>
-    public partial class SpectrumAnalyzerViewControl : UserControl
+    public partial class SpectrumAnalyzerViewControl : UserControl, INotifyPropertyChanged
     {
         /// <summary>
         /// The percentage of the transformed samples to actually use. 
@@ -45,8 +46,18 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             }
         }
 
-        public Brush BackgroundBrush { get; set; } = Brushes.WhiteSmoke;
-        public Brush GraphLineBrush { get; set; } = Brushes.Black;
+        private Brush backgroundBrush = Brushes.White;
+        private Brush graphLineBrush = Brushes.Black;
+        public Brush BackgroundBrush
+        {
+            get { return backgroundBrush; }
+            set { backgroundBrush = value; FieldChanged(); }
+        } 
+        public Brush GraphLineBrush
+        {
+            get { return graphLineBrush; }
+            set { graphLineBrush = value; FieldChanged(); }
+        }
 
         public SpectrumAnalyzerViewControl()
         {
@@ -70,6 +81,15 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 {
                     GraphLine.Points[i] = new Point(x, ratio); //else just overwrite
                 }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void FieldChanged(string field = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(field));
             }
         }
     }

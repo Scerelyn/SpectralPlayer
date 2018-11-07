@@ -18,6 +18,9 @@
             <MenuItem Header="_Edit">
                 <MenuItem Header="Convert File" Click="DoConvertFile"/>
             </MenuItem>
+            <MenuItem Header="_Settings">
+                <MenuItem Header="Visualizer settings" Click="DoVisualizerSettings"/>
+            </MenuItem>
         </Menu>
         <Grid> <!-- Body of player -->
             <Grid.ColumnDefinitions>
