@@ -66,7 +66,7 @@ namespace SpectralPlayerApp.Utils
             M = (int)Math.Log(fftLength, 2);
             Data = new Complex[fftLength];
             Transformed = new float[fftLength];
-            CalculationDone += (s, f) => { };
+            CalculationDone += (s, f) => { }; //prevent the listener from being null, so nothing breaks when this isnt being used
         }
 
         /// <summary>
@@ -75,10 +75,11 @@ namespace SpectralPlayerApp.Utils
         /// <param name="sample">The float sample to analyze</param>
         public void AnalyzeStep(float sample)
         {
+            //add the sample as a complex
             Data[DataPos].X = (float)(sample * FastFourierTransform.HammingWindow(DataPos, FFTLength));
             Data[DataPos].Y = 0;
-            DataPos++;
-            if (DataPos >= Data.Length) //reached the end of the data
+            DataPos++; // increment position of the data array
+            if (DataPos >= Data.Length) //reached the end of the data grouping, so tranform the data
             {
                 DataPos = 0; //reset
                 FastFourierTransform.FFT(true, M, Data); //transform
