@@ -60,33 +60,7 @@ namespace SpectralPlayerApp
             GenresControl.ParentWindow = this;
         }
 
-        public void DoAddFile(object sender, RoutedEventArgs args)
-        {
-            bool? result = OpenAudioFileDialog.ShowDialog();
-            if (result ?? false)
-            {
-                foreach(string name in OpenAudioFileDialog.FileNames)
-                {
-                    var tagFile = TagLib.File.Create(name);
-                    var tags = tagFile.Tag;
-
-                    SongLibrary.SongList.Add(new Song()
-                    {
-                        Name = tags.Title == "" ? "Unknown Song" : tags.Title,
-                        FilePath = name,
-                        Artist = tags.FirstPerformer == "" ? "Unknown Artist" : tags.FirstPerformer,
-                        AlbumName = tags.Album == "" ? "Unknown Album" : tags.Album,
-                        AlbumArtist = tags.FirstAlbumArtist,
-                        Genre = tags.FirstGenre,
-                        TrackNumber = (int)tags.Track,
-                        Year = tags.Year == 0 ? "" : tags.Year+"",
-                    });
-                }
-                UpdateLists();
-                XMLSerializeLibrary();
-                
-            }
-        }
+        #region Public methods
 
         /// <summary>
         /// Refreshes the music lists for the UI when the SongLibrary's song list changes
@@ -319,22 +293,6 @@ namespace SpectralPlayerApp
             }
         }
 
-        public void DoExport(object sender, RoutedEventArgs args)
-        {
-            XMLSerializeLibrary();
-        }
-
-        public void DoImport(object sender, RoutedEventArgs args)
-        {
-            XMLDeserializeLibrary();
-        }
-
-        public void DoConvertFile(object sender, RoutedEventArgs args)
-        {
-            ConvertFileDialog cfd = new ConvertFileDialog();
-            cfd.ShowDialog();
-        }
-
         /// <summary>
         /// Serializes the SongLibrary instance into an XML document
         /// </summary>
@@ -370,5 +328,55 @@ namespace SpectralPlayerApp
             }
             return false;
         }
+
+        #endregion
+
+        #region OnClick event handlers
+
+        public void DoAddFile(object sender, RoutedEventArgs args)
+        {
+            bool? result = OpenAudioFileDialog.ShowDialog();
+            if (result ?? false)
+            {
+                foreach(string name in OpenAudioFileDialog.FileNames)
+                {
+                    var tagFile = TagLib.File.Create(name);
+                    var tags = tagFile.Tag;
+
+                    SongLibrary.SongList.Add(new Song()
+                    {
+                        Name = tags.Title == "" ? "Unknown Song" : tags.Title,
+                        FilePath = name,
+                        Artist = tags.FirstPerformer == "" ? "Unknown Artist" : tags.FirstPerformer,
+                        AlbumName = tags.Album == "" ? "Unknown Album" : tags.Album,
+                        AlbumArtist = tags.FirstAlbumArtist,
+                        Genre = tags.FirstGenre,
+                        TrackNumber = (int)tags.Track,
+                        Year = tags.Year == 0 ? "" : tags.Year+"",
+                    });
+                }
+                UpdateLists();
+                XMLSerializeLibrary();
+                
+            }
+        }
+
+        public void DoExport(object sender, RoutedEventArgs args)
+        {
+            XMLSerializeLibrary();
+        }
+
+        public void DoImport(object sender, RoutedEventArgs args)
+        {
+            XMLDeserializeLibrary();
+        }
+
+        public void DoConvertFile(object sender, RoutedEventArgs args)
+        {
+            ConvertFileDialog cfd = new ConvertFileDialog();
+            cfd.ShowDialog();
+        }
+
+        #endregion
     }
 }
