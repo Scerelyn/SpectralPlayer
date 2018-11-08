@@ -385,6 +385,19 @@ namespace SpectralPlayerApp
             {
                 MusicPlayerControl.SpectrumAnalyzer.BackgroundBrush = vsd.SelectedBackgroundBrush;
                 MusicPlayerControl.SpectrumAnalyzer.GraphLineBrush = vsd.SelectedForegroundBrush;
+                switch (vsd.VisualizerChoice)
+                {
+                    case "Album Art":
+                        MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Visible;
+                        break;
+                    case "Spectrum":
+                        MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Visible;
+                        MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

@@ -21,6 +21,8 @@ namespace SpectralPlayerApp.Dialogs
     {
         public SolidColorBrush SelectedBackgroundBrush { get; set; }
         public SolidColorBrush SelectedForegroundBrush { get; set; }
+        public string VisualizerChoice { get; set; }
+
         public VisualizerSettingsDialog(SolidColorBrush fg, SolidColorBrush bg)
         {
             InitializeComponent();
@@ -36,12 +38,16 @@ namespace SpectralPlayerApp.Dialogs
             {
                 ForegroundColorComboBox.SelectedIndex = brushes.IndexOf(brushes.Where(a => a.Brush == fg).First());
             }
+
+            VisualizerSelectionComboBox.ItemsSource = new List<string>() { "Album Art", "Spectrum" };
+            VisualizerSelectionComboBox.SelectedIndex = 0;
         }
 
         public void DoCloseSave(object sender, RoutedEventArgs args)
         {
             SelectedBackgroundBrush = (BackgroundColorComboBox.SelectedItem as NamedSolidColorBrush).Brush;
             SelectedForegroundBrush = (ForegroundColorComboBox.SelectedItem as NamedSolidColorBrush).Brush;
+            VisualizerChoice = VisualizerSelectionComboBox.SelectedItem as string;
             DialogResult = true;
             Close();
         }
