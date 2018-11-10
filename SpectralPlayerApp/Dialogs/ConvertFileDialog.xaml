@@ -41,7 +41,8 @@
                 Grid.Column="1" 
                 Grid.Row="7"
                 Style="{StaticResource Dark_ButtonStyle}"
-                Click="DoFileConvert"/>
+                Click="DoFileConvert"
+                x:Name="Exportbutton"/>
         <ProgressBar x:Name="WaitingProgressBar" 
                      IsIndeterminate="True"
                      Grid.Column="2"

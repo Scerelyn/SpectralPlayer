@@ -62,6 +62,7 @@ namespace SpectralPlayerApp.Dialogs
                 WaitingProgressBar.Visibility = Visibility.Visible;
                 WaitingLabel.Visibility = Visibility.Visible;
                 WaitingLabel.Content = "Converting files, hang on...";
+                Exportbutton.IsEnabled = false;
                 await Task.Factory.StartNew( async () => {
                     await ConvertFiles(ConvertCallBack);
                 });
@@ -190,7 +191,7 @@ namespace SpectralPlayerApp.Dialogs
                                 } while (bytesRead > 0);
                             }
                         }
-                        TagLib.File outputTags = TagLib.File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3");
+                        TagLib.File outputTags = TagLib.File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.wav");
                         TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
                         outputTags.Tag.Album = inputTags.Tag.Album;
                         outputTags.Tag.AlbumArtists = inputTags.Tag.AlbumArtists;
@@ -228,6 +229,7 @@ namespace SpectralPlayerApp.Dialogs
                 WaitingLabel.Content = "Conversion Done";
                 WaitingProgressBar.IsIndeterminate = false;
                 WaitingProgressBar.Value = WaitingProgressBar.Maximum;
+                Exportbutton.IsEnabled = true;
             });
         }
 
