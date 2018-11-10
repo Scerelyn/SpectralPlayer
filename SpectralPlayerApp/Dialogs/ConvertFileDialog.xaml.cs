@@ -131,6 +131,19 @@ namespace SpectralPlayerApp.Dialogs
                                 } while (bytesRead > 0);
                             }
                         }
+                        TagLib.File outputTags = TagLib.File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3");
+                        TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
+                        outputTags.Tag.Album = inputTags.Tag.Album;
+                        outputTags.Tag.AlbumArtists = inputTags.Tag.AlbumArtists;
+                        outputTags.Tag.Genres = inputTags.Tag.Genres;
+                        outputTags.Tag.Performers = inputTags.Tag.Performers;
+                        outputTags.Tag.Year = inputTags.Tag.Year;
+                        outputTags.Tag.Pictures = inputTags.Tag.Pictures;
+                        outputTags.Tag.Title = inputTags.Tag.Title;
+                        outputTags.Tag.Track = inputTags.Tag.Track;
+                        outputTags.Save();
+                        inputTags.Dispose();
+                        outputTags.Dispose();
                     }
                     //else if (selectedFileType.EndsWith("(.wma)"))
                     //{
@@ -177,6 +190,19 @@ namespace SpectralPlayerApp.Dialogs
                                 } while (bytesRead > 0);
                             }
                         }
+                        TagLib.File outputTags = TagLib.File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3");
+                        TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
+                        outputTags.Tag.Album = inputTags.Tag.Album;
+                        outputTags.Tag.AlbumArtists = inputTags.Tag.AlbumArtists;
+                        outputTags.Tag.Genres = inputTags.Tag.Genres;
+                        outputTags.Tag.Performers = inputTags.Tag.Performers;
+                        outputTags.Tag.Year = inputTags.Tag.Year;
+                        outputTags.Tag.Pictures = inputTags.Tag.Pictures;
+                        outputTags.Tag.Title = inputTags.Tag.Title;
+                        outputTags.Tag.Track = inputTags.Tag.Track;
+                        outputTags.Save();
+                        inputTags.Dispose();
+                        outputTags.Dispose();
                     }
                 }
                 catch (Exception e)
