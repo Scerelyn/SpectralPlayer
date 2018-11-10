@@ -75,6 +75,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\ConvertSongDialog.xaml.cs">
+      <DependentUpon>ConvertSongDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\VisualizerSettingsDialog.xaml.cs">
       <DependentUpon>VisualizerSettingsDialog.xaml</DependentUpon>
     </Compile>
@@ -83,6 +86,10 @@
     </Compile>
     <Compile Include="Utils\FFTAnalyzer.cs" />
     <Page Include="Dialogs\ConvertFileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConvertSongDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

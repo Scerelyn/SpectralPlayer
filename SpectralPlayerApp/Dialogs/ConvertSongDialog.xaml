@@ -1,0 +1,67 @@
+﻿<Window x:Class="SpectralPlayerApp.Dialogs.ConvertSongDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpectralPlayerApp.Dialogs"
+             xmlns:libviews="clr-namespace:SpectralPlayerApp.LibraryViewControls"
+             mc:Ignorable="d" 
+             Title="Convert Song" Height="450" Width="800">
+    <Grid Background="{StaticResource Dark_BackGroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="60*"/>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Label Foreground="{StaticResource Dark_FontBrush}" 
+                   Content="Select song(s)" 
+                   FontSize="18" 
+                   HorizontalContentAlignment="Center"
+                   Grid.Row="0"/>
+            <ScrollViewer Grid.Row="1">
+                <libviews:LibraryAllSongsListViewControl x:Name="Library"/>
+            </ScrollViewer>
+            <DockPanel Margin="10" Grid.Row="2">
+                <Label Foreground="{StaticResource Dark_FontBrush}" 
+                       Content="Select Output Filetype: " 
+                       DockPanel.Dock="Left"/>
+                <ComboBox x:Name="OutputFileTypeComboBox" 
+                          DockPanel.Dock="Left"/>
+            </DockPanel>
+
+            <DockPanel Grid.Row="3">
+                <Button Style="{StaticResource Dark_ButtonStyle}" 
+                        Content="   Export   " 
+                        DockPanel.Dock="Left"
+                        Margin="5"
+                        Click="DoFileConvert"
+                        x:Name="Exportbutton"/>
+                <Label x:Name="WaitingLabel"
+                       Content="Converting files, hold on..." 
+                       Grid.Column="2" 
+                       Grid.Row="8"
+                       Visibility="Collapsed"
+                       Foreground="{StaticResource Dark_FontBrush}"
+                       VerticalAlignment="Center"/>
+                <ProgressBar x:Name="WaitingProgressBar" 
+                     IsIndeterminate="True"
+                     Grid.Column="2"
+                     Grid.Row="7"
+                     Visibility="Collapsed"
+                     Margin="5"/>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</Window>

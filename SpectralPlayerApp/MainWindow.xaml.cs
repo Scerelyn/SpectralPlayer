@@ -377,6 +377,12 @@ namespace SpectralPlayerApp
             cfd.ShowDialog();
         }
 
+        public void DoConvertSong(object sender, RoutedEventArgs args)
+        {
+            ConvertSongDialog csd = new ConvertSongDialog(SongLibrary);
+            csd.ShowDialog();
+        }
+
         public void DoVisualizerSettings(object sender, RoutedEventArgs args)
         {
             VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(MusicPlayerControl.SpectrumAnalyzer.GraphLineBrush as SolidColorBrush, MusicPlayerControl.SpectrumAnalyzer.BackgroundBrush as SolidColorBrush);
