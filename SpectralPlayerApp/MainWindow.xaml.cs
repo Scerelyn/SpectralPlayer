@@ -407,6 +407,21 @@ namespace SpectralPlayerApp
             }
         }
 
+        public void DoMonoStereoSwap(object sender, RoutedEventArgs args)
+        {
+            if (MusicPlayerControl.UseStereo)
+            {
+                MusicPlayerControl.UseStereo = false;
+                MonoStereoMenuItem.Header = "Use stereo audio for music output";
+            }
+            else
+            {
+                MusicPlayerControl.UseStereo = true;
+                MonoStereoMenuItem.Header = "Use mono audio for music output";
+            }
+            
+        }
+
         #endregion
     }
 }

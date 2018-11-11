@@ -47,6 +47,8 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
 
         #region Public Properties
 
+        public bool UseStereo { get; set; } = true;
+
         public double SeekBarPos
         {
             get => _seekBarPos;
@@ -179,6 +181,16 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 }
                 FFTAnalyzer fft = new FFTAnalyzer(playerInputStream, 1024, backingWaveStream);
                 playerInputStream = fft;
+                if (backingWaveStream.WaveFormat.Channels == 2 && !UseStereo)
+                {
+                    StereoToMonoProvider16 stm16 = new StereoToMonoProvider16(playerInputStream.ToWaveProvider16());
+                    playerInputStream = stm16.ToSampleProvider();
+                }
+                else if(backingWaveStream.WaveFormat.Channels == 1 && UseStereo)
+                {
+                    MonoToStereoProvider16 mts16 = new MonoToStereoProvider16(playerInputStream.ToWaveProvider16());
+                    playerInputStream = mts16.ToSampleProvider();
+                }
                 SpectrumAnalyzer.FFTAnalyzer = fft;
             }
         }

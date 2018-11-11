@@ -21,6 +21,7 @@
             </MenuItem>
             <MenuItem Header="_Settings">
                 <MenuItem Header="Visualizer settings" Click="DoVisualizerSettings"/>
+                <MenuItem Header="Use mono audio for music output" Click="DoMonoStereoSwap" x:Name="MonoStereoMenuItem"/>
             </MenuItem>
         </Menu>
         <Grid> <!-- Body of player -->
