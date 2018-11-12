@@ -37,6 +37,8 @@ namespace SpectralPlayerApp.Dialogs
             };
             OutputFileTypeComboBox.ItemsSource = Filetypes;
             OutputFileTypeComboBox.SelectedIndex = 0;
+            Library.LibraryListView.ContextMenu = null; //context menu makes no sense in this context, so just remove it
+            
         }
 
         public async void DoFileConvert(object sender, RoutedEventArgs args)
