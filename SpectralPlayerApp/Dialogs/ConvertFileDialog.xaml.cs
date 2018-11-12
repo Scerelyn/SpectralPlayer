@@ -24,7 +24,11 @@ namespace SpectralPlayerApp.Dialogs
     /// </summary>
     public partial class ConvertFileDialog : Window
     {
-        private OpenFileDialog openFileDialog = new OpenFileDialog() { Multiselect=true };
+        private OpenFileDialog openFileDialog = new OpenFileDialog()
+        {
+            Multiselect =true,
+            Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac)|*.mp3;*.wav;*.flac;*.ogg;*.aac"
+        };
         private string[] filePaths = new string[0];
         private string[] safeFileNames = new string[0];
 
@@ -209,9 +213,7 @@ namespace SpectralPlayerApp.Dialogs
                 catch (Exception e)
                 {
                     MessageBox.Show("Error converting " + filePaths[i] + ", message: " + e.Message);
-                    await callBack();
-                    inputStream?.Close();
-                    return;
+                    //just move onto the next song
                 }
                 finally
                 {
