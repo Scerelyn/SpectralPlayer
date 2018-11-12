@@ -32,9 +32,12 @@ namespace SpectralPlayerApp.Dialogs
         private string[] filePaths = new string[0];
         private string[] safeFileNames = new string[0];
 
-        public ConvertFileDialog()
+        private MainWindow parentWindow = null;
+
+        public ConvertFileDialog(MainWindow parentWindow=null)
         {
             InitializeComponent();
+            this.parentWindow = parentWindow;
             List<string> Filetypes = new List<string>() {
                 //"Windows Media Audio (.wma)",
                 "Waveform Audio File Format (.wav)",
@@ -66,6 +69,12 @@ namespace SpectralPlayerApp.Dialogs
                 WaitingProgressBar.Visibility = Visibility.Visible;
                 WaitingLabel.Visibility = Visibility.Visible;
                 WaitingLabel.Content = "Converting files, hang on...";
+                if (parentWindow != null)
+                {
+                    parentWindow.BackgroundTaskDockPanel.Visibility = Visibility.Visible;
+                    parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
+                }
+
                 Exportbutton.IsEnabled = false;
                 await Task.Factory.StartNew( async () => {
                     await ConvertFiles(ConvertCallBack);
@@ -99,6 +108,7 @@ namespace SpectralPlayerApp.Dialogs
                     {
                         selectedFileType = OutputFileTypeComboBox.SelectedItem as string;
                         WaitingLabel.Content = $"Now converting {safeFileNames[i]} to {selectedFileType.Substring(selectedFileType.IndexOf("(")+1,4)}";
+                        parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
                     });  
                     if (selectedFileType.EndsWith("(.mp3)"))
                     {
@@ -232,6 +242,11 @@ namespace SpectralPlayerApp.Dialogs
                 WaitingProgressBar.IsIndeterminate = false;
                 WaitingProgressBar.Value = WaitingProgressBar.Maximum;
                 Exportbutton.IsEnabled = true;
+                if (parentWindow != null)
+                {
+                    parentWindow.BackgroundTaskDockPanel.Visibility = Visibility.Collapsed;
+                    parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
+                }
             });
         }
 

@@ -24,6 +24,11 @@
                 <MenuItem Header="Use mono audio for music output" Click="DoMonoStereoSwap" x:Name="MonoStereoMenuItem"/>
             </MenuItem>
         </Menu>
+        <!-- Background task notifier -->
+        <DockPanel DockPanel.Dock="Top" x:Name="BackgroundTaskDockPanel" Visibility="Collapsed">
+            <Label x:Name="BackgroundTaskLabel" Content="Text" Foreground="{StaticResource Dark_FontBrush}"/>
+            <ProgressBar x:Name="BackgroundTaskProgressBar" IsIndeterminate="True"/>
+        </DockPanel>
         <Grid> <!-- Body of player -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40*"/>

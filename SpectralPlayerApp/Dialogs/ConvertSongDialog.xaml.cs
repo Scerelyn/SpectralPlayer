@@ -25,10 +25,12 @@ namespace SpectralPlayerApp.Dialogs
     /// </summary>
     public partial class ConvertSongDialog : Window
     {
-        List<Song> selectedSongs = new List<Song>();
-        public ConvertSongDialog(Library songLibrary)
+        private List<Song> selectedSongs = new List<Song>();
+        private MainWindow parentWindow = null;
+        public ConvertSongDialog(Library songLibrary, MainWindow parentWindow=null)
         {
             InitializeComponent();
+            this.parentWindow = parentWindow;
             Library.LibraryListView.ItemsSource = songLibrary.SongList;
             List<string> Filetypes = new List<string>() {
                 //"Windows Media Audio (.wma)",
@@ -58,6 +60,11 @@ namespace SpectralPlayerApp.Dialogs
                 WaitingProgressBar.Visibility = Visibility.Visible;
                 WaitingLabel.Visibility = Visibility.Visible;
                 WaitingLabel.Content = "Converting files, hang on...";
+                if (parentWindow != null)
+                {
+                    parentWindow.BackgroundTaskDockPanel.Visibility = Visibility.Visible;
+                    parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
+                }
                 Exportbutton.IsEnabled = false;
                 await Task.Factory.StartNew(async () => {
                     await ConvertFiles(ConvertCallBack);
@@ -91,6 +98,7 @@ namespace SpectralPlayerApp.Dialogs
                     {
                         selectedFileType = OutputFileTypeComboBox.SelectedItem as string;
                         WaitingLabel.Content = $"Now converting {selectedSongs[i].Name} to {selectedFileType.Substring(selectedFileType.IndexOf("(") + 1, 4)}";
+                        parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
                     });
                     if (selectedFileType.EndsWith("(.mp3)"))
                     {
@@ -173,6 +181,11 @@ namespace SpectralPlayerApp.Dialogs
                 WaitingProgressBar.IsIndeterminate = false;
                 WaitingProgressBar.Value = WaitingProgressBar.Maximum;
                 Exportbutton.IsEnabled = true;
+                if (parentWindow != null)
+                {
+                    parentWindow.BackgroundTaskDockPanel.Visibility = Visibility.Collapsed;
+                    parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
+                }
                 selectedSongs.Clear();
             });
         }

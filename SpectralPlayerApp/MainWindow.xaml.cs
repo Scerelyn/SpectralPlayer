@@ -373,13 +373,13 @@ namespace SpectralPlayerApp
 
         public void DoConvertFile(object sender, RoutedEventArgs args)
         {
-            ConvertFileDialog cfd = new ConvertFileDialog();
+            ConvertFileDialog cfd = new ConvertFileDialog(this);
             cfd.ShowDialog();
         }
 
         public void DoConvertSong(object sender, RoutedEventArgs args)
         {
-            ConvertSongDialog csd = new ConvertSongDialog(SongLibrary);
+            ConvertSongDialog csd = new ConvertSongDialog(SongLibrary, this);
             csd.ShowDialog();
         }
 
