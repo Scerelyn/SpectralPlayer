@@ -36,12 +36,7 @@ namespace SpectralPlayerApp
         {
             InitializeComponent();
 
-            if (!XMLDeserializeLibrary())
-            {
-                SongLibrary = new Library();
-            }
-
-            UpdateLists();
+            AsyncDeserialize(BackgroundCallback);
 
             OpenAudioFileDialog.Multiselect = true;
             OpenAudioFileDialog.Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac)|*.mp3;*.wav;*.flac;*.ogg;*.aac";
@@ -284,7 +279,7 @@ namespace SpectralPlayerApp
                         file.Save();
                     }
                     UpdateLists();
-                    XMLSerializeLibrary();
+                    AsyncDeserialize(BackgroundCallback);
                 }
                 catch (UnsupportedFormatException ufe)
                 {
@@ -297,13 +292,13 @@ namespace SpectralPlayerApp
         /// Serializes the SongLibrary instance into an XML document
         /// </summary>
         /// <param name="path">The path to write the XML file to</param>
-        public void XMLSerializeLibrary(string path="data/library.xml")
+        public void XMLSerializeLibrary(Library library, string path="data/library.xml")
         {
             XmlRootAttribute xmlRoot = new XmlRootAttribute("Library");
             XmlSerializer ser = new XmlSerializer(typeof(Library), xmlRoot);
             using (System.IO.FileStream export = System.IO.File.Create(path))
             {
-                ser.Serialize(export, SongLibrary);
+                ser.Serialize(export, library);
             }
                 
         }
@@ -323,10 +318,45 @@ namespace SpectralPlayerApp
                 {
                     SongLibrary = ser.Deserialize(import) as Library;
                 }
-                UpdateLists();
+                Dispatcher.Invoke(() => { UpdateLists(); });
                 return true;
             }
             return false;
+        }
+
+        public async Task AsyncDeserialize(Func<Task> callBack)
+        {
+            Dispatcher.Invoke(() => {
+                BackgroundTaskLabel.Content = "Opening Library...";
+                BackgroundTaskDockPanel.Visibility = Visibility.Visible;
+            });
+            bool result = false;
+            await Task.Factory.StartNew(() => {
+                result = XMLDeserializeLibrary();
+            });
+            if (!result)
+            {
+                SongLibrary = new Library();
+            }
+            UpdateLists();
+            await callBack();
+        }
+
+        public async Task AsyncSerialize(Func<Task> callBack)
+        {
+            Dispatcher.Invoke(() => {
+                BackgroundTaskLabel.Content = "Saving Library...";
+                BackgroundTaskDockPanel.Visibility = Visibility.Visible;
+            });
+            await Task.Factory.StartNew(() => {
+                XMLSerializeLibrary(SongLibrary);
+            });
+            await callBack();
+        }
+
+        private async Task BackgroundCallback()
+        {
+            BackgroundTaskDockPanel.Visibility = Visibility.Collapsed;
         }
 
         #endregion
@@ -356,19 +386,19 @@ namespace SpectralPlayerApp
                     });
                 }
                 UpdateLists();
-                XMLSerializeLibrary();
+                AsyncSerialize(BackgroundCallback);
                 
             }
         }
 
         public void DoExport(object sender, RoutedEventArgs args)
         {
-            XMLSerializeLibrary();
+            AsyncSerialize(BackgroundCallback);
         }
 
         public void DoImport(object sender, RoutedEventArgs args)
         {
-            XMLDeserializeLibrary();
+            AsyncDeserialize(BackgroundCallback);
         }
 
         public void DoConvertFile(object sender, RoutedEventArgs args)
