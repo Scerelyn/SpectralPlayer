@@ -291,11 +291,16 @@ namespace SpectralPlayerApp
         /// <summary>
         /// Serializes the SongLibrary instance into an XML document
         /// </summary>
+        /// <param name="library">The Library instance to serialize</param>
         /// <param name="path">The path to write the XML file to</param>
         public void XMLSerializeLibrary(Library library, string path="data/library.xml")
         {
             XmlRootAttribute xmlRoot = new XmlRootAttribute("Library");
             XmlSerializer ser = new XmlSerializer(typeof(Library), xmlRoot);
+            if (!System.IO.File.Exists(path))
+            {
+                System.IO.Directory.CreateDirectory("data");
+            }
             using (System.IO.FileStream export = System.IO.File.Create(path))
             {
                 ser.Serialize(export, library);
