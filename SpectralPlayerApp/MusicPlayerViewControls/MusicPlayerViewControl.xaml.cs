@@ -84,7 +84,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     {
                         timer.Stop();
                         backingWaveStream.Close();
-                        Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/play.png")) };
+                        
                         if(prevRecord)
                         {
                             previousSongs.Push(activeSong); // push just played song onto the history stack
@@ -114,6 +114,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                             SeekSlider.Value = 0;
                             SeekSlider.IsEnabled = false;
                             timer.Stop();
+                            Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/play.png")) };
                         }
                     }
                     else //error occured, shut it all down
