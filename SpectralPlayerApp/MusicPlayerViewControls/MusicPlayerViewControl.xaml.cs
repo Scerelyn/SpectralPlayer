@@ -174,13 +174,19 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     playerInputStream = fileStream;
                 }
                 backingWaveStream = playerInputStream as WaveStream; // keep track of the old filestream, since its the only thing letting the app do seeking
+
                 if (playerInputStream.WaveFormat.BitsPerSample == 16) // convert if needed
                 {
                     Wave16ToFloatProvider w16ToFloat = new Wave16ToFloatProvider(playerInputStream as IWaveProvider);
                     playerInputStream = w16ToFloat.ToSampleProvider();
                 }
+
                 FFTAnalyzer fft = new FFTAnalyzer(playerInputStream, 1024, backingWaveStream);
                 playerInputStream = fft;
+
+                VolumePeakAnalyzer vpa = new VolumePeakAnalyzer(playerInputStream, 1024);
+                playerInputStream = vpa;
+
                 if (backingWaveStream.WaveFormat.Channels == 2 && !UseStereo)
                 {
                     StereoToMonoProvider16 stm16 = new StereoToMonoProvider16(playerInputStream.ToWaveProvider16());
@@ -192,6 +198,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     playerInputStream = mts16.ToSampleProvider();
                 }
                 SpectrumAnalyzer.FFTAnalyzer = fft;
+                PeakMeterAnalyzer.PeakAnalyzer = vpa;
             }
         }
 

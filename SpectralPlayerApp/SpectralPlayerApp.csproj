@@ -81,10 +81,14 @@
     <Compile Include="Dialogs\VisualizerSettingsDialog.xaml.cs">
       <DependentUpon>VisualizerSettingsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MusicPlayerViewControls\PeakMeterViewControl.xaml.cs">
+      <DependentUpon>PeakMeterViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MusicPlayerViewControls\SpectrumAnalyzerViewControl.xaml.cs">
       <DependentUpon>SpectrumAnalyzerViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\FFTAnalyzer.cs" />
+    <Compile Include="Utils\VolumePeakAnalyzer.cs" />
     <Page Include="Dialogs\ConvertFileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,6 +159,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MusicPlayerViewControls\MusicPlayerViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MusicPlayerViewControls\PeakMeterViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

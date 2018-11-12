@@ -22,7 +22,8 @@
                     <ColumnDefinition Width="70*"/>
                     <ColumnDefinition Width="15*"/>
                 </Grid.ColumnDefinitions>
-                <local:SpectrumAnalyzerViewControl x:Name="SpectrumAnalyzer" Visibility="Visible" Grid.Column="1"/>
+                <local:SpectrumAnalyzerViewControl x:Name="SpectrumAnalyzer" Visibility="Collapsed" Grid.Column="1"/>
+                <local:PeakMeterViewControl x:Name="PeakMeterAnalyzer" Visibility="Visible" Grid.Column="1"/>
                 <Label Grid.Column="1" Visibility="Collapsed" x:Name="ImageHoldingLabel" Background="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
 

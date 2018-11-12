@@ -391,14 +391,23 @@ namespace SpectralPlayerApp
             {
                 MusicPlayerControl.SpectrumAnalyzer.BackgroundBrush = vsd.SelectedBackgroundBrush;
                 MusicPlayerControl.SpectrumAnalyzer.GraphLineBrush = vsd.SelectedForegroundBrush;
+                MusicPlayerControl.PeakMeterAnalyzer.CanvasBrush = vsd.SelectedBackgroundBrush;
+                MusicPlayerControl.PeakMeterAnalyzer.MeterBrush = vsd.SelectedForegroundBrush;
                 switch (vsd.VisualizerChoice)
                 {
                     case "Album Art":
                         MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Visible;
                         break;
                     case "Spectrum":
                         MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Visible;
+                        MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
+                        break;
+                    case "Peak Meter":
+                        MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Visible;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
                         break;
                     default:

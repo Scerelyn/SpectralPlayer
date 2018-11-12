@@ -39,7 +39,7 @@ namespace SpectralPlayerApp.Dialogs
                 ForegroundColorComboBox.SelectedIndex = brushes.IndexOf(brushes.Where(a => a.Brush == fg).First());
             }
 
-            VisualizerSelectionComboBox.ItemsSource = new List<string>() { "Album Art", "Spectrum" };
+            VisualizerSelectionComboBox.ItemsSource = new List<string>() { "Album Art", "Spectrum", "Peak Meter" };
             VisualizerSelectionComboBox.SelectedIndex = 0;
         }
 
