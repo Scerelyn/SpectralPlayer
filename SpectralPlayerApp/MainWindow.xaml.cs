@@ -279,7 +279,7 @@ namespace SpectralPlayerApp
                         file.Save();
                     }
                     UpdateLists();
-                    AsyncDeserialize(BackgroundCallback);
+                    AsyncSerialize(BackgroundCallback);
                 }
                 catch (UnsupportedFormatException ufe)
                 {
