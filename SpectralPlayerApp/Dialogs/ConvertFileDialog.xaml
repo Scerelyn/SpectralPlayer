@@ -22,6 +22,8 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="10*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         
@@ -39,19 +41,19 @@
         <Button Content="Export"
                 FontSize="24"
                 Grid.Column="1" 
-                Grid.Row="7"
+                Grid.Row="9"
                 Style="{StaticResource Dark_ButtonStyle}"
                 Click="DoFileConvert"
                 x:Name="Exportbutton"/>
         <ProgressBar x:Name="WaitingProgressBar" 
                      IsIndeterminate="True"
                      Grid.Column="2"
-                     Grid.Row="7"
+                     Grid.Row="9"
                      Visibility="Collapsed"/>
         <Label x:Name="WaitingLabel"
                Content="Converting files, hold on..." 
                Grid.Column="2" 
-               Grid.Row="8"
+               Grid.Row="10"
                Visibility="Collapsed"
                Foreground="{StaticResource Dark_FontBrush}"/>
         <Label Content="File to convert:"
@@ -81,5 +83,21 @@
         <ComboBox x:Name="MSConvertComboBox"
                   Grid.Column="2"
                   Grid.Row="5"/>
+        <Label Content="Output folder:" 
+               Foreground="{StaticResource Dark_FontBrush}" 
+               VerticalContentAlignment="Center"
+               HorizontalAlignment="Center"
+               FontSize="24"
+               Grid.Column="1" 
+               Grid.Row="7"/>
+        <DockPanel Grid.Column="2" Grid.Row="7">
+            <Button Content="  Select  " 
+                    Style="{StaticResource Dark_ButtonStyle}" 
+                    Click="DoSelectOutputFolder"/>
+            <Label x:Name="OutputFolderLabel"
+                   Content="Select a folder..." 
+                   Foreground="{StaticResource Dark_FontBrush}" 
+                   VerticalContentAlignment="Center"/>
+        </DockPanel>
     </Grid>
 </Window>

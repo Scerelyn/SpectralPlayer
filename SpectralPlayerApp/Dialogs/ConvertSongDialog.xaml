@@ -9,20 +9,21 @@
              Title="Convert Song" Height="450" Width="800">
     <Grid Background="{StaticResource Dark_BackGroundBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="90*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="80*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*"/>
                 <RowDefinition Height="60*"/>
                 <RowDefinition Height="15*"/>
+                <RowDefinition Height="10*"/>
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             <Label Foreground="{StaticResource Dark_FontBrush}" 
@@ -40,8 +41,17 @@
                 <ComboBox x:Name="OutputFileTypeComboBox" 
                           DockPanel.Dock="Left"/>
             </DockPanel>
-
             <DockPanel Grid.Row="3">
+                <Button Content="   Select   " 
+                        Style="{StaticResource Dark_ButtonStyle}"
+                        Margin="5"
+                        Click="DoSelectOutputFolder"/>
+                <Label x:Name="OutputFolderLabel" 
+                       Content="Select an output folder..."
+                       VerticalContentAlignment="Center"
+                       Foreground="{StaticResource Dark_FontBrush}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="4">
                 <Button Style="{StaticResource Dark_ButtonStyle}" 
                         Content="   Export   " 
                         DockPanel.Dock="Left"

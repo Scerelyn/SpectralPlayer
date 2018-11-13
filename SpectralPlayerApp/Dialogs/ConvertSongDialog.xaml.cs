@@ -2,6 +2,7 @@
 using NAudio.Flac;
 using NAudio.Vorbis;
 using NAudio.Wave;
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,6 +28,8 @@ namespace SpectralPlayerApp.Dialogs
     {
         private List<Song> selectedSongs = new List<Song>();
         private MainWindow parentWindow = null;
+        private VistaFolderBrowserDialog folderBrowserDialog = new VistaFolderBrowserDialog();
+        private string outputPath;
         public ConvertSongDialog(Library songLibrary, MainWindow parentWindow=null)
         {
             InitializeComponent();
@@ -52,6 +55,10 @@ namespace SpectralPlayerApp.Dialogs
             if (selectedSongs.Count() <= 0)
             {
                 MessageBox.Show("Select files first!");
+            }
+            else if (!Directory.Exists(outputPath))
+            {
+                MessageBox.Show("Select and output folder!");
             }
             else
             {
@@ -102,7 +109,7 @@ namespace SpectralPlayerApp.Dialogs
                     });
                     if (selectedFileType.EndsWith("(.mp3)"))
                     {
-                        using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{selectedSongs[i].Name}.mp3"))
+                        using (FileStream fileStream = File.Create($"{outputPath}/{selectedSongs[i].Name}.mp3"))
                         using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
                         {
                             byte[] buffer = new byte[4096];
@@ -114,7 +121,7 @@ namespace SpectralPlayerApp.Dialogs
                             } while (bytesRead > 0);
                         }
 
-                        TagLib.File outputTags = TagLib.File.Create($"c:/temp/conversiontest/{selectedSongs[i].Name}.mp3");
+                        TagLib.File outputTags = TagLib.File.Create($"{outputPath}/{selectedSongs[i].Name}.mp3");
                         TagLib.File inputTags = TagLib.File.Create(selectedSongs[i].FilePath);
                         outputTags.Tag.Album = inputTags.Tag.Album;
                         outputTags.Tag.AlbumArtists = inputTags.Tag.AlbumArtists;
@@ -130,7 +137,7 @@ namespace SpectralPlayerApp.Dialogs
                     }
                     else if (selectedFileType.EndsWith("(.wav)"))
                     {
-                        using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{selectedSongs[i].Name}.wav"))
+                        using (FileStream fileStream = File.Create($"{outputPath}/{selectedSongs[i].Name}.wav"))
                         using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
                         {
                             byte[] buffer = new byte[4096];
@@ -142,7 +149,7 @@ namespace SpectralPlayerApp.Dialogs
                             } while (bytesRead > 0);
                         }
 
-                        TagLib.File outputTags = TagLib.File.Create($"c:/temp/conversiontest/{selectedSongs[i].Name}.wav");
+                        TagLib.File outputTags = TagLib.File.Create($"{outputPath}/{selectedSongs[i].Name}.wav");
                         TagLib.File inputTags = TagLib.File.Create(selectedSongs[i].FilePath);
                         outputTags.Tag.Album = inputTags.Tag.Album;
                         outputTags.Tag.AlbumArtists = inputTags.Tag.AlbumArtists;
@@ -190,5 +197,14 @@ namespace SpectralPlayerApp.Dialogs
             });
         }
 
+        public void DoSelectOutputFolder(object sender, RoutedEventArgs args)
+        {
+            bool? result = folderBrowserDialog.ShowDialog();
+            if (result ?? false)
+            {
+                outputPath = folderBrowserDialog.SelectedPath;
+                OutputFolderLabel.Content = outputPath;
+            }
+        }
     }
 }

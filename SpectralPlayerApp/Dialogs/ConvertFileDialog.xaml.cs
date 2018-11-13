@@ -2,6 +2,7 @@
 using NAudio.Flac;
 using NAudio.Vorbis;
 using NAudio.Wave;
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +30,9 @@ namespace SpectralPlayerApp.Dialogs
             Multiselect =true,
             Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac)|*.mp3;*.wav;*.flac;*.ogg;*.aac"
         };
+        private VistaFolderBrowserDialog folderBrowserDialog = new VistaFolderBrowserDialog();
+
+        private string outputPath;
         private string[] filePaths = new string[0];
         private string[] safeFileNames = new string[0];
 
@@ -61,6 +65,10 @@ namespace SpectralPlayerApp.Dialogs
             if (filePaths.Count() <= 0)
             {
                 MessageBox.Show("Select files first!");
+            }
+            else if (!Directory.Exists(outputPath))
+            {
+                MessageBox.Show("Select a valid folder for output");
             }
             else
             {
@@ -120,7 +128,7 @@ namespace SpectralPlayerApp.Dialogs
                         if (monoStereoSelection != "Leave as is" && monoStereoSelection != "")
                         {
                             IWaveProvider provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
-                            using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3"))
+                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.mp3"))
                             using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, provider.WaveFormat, 320000))
                             {
                                 byte[] buffer = new byte[4096];
@@ -134,7 +142,7 @@ namespace SpectralPlayerApp.Dialogs
                         }
                         else
                         {
-                            using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3"))
+                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.mp3"))
                             using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, inputStream.WaveFormat, 320000))
                             {
                                 byte[] buffer = new byte[4096];
@@ -146,7 +154,7 @@ namespace SpectralPlayerApp.Dialogs
                                 } while (bytesRead > 0);
                             }
                         }
-                        TagLib.File outputTags = TagLib.File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.mp3");
+                        TagLib.File outputTags = TagLib.File.Create($"{outputPath}//{safeFileNames[i]}.mp3");
                         TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
                         outputTags.Tag.Album = inputTags.Tag.Album;
                         outputTags.Tag.AlbumArtists = inputTags.Tag.AlbumArtists;
@@ -179,7 +187,7 @@ namespace SpectralPlayerApp.Dialogs
                         if (monoStereoSelection != "Leave as is" && monoStereoSelection != "")
                         {
                             IWaveProvider provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
-                            using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.wav"))
+                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
                             using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
                             {
                                 byte[] buffer = new byte[4096];
@@ -193,7 +201,7 @@ namespace SpectralPlayerApp.Dialogs
                         }
                         else
                         {
-                            using (FileStream fileStream = File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.wav"))
+                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
                             using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
                             {
                                 byte[] buffer = new byte[4096];
@@ -205,7 +213,7 @@ namespace SpectralPlayerApp.Dialogs
                                 } while (bytesRead > 0);
                             }
                         }
-                        TagLib.File outputTags = TagLib.File.Create($"c:/temp/conversiontest/{safeFileNames[i]}.wav");
+                        TagLib.File outputTags = TagLib.File.Create($"{outputPath}/{safeFileNames[i]}.wav");
                         TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
                         outputTags.Tag.Album = inputTags.Tag.Album;
                         outputTags.Tag.AlbumArtists = inputTags.Tag.AlbumArtists;
@@ -284,6 +292,16 @@ namespace SpectralPlayerApp.Dialogs
                 {
                     FileLabel.Content = FileLabel.Content + s + ", ";
                 }
+            }
+        }
+
+        public void DoSelectOutputFolder(object sender, RoutedEventArgs args)
+        {
+            bool? result = folderBrowserDialog.ShowDialog();
+            if (result ?? false)
+            {
+                outputPath = folderBrowserDialog.SelectedPath;
+                OutputFolderLabel.Content = outputPath;
             }
         }
     }
