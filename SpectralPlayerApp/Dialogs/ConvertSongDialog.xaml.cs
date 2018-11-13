@@ -110,7 +110,7 @@ namespace SpectralPlayerApp.Dialogs
                     if (selectedFileType.EndsWith("(.mp3)"))
                     {
                         using (FileStream fileStream = File.Create($"{outputPath}/{selectedSongs[i].Name}.mp3"))
-                        using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
+                        using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, inputStream.WaveFormat, 320000))
                         {
                             byte[] buffer = new byte[4096];
                             int bytesRead = 0;
