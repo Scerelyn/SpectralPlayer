@@ -59,6 +59,8 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             set { graphLineBrush = value; FieldChanged(); }
         }
 
+        public bool UseDecibelScale { get; set; } = false;
+
         public SpectrumAnalyzerViewControl()
         {
             InitializeComponent();
@@ -72,14 +74,19 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             double x = 0;
             for (int i = 0; i < transformedData.Length*ReductionRatio; i++, x+=xStep)
             {
-                double ratio = -20*Math.Log10(transformedData[i]);
+                double plotY = 
+                    UseDecibelScale 
+                    ? -20 * Math.Log10(transformedData[i]) //decibel scale
+                    : VisualCanvas.ActualHeight - (5000 * transformedData[i]); //linear scale
+                plotY = plotY > VisualCanvas.ActualHeight ? VisualCanvas.ActualHeight : plotY; // limit the max value to avoid infinite values
+
                 if (GraphLine.Points.Count <= i)
                 {
-                    GraphLine.Points.Add(new Point(x, ratio)); //add if nothing there
+                    GraphLine.Points.Add(new Point(x, plotY)); //add if nothing there
                 }
                 else
                 {
-                    GraphLine.Points[i] = new Point(x, ratio); //else just overwrite
+                    GraphLine.Points[i] = new Point(x, plotY); //else just overwrite
                 }
             }
         }
