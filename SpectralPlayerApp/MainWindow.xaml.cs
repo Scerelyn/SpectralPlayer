@@ -39,7 +39,7 @@ namespace SpectralPlayerApp
             AsyncDeserialize(BackgroundCallback);
 
             OpenAudioFileDialog.Multiselect = true;
-            OpenAudioFileDialog.Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac)|*.mp3;*.wav;*.flac;*.ogg;*.aac";
+            OpenAudioFileDialog.Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac;*.m4a)|*.mp3;*.wav;*.flac;*.ogg;*.aac;*.m4a";
 
             AllSongsControl.UpNextControl = UpNextControl;
             MusicPlayerControl.UpNextControl = UpNextControl;
