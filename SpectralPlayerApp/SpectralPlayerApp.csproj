@@ -93,6 +93,9 @@
     <Compile Include="MusicPlayerViewControls\SpectrumAnalyzerViewControl.xaml.cs">
       <DependentUpon>SpectrumAnalyzerViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MusicPlayerViewControls\SpectrumPeakViewControl.xaml.cs">
+      <DependentUpon>SpectrumPeakViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\FFTAnalyzer.cs" />
     <Compile Include="Utils\VolumePeakAnalyzer.cs" />
     <Page Include="Dialogs\ConvertFileDialog.xaml">
@@ -173,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MusicPlayerViewControls\SpectrumAnalyzerViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MusicPlayerViewControls\SpectrumPeakViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
