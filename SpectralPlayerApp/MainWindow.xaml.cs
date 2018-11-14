@@ -428,22 +428,33 @@ namespace SpectralPlayerApp
                 MusicPlayerControl.SpectrumAnalyzer.GraphLineBrush = vsd.SelectedForegroundBrush;
                 MusicPlayerControl.PeakMeterAnalyzer.CanvasBrush = vsd.SelectedBackgroundBrush;
                 MusicPlayerControl.PeakMeterAnalyzer.MeterBrush = vsd.SelectedForegroundBrush;
+                MusicPlayerControl.SpectrumPeakAnalyzer.BackgroundBrush = vsd.SelectedBackgroundBrush;
+                MusicPlayerControl.SpectrumPeakAnalyzer.BarBrush = vsd.SelectedForegroundBrush;
                 switch (vsd.VisualizerChoice)
                 {
                     case "Album Art":
                         MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Visible;
+                        MusicPlayerControl.SpectrumPeakAnalyzer.Visibility = Visibility.Collapsed;
                         break;
                     case "Spectrum":
                         MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Visible;
                         MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.SpectrumPeakAnalyzer.Visibility = Visibility.Collapsed;
                         break;
                     case "Peak Meter":
                         MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Visible;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.SpectrumPeakAnalyzer.Visibility = Visibility.Collapsed;
+                        break;
+                    case "Spectrum Peak":
+                        MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
+                        MusicPlayerControl.SpectrumPeakAnalyzer.Visibility = Visibility.Visible;
                         break;
                     default:
                         break;

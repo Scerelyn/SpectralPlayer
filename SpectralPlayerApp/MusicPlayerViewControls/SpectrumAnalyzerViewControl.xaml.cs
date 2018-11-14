@@ -79,7 +79,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     ? -20 * Math.Log10(transformedData[i]) //decibel scale
                     : VisualCanvas.ActualHeight - (5000 * transformedData[i]); //linear scale
                 plotY = plotY > VisualCanvas.ActualHeight ? VisualCanvas.ActualHeight : plotY; // limit the max value to avoid infinite values
-
+                plotY = plotY < 0 ? 0 : plotY; // and avoid negatives
                 if (GraphLine.Points.Count <= i)
                 {
                     GraphLine.Points.Add(new Point(x, plotY)); //add if nothing there

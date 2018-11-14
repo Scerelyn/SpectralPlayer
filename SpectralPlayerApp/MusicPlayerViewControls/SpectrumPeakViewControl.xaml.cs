@@ -87,6 +87,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         ? -20 * Math.Log10(e[i]) //decibel scale
                         : VisualCanvas.ActualHeight - (50000 * e[i]); //linear scale
                 plotY = plotY > VisualCanvas.ActualHeight ? VisualCanvas.ActualHeight : plotY; // limit the max value to avoid infinite values
+                plotY = plotY < 0 ? 0 : plotY; // and avoid negatives
                 groupingMax = Math.Max(groupingMax, plotY); //find max
                 groupingCount++;
                 if (groupingCount >= groupingSize) // if the grouping is at max size
