@@ -459,6 +459,8 @@ namespace SpectralPlayerApp
                     default:
                         break;
                 }
+                MusicPlayerControl.SpectrumAnalyzer.UseDecibelScale = vsd.DecibelScaleCheckBox.IsChecked ?? false;
+                MusicPlayerControl.SpectrumPeakAnalyzer.UseDecibelScale = vsd.DecibelScaleCheckBox.IsChecked ?? false;
             }
         }
 
