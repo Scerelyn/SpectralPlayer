@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpectralPlayerApp.Dialogs"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="VisualizerSettingsDialog" Height="450" Width="800">
+        Title="VisualizerSettingsDialog" Height="500" Width="850">
     <Grid Background="{StaticResource Dark_BackGroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
@@ -34,34 +35,50 @@
                 <Label Content="Background Color: "
                        FontSize="20"
                        Foreground="{StaticResource Dark_FontBrush}"/>
-                <ComboBox x:Name="BackgroundColorComboBox"
-                          FontSize="20">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Margin="5" Content="   " Background="{Binding Brush}"/>
-                                <Label Margin="5" Content="{Binding Name}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                <xctk:ColorPicker x:Name="BackgroundColor1Picker" SelectedColor="White" DisplayColorAndName="True"/>
+                <StackPanel x:Name="BGColor2StackPanel" Orientation="Horizontal">
+                    <Label Content="   Background Color 2: "
+                       FontSize="20"
+                       Foreground="{StaticResource Dark_FontBrush}"/>
+                    <xctk:ColorPicker x:Name="BackgroundColor2Picker" SelectedColor="White" DisplayColorAndName="True"/>
+                    <CheckBox Content="Vertical Gradient" 
+                      Foreground="{StaticResource Dark_FontBrush}"
+                      Margin="20 5 5 5"
+                      FontSize="16"
+                      x:Name="UseBGVerticalGradientCheckBox"/>
+                </StackPanel>
             </StackPanel>
+            <CheckBox Content="Use a Gradient Brush for BG" 
+                      Foreground="{StaticResource Dark_FontBrush}"
+                      Margin="75 5 5 5"
+                      FontSize="18"
+                      x:Name="UseBGGradientBrushCheckBox"
+                      Checked="DoBGCheckedChanged"
+                      Unchecked="DoBGCheckedChanged"/>
             <StackPanel x:Name="FGColorStackPanel" Orientation="Horizontal" Margin="10">
                 <Label Content="Foreground Color: "
                        FontSize="20"
                        Foreground="{StaticResource Dark_FontBrush}"/>
-                <ComboBox x:Name="ForegroundColorComboBox"
-                          FontSize="20">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Margin="5" Content="   " Background="{Binding Brush}"/>
-                                <Label Margin="5" Content="{Binding Name}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                <xctk:ColorPicker x:Name="ForegroundColor1Picker" SelectedColor="White" DisplayColorAndName="True"/>
+                <StackPanel x:Name="FGColor2StackPanel" Orientation="Horizontal">
+                    <Label Content="    Foreground Color 2: "
+                       FontSize="20"
+                       Foreground="{StaticResource Dark_FontBrush}"/>
+                    <xctk:ColorPicker x:Name="ForegroundColor2Picker" SelectedColor="White" DisplayColorAndName="True"/>
+                    <CheckBox Content="Vertical Gradient" 
+                      Foreground="{StaticResource Dark_FontBrush}"
+                      Margin="20 5 5 5"
+                      FontSize="16"
+                      x:Name="UseFGVerticalGradientCheckBox"/>
+                </StackPanel>
             </StackPanel>
+            <CheckBox Content="Use a Gradient Brush for FG" 
+                      Foreground="{StaticResource Dark_FontBrush}"
+                      Margin="75 5 5 5"
+                      FontSize="18"
+                      x:Name="UseFGGradientBrushCheckBox"
+                      Checked="DoFGCheckedChanged"
+                      Unchecked="DoFGCheckedChanged"/>
             <CheckBox Content="Use Decibel Scale" 
                       Foreground="{StaticResource Dark_FontBrush}"
                       Margin="20 5 5 5"

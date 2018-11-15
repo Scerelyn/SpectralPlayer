@@ -32,6 +32,9 @@ namespace SpectralPlayerApp
         public OpenFileDialog OpenAudioFileDialog { get; } = new OpenFileDialog();
         public Library SongLibrary { get; set; }
 
+        public Brush BackgroundBrush { get; set; } = Brushes.White;
+        public Brush ForegroundBrush { get; set; } = Brushes.Black;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -420,7 +423,7 @@ namespace SpectralPlayerApp
 
         public void DoVisualizerSettings(object sender, RoutedEventArgs args)
         {
-            VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(MusicPlayerControl.SpectrumAnalyzer.GraphLineBrush as SolidColorBrush, MusicPlayerControl.SpectrumAnalyzer.BackgroundBrush as SolidColorBrush);
+            VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(ForegroundBrush, BackgroundBrush);
             vsd.ShowDialog();
             if (vsd.DialogResult ?? false)
             {
@@ -430,6 +433,8 @@ namespace SpectralPlayerApp
                 MusicPlayerControl.PeakMeterAnalyzer.MeterBrush = vsd.SelectedForegroundBrush;
                 MusicPlayerControl.SpectrumPeakAnalyzer.BackgroundBrush = vsd.SelectedBackgroundBrush;
                 MusicPlayerControl.SpectrumPeakAnalyzer.BarBrush = vsd.SelectedForegroundBrush;
+                BackgroundBrush = vsd.SelectedBackgroundBrush;
+                ForegroundBrush = vsd.SelectedForegroundBrush;
                 switch (vsd.VisualizerChoice)
                 {
                     case "Album Art":

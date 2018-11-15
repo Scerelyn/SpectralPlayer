@@ -20,7 +20,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
     /// <summary>
     /// Interaction logic for SpectrumPeakViewControl.xaml
     /// </summary>
-    public partial class SpectrumPeakViewControl : UserControl
+    public partial class SpectrumPeakViewControl : UserControl, INotifyPropertyChanged
     {
         /// <summary>
         /// The percentage of the transformed samples to actually use. 
