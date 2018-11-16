@@ -435,7 +435,7 @@ namespace SpectralPlayerApp
         {
             string prevDetails = prevRP.Details;
             string prevState = prevRP.State;
-            SendDiscordRPCUpdate("Converting a song", "of some kind");
+            SendDiscordRPCUpdate("Converting an audio file", "of some kind");
             ConvertFileDialog cfd = new ConvertFileDialog(this);
             cfd.Closed += (s, e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
             cfd.ShowDialog();
@@ -445,7 +445,7 @@ namespace SpectralPlayerApp
         {
             string prevDetails = prevRP.Details;
             string prevState = prevRP.State;
-            SendDiscordRPCUpdate("Converting an audio file","of some kind");
+            SendDiscordRPCUpdate("Converting a song","of some kind");
             ConvertSongDialog csd = new ConvertSongDialog(SongLibrary, this);
             csd.Closed += (s,e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
             csd.ShowDialog();
