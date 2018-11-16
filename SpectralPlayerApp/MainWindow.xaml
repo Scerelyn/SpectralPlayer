@@ -38,31 +38,21 @@
             <!-- Library section -->
             <Grid Grid.Column="0"
                      x:Name="LibraryDock">
-                <TabControl>
-                    <TabItem Header="All Songs">
-                        <ScrollViewer>
-                            <libviews:LibraryAllSongsListViewControl x:Name="AllSongsControl"/>
-                        </ScrollViewer>
+                <TabControl Background="{StaticResource Dark_BackGroundBrush}">
+                    <TabItem Header="All Songs" Background="{StaticResource Dark_BackGroundBrush}">
+                        <libviews:LibraryAllSongsListViewControl x:Name="AllSongsControl" ScrollViewer.CanContentScroll="True"/>
                     </TabItem>
-                    <TabItem Header="Albums">
-                        <ScrollViewer>
-                            <libviews:LibraryAlbumListViewControl x:Name="AlbumsControl"/>
-                        </ScrollViewer>
+                    <TabItem Header="Albums" Background="{StaticResource Dark_SubBackgroundBrush}">
+                        <libviews:LibraryAlbumListViewControl x:Name="AlbumsControl" ScrollViewer.CanContentScroll="True"/>
                     </TabItem>
-                    <TabItem Header="Artists">
-                        <ScrollViewer>
-                            <libviews:LibraryArtistListViewControl x:Name="ArtistsControl"/>
-                        </ScrollViewer>
+                    <TabItem Header="Artists" Background="{StaticResource Dark_SubBackgroundBrush}">
+                        <libviews:LibraryArtistListViewControl x:Name="ArtistsControl" ScrollViewer.CanContentScroll="True"/>
                     </TabItem>
-                    <TabItem Header="Genres">
-                        <ScrollViewer>
-                            <libviews:LibraryGenreListViewControl x:Name="GenresControl"/>
-                        </ScrollViewer>
+                    <TabItem Header="Genres" Background="{StaticResource Dark_SubBackgroundBrush}">
+                        <libviews:LibraryGenreListViewControl x:Name="GenresControl" ScrollViewer.CanContentScroll="True"/>
                     </TabItem>
-                    <TabItem Header="Playlists">
-                        <ScrollViewer>
-                            <libviews:LibraryPlayListViewControl x:Name="PlaylistControl"/>
-                        </ScrollViewer>
+                    <TabItem Header="Playlists" Background="{StaticResource Dark_SubBackgroundBrush}">
+                        <libviews:LibraryPlayListViewControl x:Name="PlaylistControl" ScrollViewer.CanContentScroll="True"/>
                     </TabItem>
 
                     <TabControl.Resources>
