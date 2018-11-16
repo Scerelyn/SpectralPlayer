@@ -7,7 +7,8 @@
         xmlns:libviews="clr-namespace:SpectralPlayerApp.LibraryViewControls"
         xmlns:playerviews="clr-namespace:SpectralPlayerApp.MusicPlayerViewControls"
         mc:Ignorable="d"
-        Title="Spectral Player" Height="600" Width="900">
+        Title="Spectral Player" Height="600" Width="900"
+        Closed="DoOnClose">
     <DockPanel Background="{StaticResource ResourceKey=Dark_BackGroundBrush}"> <!-- Top level container -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">

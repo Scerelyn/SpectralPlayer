@@ -49,6 +49,8 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
 
         public bool UseStereo { get; set; } = true;
 
+        public MainWindow ParentWindow { get; set; }
+
         public double SeekBarPos
         {
             get => _seekBarPos;
@@ -96,6 +98,17 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         SetupNextInputStream();
                         SetupImageVisualizer();
                         SetupNowPlayingLabel();
+
+                        //discord update
+                        if (activeSong != null)
+                        {
+                            ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                        }
+                        else
+                        {
+                            ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                        }
+
                         if (playerInputStream != null) //not null means a song after the finished on exists
                         {
                             //set the seek bar 
@@ -125,6 +138,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         SeekSlider.Value = 0;
                         SeekSlider.IsEnabled = false;
                         timer.Stop();
+                        ParentWindow.SendDiscordRPCUpdate("Sitting in the main window","Enjoying the silence");
                     }
                 }
                 else // stop is called when seeking
@@ -156,6 +170,8 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             while (!System.IO.File.Exists(nextSong.FilePath));
 
             activeSong = nextSong;
+
+            
 
             if (System.IO.File.Exists(nextSong.FilePath))
             {
@@ -220,6 +236,17 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
 
                 SetupImageVisualizer();
                 SetupNowPlayingLabel();
+
+                //discord update
+                if (activeSong != null)
+                {
+                    ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                }
+                else
+                {
+                    ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                }
+
                 //set the seek bar 
                 SeekSlider.Maximum = backingWaveStream.TotalTime.TotalSeconds;
                 SeekSlider.IsEnabled = true;
@@ -394,6 +421,14 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 previousSongs.Push(activeSong); // push just played song onto the history stack
                 prevRecord = true; //tell the stop we want to record the previous song
                 player.Stop(); //call the onstopped, this will take care of the rest, like the next song
+                if (activeSong != null)
+                {
+                    ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                }
+                else
+                {
+                    ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                }
             }
         }
 
@@ -410,12 +445,28 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 {
                     UpNextControl.UpNext.SongList.Insert(0, previousSongs.Pop());
                     SetupNextSong();
+                    if (activeSong != null)
+                    {
+                        ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                    }
+                    else
+                    {
+                        ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                    }
                 }
                 else
                 {
                     UpNextControl.UpNext.SongList.Insert(0, previousSongs.Pop());
                     prevRecord = false; //tell the stop to not record the previous song
                     player.Stop();
+                    if (activeSong != null)
+                    {
+                        ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                    }
+                    else
+                    {
+                        ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                    }
                 }
             }
         }

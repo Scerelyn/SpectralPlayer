@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using DiscordRPC;
+using Microsoft.Win32;
 using MusicLibraryLib;
 using NAudio.Wave;
 using SpectralPlayerApp.Dialogs;
@@ -35,6 +36,8 @@ namespace SpectralPlayerApp
         public Brush BackgroundBrush { get; set; } = Brushes.White;
         public Brush ForegroundBrush { get; set; } = Brushes.Black;
 
+        public DiscordRpcClient client = new DiscordRpcClient("512791431883128847");
+
         public MainWindow()
         {
             InitializeComponent();
@@ -56,6 +59,10 @@ namespace SpectralPlayerApp
             ArtistsControl.ParentWindow = this;
             AlbumsControl.ParentWindow = this;
             GenresControl.ParentWindow = this;
+            MusicPlayerControl.ParentWindow = this;
+
+            client.Initialize();
+            SendDiscordRPCUpdate("Sitting in the main window", "Listening to nothing");
         }
 
         #region Public methods
@@ -367,9 +374,20 @@ namespace SpectralPlayerApp
             BackgroundTaskDockPanel.Visibility = Visibility.Collapsed;
         }
 
+        public void SendDiscordRPCUpdate(string details, string state)
+        {
+            RichPresence rp = new RichPresence()
+            {
+                Details = details,
+                State = state,
+            };
+            client.SetPresence(rp);
+            client.Invoke();
+        }
+
         #endregion
 
-        #region OnClick event handlers
+        #region Event handlers
 
         public void DoAddFile(object sender, RoutedEventArgs args)
         {
@@ -482,6 +500,11 @@ namespace SpectralPlayerApp
                 MonoStereoMenuItem.Header = "Use mono audio for music output";
             }
             
+        }
+
+        public void DoOnClose(object sender, EventArgs args)
+        {
+            client.Dispose();
         }
 
         #endregion
