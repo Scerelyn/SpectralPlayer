@@ -37,6 +37,8 @@ namespace SpectralPlayerApp
         public Brush ForegroundBrush { get; set; } = Brushes.Black;
 
         public DiscordRpcClient client = new DiscordRpcClient("512791431883128847");
+        private RichPresence prevRP { get; set; }
+
 
         public MainWindow()
         {
@@ -382,6 +384,7 @@ namespace SpectralPlayerApp
                 State = state,
             };
             client.SetPresence(rp);
+            prevRP = rp;
             client.Invoke();
         }
 
@@ -429,19 +432,28 @@ namespace SpectralPlayerApp
 
         public void DoConvertFile(object sender, RoutedEventArgs args)
         {
+            RichPresence tempPrevRP = prevRP;
+            SendDiscordRPCUpdate("Converting a song", "of some kind");
             ConvertFileDialog cfd = new ConvertFileDialog(this);
+            cfd.Closed += (s, e) => { SendDiscordRPCUpdate(prevRP.Details, prevRP.State); };
             cfd.ShowDialog();
         }
 
         public void DoConvertSong(object sender, RoutedEventArgs args)
         {
+            RichPresence tempPrevRP = prevRP;
+            SendDiscordRPCUpdate("Converting an audio file","of some kind");
             ConvertSongDialog csd = new ConvertSongDialog(SongLibrary, this);
+            csd.Closed += (s,e) => { SendDiscordRPCUpdate(tempPrevRP.Details, tempPrevRP.State); };
             csd.ShowDialog();
         }
 
         public void DoVisualizerSettings(object sender, RoutedEventArgs args)
         {
+            RichPresence tempPrevRP = prevRP;
+            SendDiscordRPCUpdate("Changing some settings", "for their needs");
             VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(ForegroundBrush, BackgroundBrush);
+            vsd.Closed += (s, e) => { SendDiscordRPCUpdate(tempPrevRP.Details, tempPrevRP.State); };
             vsd.ShowDialog();
             if (vsd.DialogResult ?? false)
             {

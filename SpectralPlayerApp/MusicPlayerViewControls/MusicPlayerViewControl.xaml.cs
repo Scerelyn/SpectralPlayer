@@ -240,7 +240,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 //discord update
                 if (activeSong != null)
                 {
-                    ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                    ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
                 }
                 else
                 {
@@ -423,7 +423,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 player.Stop(); //call the onstopped, this will take care of the rest, like the next song
                 if (activeSong != null)
                 {
-                    ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                    ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
                 }
                 else
                 {
@@ -447,7 +447,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     SetupNextSong();
                     if (activeSong != null)
                     {
-                        ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                        ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
                     }
                     else
                     {
@@ -461,7 +461,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     player.Stop();
                     if (activeSong != null)
                     {
-                        ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                        ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
                     }
                     else
                     {
