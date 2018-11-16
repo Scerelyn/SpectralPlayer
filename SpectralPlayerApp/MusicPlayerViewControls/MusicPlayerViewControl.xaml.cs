@@ -102,7 +102,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         //discord update
                         if (activeSong != null)
                         {
-                            ParentWindow.SendDiscordRPCUpdate("Listening to music", $"{activeSong.Name} by {activeSong.Artist}");
+                            ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
                         }
                         else
                         {
