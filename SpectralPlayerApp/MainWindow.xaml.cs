@@ -37,7 +37,7 @@ namespace SpectralPlayerApp
         public Brush ForegroundBrush { get; set; } = Brushes.Black;
 
         public DiscordRpcClient client = new DiscordRpcClient("512791431883128847");
-        private RichPresence prevRP { get; set; }
+        private RichPresence prevRP { get; set; } = new RichPresence();
 
 
         public MainWindow()
@@ -384,7 +384,8 @@ namespace SpectralPlayerApp
                 State = state,
             };
             client.SetPresence(rp);
-            prevRP = rp;
+            prevRP.Details = rp.Details;
+            prevRP.State = rp.State;
             client.Invoke();
         }
 
@@ -432,28 +433,31 @@ namespace SpectralPlayerApp
 
         public void DoConvertFile(object sender, RoutedEventArgs args)
         {
-            RichPresence tempPrevRP = prevRP;
+            string prevDetails = prevRP.Details;
+            string prevState = prevRP.State;
             SendDiscordRPCUpdate("Converting a song", "of some kind");
             ConvertFileDialog cfd = new ConvertFileDialog(this);
-            cfd.Closed += (s, e) => { SendDiscordRPCUpdate(prevRP.Details, prevRP.State); };
+            cfd.Closed += (s, e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
             cfd.ShowDialog();
         }
 
         public void DoConvertSong(object sender, RoutedEventArgs args)
         {
-            RichPresence tempPrevRP = prevRP;
+            string prevDetails = prevRP.Details;
+            string prevState = prevRP.State;
             SendDiscordRPCUpdate("Converting an audio file","of some kind");
             ConvertSongDialog csd = new ConvertSongDialog(SongLibrary, this);
-            csd.Closed += (s,e) => { SendDiscordRPCUpdate(tempPrevRP.Details, tempPrevRP.State); };
+            csd.Closed += (s,e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
             csd.ShowDialog();
         }
 
         public void DoVisualizerSettings(object sender, RoutedEventArgs args)
         {
-            RichPresence tempPrevRP = prevRP;
+            string prevDetails = prevRP.Details;
+            string prevState = prevRP.State;
             SendDiscordRPCUpdate("Changing some settings", "for their needs");
             VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(ForegroundBrush, BackgroundBrush);
-            vsd.Closed += (s, e) => { SendDiscordRPCUpdate(tempPrevRP.Details, tempPrevRP.State); };
+            vsd.Closed += (s, e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
             vsd.ShowDialog();
             if (vsd.DialogResult ?? false)
             {
