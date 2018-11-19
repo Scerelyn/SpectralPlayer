@@ -22,7 +22,11 @@
             </MenuItem>
             <MenuItem Header="_Settings">
                 <MenuItem Header="Visualizer settings" Click="DoVisualizerSettings"/>
-                <MenuItem Header="Use mono audio for music output" Click="DoMonoStereoSwap" x:Name="MonoStereoMenuItem"/>
+                <MenuItem Header="Stereo/Mono settings">
+                    <MenuItem x:Name="StereoChannelMenuItem" Header="Use Stereo" Click="DoSelectStereo"/>
+                    <MenuItem x:Name="MonoChannelMenuItem" Header="Use Mono" Click="DoSelectMono"/>
+                    <MenuItem x:Name="DefaultChannelMenuItem" Header="Use Default" Click="DoSelectDefault"/>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <!-- Background task notifier -->

@@ -510,19 +510,28 @@ namespace SpectralPlayerApp
             }
         }
 
-        public void DoMonoStereoSwap(object sender, RoutedEventArgs args)
+        public void DoSelectStereo(object sender, RoutedEventArgs args)
         {
-            if (MusicPlayerControl.UseStereo)
-            {
-                MusicPlayerControl.UseStereo = false;
-                MonoStereoMenuItem.Header = "Use stereo audio for music output";
-            }
-            else
-            {
-                MusicPlayerControl.UseStereo = true;
-                MonoStereoMenuItem.Header = "Use mono audio for music output";
-            }
-            
+            MusicPlayerControl.UseStereo = true;
+            StereoChannelMenuItem.Header = "Use Stereo (Selected)";
+            MonoChannelMenuItem.Header = "Use Mono";
+            DefaultChannelMenuItem.Header = "Use Default";
+        }
+
+        public void DoSelectMono(object sender, RoutedEventArgs args)
+        {
+            MusicPlayerControl.UseStereo = false;
+            StereoChannelMenuItem.Header = "Use Stereo";
+            MonoChannelMenuItem.Header = "Use Mono (Selected)";
+            DefaultChannelMenuItem.Header = "Use Default";
+        }
+
+        public void DoSelectDefault(object sender, RoutedEventArgs args)
+        {
+            MusicPlayerControl.UseStereo = null;
+            StereoChannelMenuItem.Header = "Use Stereo";
+            MonoChannelMenuItem.Header = "Use Mono";
+            DefaultChannelMenuItem.Header = "Use Default (Selected)";
         }
 
         public void DoOnClose(object sender, EventArgs args)

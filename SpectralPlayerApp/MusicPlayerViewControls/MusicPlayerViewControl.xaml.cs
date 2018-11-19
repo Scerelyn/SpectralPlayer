@@ -47,7 +47,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
 
         #region Public Properties
 
-        public bool UseStereo { get; set; } = true;
+        public bool? UseStereo { get; set; } = null;
 
         public MainWindow ParentWindow { get; set; }
 
@@ -204,12 +204,12 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 VolumePeakAnalyzer vpa = new VolumePeakAnalyzer(playerInputStream, 1024);
                 playerInputStream = vpa;
 
-                if (backingWaveStream.WaveFormat.Channels == 2 && !UseStereo)
+                if (backingWaveStream.WaveFormat.Channels == 2 && UseStereo == false)
                 {
                     StereoToMonoProvider16 stm16 = new StereoToMonoProvider16(playerInputStream.ToWaveProvider16());
                     playerInputStream = stm16.ToSampleProvider();
                 }
-                else if(backingWaveStream.WaveFormat.Channels == 1 && UseStereo)
+                else if(backingWaveStream.WaveFormat.Channels == 1 && UseStereo == true)
                 {
                     MonoToStereoProvider16 mts16 = new MonoToStereoProvider16(playerInputStream.ToWaveProvider16());
                     playerInputStream = mts16.ToSampleProvider();
