@@ -25,7 +25,7 @@
                 <MenuItem Header="Stereo/Mono settings">
                     <MenuItem x:Name="StereoChannelMenuItem" Header="Use Stereo" Click="DoSelectStereo"/>
                     <MenuItem x:Name="MonoChannelMenuItem" Header="Use Mono" Click="DoSelectMono"/>
-                    <MenuItem x:Name="DefaultChannelMenuItem" Header="Use Default" Click="DoSelectDefault"/>
+                    <MenuItem x:Name="DefaultChannelMenuItem" Header="Use Default (Selected)" Click="DoSelectDefault"/>
                 </MenuItem>
             </MenuItem>
         </Menu>
