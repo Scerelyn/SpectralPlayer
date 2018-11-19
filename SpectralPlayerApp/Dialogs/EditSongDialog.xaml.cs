@@ -1,4 +1,5 @@
-﻿using MusicLibraryLib;
+﻿using Microsoft.Win32;
+using MusicLibraryLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace SpectralPlayerApp.Dialogs
     public partial class EditSongDialog : Window
     {
         public Song SelectedSong { get; set; }
+        public string ImageSelectedPath { get; private set; }
         public EditSongDialog(Song selected)
         {
             SelectedSong = selected;
@@ -56,6 +58,18 @@ namespace SpectralPlayerApp.Dialogs
             {
                 DialogResult = true;
                 Close();
+            }
+        }
+
+        public void DoSelectImage(object sender, RoutedEventArgs args)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Images (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
+            bool? result = ofd.ShowDialog();
+            if (result ?? false)
+            {
+                ImageSelectedPath = ofd.FileName;
+                ImageFilePathLabel.Content = ofd.FileName;
             }
         }
 

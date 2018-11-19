@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpectralPlayerApp.Dialogs"
         mc:Ignorable="d"
-        Title="Edit Song" Height="450" Width="800">
+        Title="Edit Song" Height="480" Width="800">
     <Grid Background="{StaticResource Dark_BackGroundBrush}">
         <DockPanel>
             <Label Content="Edit Attributes" 
@@ -45,6 +45,10 @@
             <DockPanel DockPanel.Dock="Top" Margin="5">
                 <Label Content="Filepath" VerticalContentAlignment="Center" Width="100" Foreground="{StaticResource Dark_FontBrush}"/>
                 <TextBox Text="asdf" VerticalContentAlignment="Center" x:Name="FilepathTextBox"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="5">
+                <Button Content="  Change/Add album art  " Style="{StaticResource Dark_ButtonStyle}" Margin="5" Click="DoSelectImage"/>
+                <Label x:Name="ImageFilePathLabel" Content="" Margin="5" Foreground="{StaticResource Dark_FontBrush}"/>
             </DockPanel>
             <Grid DockPanel.Dock="Top" Margin="10">
                 <Grid.ColumnDefinitions>

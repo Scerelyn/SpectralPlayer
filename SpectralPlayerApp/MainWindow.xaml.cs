@@ -247,6 +247,7 @@ namespace SpectralPlayerApp
                 selectedSong.TrackNumber = int.Parse(esd.TrackNumberTextBox.Text);
                 selectedSong.Year = esd.YearTextBox.Text;
                 selectedSong.FilePath = esd.FilepathTextBox.Text;
+                
                 try
                 {
                     using (TagLib.File file = TagLib.File.Create(selectedSong.FilePath))
@@ -288,6 +289,12 @@ namespace SpectralPlayerApp
 
                         file.Tag.Year = (uint)int.Parse(selectedSong.Year);
                         file.Tag.Track = (uint)selectedSong.TrackNumber;
+                        if (!string.IsNullOrEmpty(esd.ImageSelectedPath))
+                        {
+                            ByteVector imageBytes = ByteVector.FromPath(esd.ImageSelectedPath);
+                            IPicture pic = new Picture(imageBytes);
+                            file.Tag.Pictures = new IPicture[1] { pic };
+                        }
                         file.Save();
                     }
                     UpdateLists();
