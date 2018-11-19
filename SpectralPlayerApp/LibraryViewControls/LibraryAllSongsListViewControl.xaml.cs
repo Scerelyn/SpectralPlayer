@@ -90,5 +90,17 @@ namespace SpectralPlayerApp.LibraryViewControls
         {
             ParentWindow.EditSongData(LibraryListView.SelectedItems[0] as Song);
         }
+
+        public void DoRemoveSongs(object sender, RoutedEventArgs args)
+        {
+            MessageBoxResult result = MessageBox.Show("Remove selected songs from library?", "Remove songs?", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                Song[] songsToRemove = new Song[LibraryListView.SelectedItems.Count];
+                LibraryListView.SelectedItems.CopyTo(songsToRemove, 0);
+                ParentWindow.RemoveSongs(songsToRemove);
+                MessageBox.Show("Songs removed from library");
+            }
+        }
     }
 }

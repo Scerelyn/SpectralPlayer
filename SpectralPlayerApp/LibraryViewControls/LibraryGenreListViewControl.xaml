@@ -46,6 +46,7 @@
                 <MenuItem Header="Add Genre ... to a playlist..." x:Name="AddGenrePlaylistMenuItem" Visibility="Collapsed"/>
                 <MenuItem Header="Add song(s) to new Playlist" Click="DoAddSongsToNewPlayList"/>
                 <MenuItem Header="Edit Song Info" x:Name="EditSongInfoMenuItem" Click="DoEditSong" Visibility="Collapsed"/>
+                <MenuItem Header="Remove song from library" Click="DoRemoveSongs"/>
             </ContextMenu>
         </ListBox.ContextMenu>
         <ListBox.ItemContainerStyle>

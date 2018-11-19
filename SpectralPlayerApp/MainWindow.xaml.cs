@@ -348,6 +348,11 @@ namespace SpectralPlayerApp
             return false;
         }
 
+        /// <summary>
+        /// Asynchronously deserializes the backing library xml
+        /// </summary>
+        /// <param name="callBack">The function to callback when deserialization is finished</param>
+        /// <returns></returns>
         public async Task AsyncDeserialize(Func<Task> callBack)
         {
             Dispatcher.Invoke(() => {
@@ -366,6 +371,11 @@ namespace SpectralPlayerApp
             await callBack();
         }
 
+        /// <summary>
+        /// Asynchronously serializes the library into a xml
+        /// </summary>
+        /// <param name="callBack">The function to callback when the serialization is finished</param>
+        /// <returns></returns>
         public async Task AsyncSerialize(Func<Task> callBack)
         {
             Dispatcher.Invoke(() => {
@@ -383,6 +393,11 @@ namespace SpectralPlayerApp
             BackgroundTaskDockPanel.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Sends an update for Discord's rich presence
+        /// </summary>
+        /// <param name="details">The details to send</param>
+        /// <param name="state">The state to send</param>
         public void SendDiscordRPCUpdate(string details, string state)
         {
             RichPresence rp = new RichPresence()
@@ -394,6 +409,20 @@ namespace SpectralPlayerApp
             prevRP.Details = rp.Details;
             prevRP.State = rp.State;
             client.Invoke();
+        }
+
+        /// <summary>
+        /// Removes an IEnumerable of Songs to remove from the backing Library
+        /// </summary>
+        /// <param name="songsToRemove">An IEnumerable of Songs to remove</param>
+        public void RemoveSongs(IEnumerable<Song> songsToRemove)
+        {
+            foreach(Song s in songsToRemove)
+            {
+                SongLibrary.SongList.Remove(s);
+            }
+            AsyncSerialize(BackgroundCallback);
+            UpdateLists();
         }
 
         #endregion
