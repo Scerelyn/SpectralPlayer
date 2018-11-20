@@ -159,7 +159,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
             //TODO: improve the failing song filepath behavior. Currently, the silent skipping isnt very user friendly in telling why
             do  // loop through songs until a valid/existing file is found. Ideally, this loops once
             {
-                nextSong = UpNextControl.UpNext.PopNextSong();
+                nextSong = UpNextControl.GetNextSong();
                 if (nextSong == null) // null means the upnext list is empty
                 {
                     playerInputStream = null; // null the inputstream

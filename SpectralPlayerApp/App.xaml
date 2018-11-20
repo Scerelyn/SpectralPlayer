@@ -318,6 +318,33 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
+        <Style x:Key="Dark_ToggleButtonStyle" TargetType="ToggleButton">
+            <Style.Setters>
+                <Setter Property="Background" Value="{StaticResource Dark_SubBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource Dark_FontBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=Dark_BrightHighlightBrush}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=Dark_SubSubBackgroundBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=Dark_HighlightBrush}"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=Dark_HighlightBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

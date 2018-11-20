@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -22,10 +23,21 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
     public partial class UpNextPlaylistViewControl : UserControl
     {
         public PlayList UpNext { get; } = new PlayList();
+        public bool Looping { get; set; } = false;
         public UpNextPlaylistViewControl()
         {
             InitializeComponent();
             UpNextPlaylistListBox.ItemsSource = UpNext.SongList;
+        }
+
+        public Song GetNextSong()
+        {
+            Song s = UpNext.PopNextSong();
+            if (Looping)
+            {
+                UpNext.SongList.Add(s);
+            }
+            return s;
         }
 
         public void DoShuffle(object sender, RoutedEventArgs args)
@@ -58,6 +70,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 }
                 
             }
+        }
+
+        public void DoLoopingToggle(object sender, RoutedEventArgs args)
+        {
+            Looping = (sender as ToggleButton).IsChecked ?? false;
         }
     }
 }

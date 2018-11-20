@@ -11,11 +11,14 @@
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*"/>
-                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="30*"/>
                 <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
             <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Margin="10" Grid.Column="0" Content="Shuffle" Click="DoShuffle"/>
-            <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Margin="10" Grid.Column="2" Content="Clear All" Click="DoClear"/>
+            <ToggleButton Style="{StaticResource Dark_ToggleButtonStyle}" Margin="10" Grid.Column="2" Content="Loop" Click="DoLoopingToggle" IsChecked="False"/>
+            <Button Style="{StaticResource ResourceKey=Dark_ButtonStyle}" Margin="10" Grid.Column="4" Content="Clear All" Click="DoClear"/>
         </Grid>
         <ScrollViewer DockPanel.Dock="Top">
             <ListBox x:Name="UpNextPlaylistListBox" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}">
