@@ -103,6 +103,7 @@ namespace SpectralPlayerApp.LibraryViewControls
                 }
             }
             ParentWindow.UpdateLists();
+            ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
         }
 
         public void DoRemoveSongFromPlayList(object sender, RoutedEventArgs args)
@@ -114,6 +115,7 @@ namespace SpectralPlayerApp.LibraryViewControls
                     (lb.ItemsSource as ObservableCollection<Song>).Remove(lb.SelectedItems[0] as Song);
                 }
             }
+            ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
         }
 
         public void DoAddSelectedSongsToUpNext(object sender, RoutedEventArgs args)
@@ -149,6 +151,7 @@ namespace SpectralPlayerApp.LibraryViewControls
             }
             ParentWindow.SongLibrary.PlayListList.Add(pl);
             ParentWindow.UpdatePlayListContextMenuItems();
+            ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
         }
 
         public void DoAddSelectedPlaylistsToNewPlayList(object sender, RoutedEventArgs args)
@@ -163,6 +166,7 @@ namespace SpectralPlayerApp.LibraryViewControls
             }
             ParentWindow.SongLibrary.PlayListList.Add(newPlaylist);
             ParentWindow.UpdatePlayListContextMenuItems();
+            ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
         }
 
     }

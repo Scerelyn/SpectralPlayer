@@ -121,6 +121,7 @@ namespace SpectralPlayerApp
                     {
                         pl.SongList.Add(s);
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
                 MenuItem albumControlAddSongsMenuItem = new MenuItem() { Header = pl.Name }; //album control add selected songs to playlist
                 albumControlAddSongsMenuItem.Click += (sender, args) =>
@@ -129,6 +130,7 @@ namespace SpectralPlayerApp
                     {
                         pl.SongList.Add(s);
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
                 MenuItem albumControlAddAlbumMenuItem = new MenuItem() { Header = pl.Name }; //album control add selected album to playlist
                 albumControlAddAlbumMenuItem.Click += (sender, args) =>
@@ -141,6 +143,7 @@ namespace SpectralPlayerApp
                             pl.SongList.Add(s);
                         }
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
                 MenuItem artistControlAddSongsMenuItem = new MenuItem() { Header = pl.Name };
                 artistControlAddSongsMenuItem.Click += (sender, args) =>
@@ -149,6 +152,7 @@ namespace SpectralPlayerApp
                     {
                         pl.SongList.Add(s);
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
                 MenuItem artistControlAddArtistMenuItem = new MenuItem() { Header = pl.Name }; //add artist to playlist
                 artistControlAddArtistMenuItem.Click += (sender, args) =>
@@ -161,6 +165,7 @@ namespace SpectralPlayerApp
                             pl.SongList.Add(s);
                         }
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
                 MenuItem genreControlAddSongsMenuItem = new MenuItem() { Header = pl.Name };
                 genreControlAddSongsMenuItem.Click += (sender, args) =>
@@ -169,6 +174,7 @@ namespace SpectralPlayerApp
                     {
                         pl.SongList.Add(s);
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
                 MenuItem genreControlAddGenreMenuItem = new MenuItem() { Header = pl.Name }; //genre control add selected genre to playlist
                 genreControlAddGenreMenuItem.Click += (sender, args) =>
@@ -181,6 +187,7 @@ namespace SpectralPlayerApp
                             pl.SongList.Add(s);
                         }
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
                 MenuItem playlistControlAddSongsMenuItem = new MenuItem() { Header = pl.Name };
                 playlistControlAddSongsMenuItem.Click += (sender, args) =>
@@ -203,6 +210,7 @@ namespace SpectralPlayerApp
                             }
                         }
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
                 MenuItem playlistControlAddSelectedSongsMenuItem = new MenuItem() { Header = pl.Name };
                 playlistControlAddSelectedSongsMenuItem.Click += (sender, args) => 
@@ -214,6 +222,7 @@ namespace SpectralPlayerApp
                             pl.SongList.Add(s);
                         }
                     }
+                    AsyncSerialize(BackgroundCallback);
                 };
 
                 //add the menuitems to the context menu
@@ -388,7 +397,7 @@ namespace SpectralPlayerApp
             await callBack();
         }
 
-        private async Task BackgroundCallback()
+        public async Task BackgroundCallback()
         {
             BackgroundTaskDockPanel.Visibility = Visibility.Collapsed;
         }

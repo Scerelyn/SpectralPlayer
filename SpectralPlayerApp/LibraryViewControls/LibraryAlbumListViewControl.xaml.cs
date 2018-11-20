@@ -101,6 +101,7 @@ namespace SpectralPlayerApp.LibraryViewControls
             }
             ParentWindow.SongLibrary.PlayListList.Add(pl);
             ParentWindow.UpdatePlayListContextMenuItems();
+            ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
         }
 
         public void DoEditSong(object sender, RoutedEventArgs args)
