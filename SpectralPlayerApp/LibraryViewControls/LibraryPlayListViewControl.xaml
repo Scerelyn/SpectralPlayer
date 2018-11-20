@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SpectralPlayerApp.LibraryViewControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListBox x:Name="PlaylistListBox" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}">
+    <ListBox x:Name="PlaylistListBox" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}" SelectionChanged="DoSelectionChanged">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel>
@@ -69,6 +69,7 @@
                 <MenuItem Header="Add Playlist(s) to a playlist..." x:Name="AddPlaylistMenuItem"/>
                 <MenuItem Header="Add seleceted song(s) to a new Playlist" Click="DoAddSelectedSongsToNewPlayList"/>
                 <MenuItem Header="Add Playlist(s) to new Playlist" Click="DoAddSelectedPlaylistsToNewPlayList"/>
+                <MenuItem Header="Rename Playlist" Click="DoRenamePlaylist" x:Name="RenamePlaylistMenuItem"/>
                 <MenuItem Header="Delete selected song(s) from playlist(s)" Click="DoRemoveSongFromPlayList"/>
                 <MenuItem Header="Delete Playlist(s)" Click="DoDeletePlaylist"/>
             </ContextMenu>

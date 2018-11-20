@@ -108,6 +108,9 @@
     <Compile Include="Dialogs\ConvertSongDialog.xaml.cs">
       <DependentUpon>ConvertSongDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\SingleStringInputDialog.xaml.cs">
+      <DependentUpon>SingleStringInputDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\VisualizerSettingsDialog.xaml.cs">
       <DependentUpon>VisualizerSettingsDialog.xaml</DependentUpon>
     </Compile>
@@ -131,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\EditSongDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SingleStringInputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

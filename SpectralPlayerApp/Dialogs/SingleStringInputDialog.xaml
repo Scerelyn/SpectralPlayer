@@ -1,0 +1,38 @@
+﻿<Window x:Class="SpectralPlayerApp.Dialogs.SingleStringInputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpectralPlayerApp.Dialogs"
+        mc:Ignorable="d"
+        Title="Input" Height="200" Width="400">
+    <StackPanel Background="{StaticResource Dark_BackGroundBrush}">
+        <StackPanel Margin="20" Grid.Column="1" Grid.Row="1">
+            <Label x:Name="PromptLabel" 
+                   Content="Enter a value" 
+                   Foreground="{StaticResource Dark_FontBrush}"
+                   DockPanel.Dock="Left"/>
+            <TextBox x:Name="InputTextBox"
+                     FontSize="20"
+                     DockPanel.Dock="Left"
+                     Margin="5"/>
+        </StackPanel>
+        <Grid Margin="20" Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource Dark_ButtonStyle}" 
+                    Content="OK" 
+                    FontSize="16" 
+                    Grid.Column="0"
+                    Click="DoSubmit"/>
+            <Button Style="{StaticResource Dark_ButtonStyle}" 
+                    Content="Cancel" 
+                    FontSize="16" 
+                    Grid.Column="2"
+                    Click="DoCancel"/>
+        </Grid>
+    </StackPanel>
+</Window>

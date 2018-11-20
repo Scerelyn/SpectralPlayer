@@ -75,6 +75,7 @@ namespace SpectralPlayerApp
         public void UpdateLists()
         {
             AllSongsControl.LibraryListView.ItemsSource = SongLibrary.GetOrderedListBySong();
+            PlaylistControl.PlaylistListBox.ItemsSource = null;
             PlaylistControl.PlaylistListBox.ItemsSource = SongLibrary.PlayListList;
 
             AlbumsControl.AlbumListBox.ItemsSource = SongLibrary.GetOrderedListByAlbum();

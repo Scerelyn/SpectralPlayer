@@ -1,4 +1,5 @@
 ﻿using MusicLibraryLib;
+using SpectralPlayerApp.Dialogs;
 using SpectralPlayerApp.MusicPlayerViewControls;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,18 @@ namespace SpectralPlayerApp.LibraryViewControls
         public LibraryPlayListViewControl()
         {
             InitializeComponent();
+        }
+
+        public void DoSelectionChanged(object sender, RoutedEventArgs args)
+        {
+            if(PlaylistListBox.SelectedItems.Count != 1)
+            {
+                RenamePlaylistMenuItem.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                RenamePlaylistMenuItem.Visibility = Visibility.Visible;
+            }
         }
 
         public void DoAddSelectedPlaylistsToUpNext(object sender, RoutedEventArgs args)
@@ -89,33 +102,40 @@ namespace SpectralPlayerApp.LibraryViewControls
 
         public void DoDeletePlaylist(object sender, RoutedEventArgs args)
         {
-            
-            for (int i = 0; i < ParentWindow.SongLibrary.PlayListList.Count(); i++)
+            MessageBoxResult result = MessageBox.Show("Remove selected playlists from library?", "Remove playlists?", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
             {
-                if (ParentWindow.SongLibrary.PlayListList.Contains(PlaylistListBox.SelectedItems[i] as PlayList))
+                for (int i = 0; i < ParentWindow.SongLibrary.PlayListList.Count(); i++)
                 {
-                    ParentWindow.SongLibrary.PlayListList.Remove(PlaylistListBox.SelectedItems[i] as PlayList);
-                    i--;
+                    if (ParentWindow.SongLibrary.PlayListList.Contains(PlaylistListBox.SelectedItems[i] as PlayList))
+                    {
+                        ParentWindow.SongLibrary.PlayListList.Remove(PlaylistListBox.SelectedItems[i] as PlayList);
+                        i--;
+                    }
+                    if (PlaylistListBox.SelectedItems.Count <= 0)
+                    {
+                        break;
+                    }
                 }
-                if (PlaylistListBox.SelectedItems.Count <= 0)
-                {
-                    break;
-                }
+                ParentWindow.UpdateLists();
+                ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
             }
-            ParentWindow.UpdateLists();
-            ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
         }
 
         public void DoRemoveSongFromPlayList(object sender, RoutedEventArgs args)
         {
-            foreach (ListBox lb in InnerListBoxes)
+            MessageBoxResult result = MessageBox.Show("Remove selected songs from playlist?", "Remove songs?", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
             {
-                while (lb.SelectedItems.Count > 0)
+                foreach (ListBox lb in InnerListBoxes)
                 {
-                    (lb.ItemsSource as ObservableCollection<Song>).Remove(lb.SelectedItems[0] as Song);
+                    while (lb.SelectedItems.Count > 0)
+                    {
+                        (lb.ItemsSource as ObservableCollection<Song>).Remove(lb.SelectedItems[0] as Song);
+                    }
                 }
+                ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
             }
-            ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
         }
 
         public void DoAddSelectedSongsToUpNext(object sender, RoutedEventArgs args)
@@ -167,6 +187,20 @@ namespace SpectralPlayerApp.LibraryViewControls
             ParentWindow.SongLibrary.PlayListList.Add(newPlaylist);
             ParentWindow.UpdatePlayListContextMenuItems();
             ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
+        }
+
+        public void DoRenamePlaylist(object sender, RoutedEventArgs args)
+        {
+            PlayList pl = PlaylistListBox.SelectedItems[0] as PlayList;
+            SingleStringInputDialog ssid = new SingleStringInputDialog("Enter a new Playlist name", "Rename playlist");
+            ssid.ShowDialog();
+            if (ssid.DialogResult ?? false)
+            {
+                pl.Name = ssid.InputValue;
+                //var plList = PlaylistListBox.ItemsSource as ObservableCollection<PlayList>;
+                ParentWindow.UpdateLists();
+                ParentWindow.AsyncSerialize(ParentWindow.BackgroundCallback);
+            }
         }
 
     }
