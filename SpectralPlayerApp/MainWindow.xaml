@@ -45,7 +45,7 @@
                 <TabControl Background="{StaticResource Dark_BackGroundBrush}">
                     <TabItem Header="All Songs" Background="{StaticResource Dark_BackGroundBrush}">
                         <DockPanel>
-                            <TextBox x:Name="AddSongHintTextBox" 
+                            <TextBlock x:Name="AddSongHintTextBox" 
                                      Foreground="{StaticResource Dark_FontBrush}" 
                                      Background="{StaticResource Dark_BackGroundBrush}"  
                                      DockPanel.Dock="Top"
