@@ -430,6 +430,14 @@
                     </Path>
                 </Grid>
             </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="Border" Property="CornerRadius" Value="10,0,0,0"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter TargetName="Border" Property="CornerRadius" Value="10,0,0,10"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
 
         <Style TargetType="{x:Type Expander}">
@@ -450,8 +458,8 @@
                             </VisualStateManager.VisualStateGroups>
                             <Border x:Name="Border"
                                     Grid.Row="0"
-                                    BorderThickness="1"
-                                    CornerRadius="10,5,0,0"
+                                    BorderThickness="0"
+                                    CornerRadius="10,5,5,10"
                                     BorderBrush="{StaticResource Dark_SubBackgroundBrush}"
                                     Background="{StaticResource Dark_SubBackgroundBrush}"
                                     MinHeight="20">
