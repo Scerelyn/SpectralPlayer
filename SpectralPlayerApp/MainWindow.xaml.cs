@@ -444,7 +444,7 @@ namespace SpectralPlayerApp
         {
             if (SongLibrary.SongList.Count <= 0)
             {
-                AddSongHintTextBox.Text = "You dont have any songs in yet!\nGo to File -> Add Song to Library to add songs";
+                AddSongHintTextBox.Text = "You dont have any songs in yet!\nGo to File -> Add File to Library to add songs";
                 AddSongHintTextBox.Visibility = Visibility.Visible;
             }
             else
