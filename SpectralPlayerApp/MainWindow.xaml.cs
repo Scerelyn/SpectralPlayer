@@ -382,6 +382,7 @@ namespace SpectralPlayerApp
                 SongLibrary = new Library();
             }
             SongLibrary.SongList.CollectionChanged += UpdateHintTextBox;
+            UpdateHintTextBox(this, null);
             UpdateLists();
             await callBack();
         }

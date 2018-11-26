@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SpectralPlayerApp.LibraryViewControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListBox x:Name="AlbumListBox" SelectionMode="Extended" Background="{StaticResource Dark_SubBackgroundBrush}" Selector.SelectionChanged="DoSelectionChanged">
+    <ListBox x:Name="AlbumListBox" SelectionMode="Extended" Background="{StaticResource Dark_BackGroundBrush}" Selector.SelectionChanged="DoSelectionChanged" ItemContainerStyle="{StaticResource ListBoxStyle}">
         <ListBox.GroupStyle>
             <GroupStyle>
                 <GroupStyle.ContainerStyle>
@@ -51,40 +51,5 @@
                 <MenuItem Header="Remove song from library" Click="DoRemoveSongs"/>
             </ContextMenu>
         </ListBox.ContextMenu>
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ListBoxItem">
-                            <Border x:Name="ItemBorder"  BorderThickness="1" CornerRadius="5" Padding="5">
-                                <ContentPresenter/>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsSelected" Value="true" />
-                                        <Condition Property="Selector.IsSelectionActive" Value="true" />
-                                    </MultiTrigger.Conditions>
-                                    <Setter TargetName="ItemBorder" Value="{StaticResource ResourceKey=Dark_HighlightBrush}" Property="Background" />
-                                </MultiTrigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsSelected" Value="true" />
-                                        <Condition Property="Selector.IsSelectionActive" Value="false" />
-                                    </MultiTrigger.Conditions>
-                                    <Setter TargetName="ItemBorder" Value="{StaticResource ResourceKey=Dark_HighlightBrush}" Property="Background" />
-                                </MultiTrigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="True"/>
-                                    </MultiTrigger.Conditions>
-                                    <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource ResourceKey=Dark_SubSubBackgroundBrush}"/>
-                                </MultiTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ListBox.ItemContainerStyle>
     </ListBox>
 </UserControl>
