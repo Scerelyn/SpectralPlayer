@@ -23,7 +23,7 @@ namespace SpectralPlayerApp.Dialogs
         public Brush SelectedForegroundBrush { get; set; }
         public string VisualizerChoice { get; set; }
 
-        public VisualizerSettingsDialog(Brush fg, Brush bg)
+        public VisualizerSettingsDialog(Brush fg, Brush bg, int selected=0, bool useDecibel=false)
         {
             InitializeComponent();
             // set defaults for convenience
@@ -65,7 +65,8 @@ namespace SpectralPlayerApp.Dialogs
             }
 
             VisualizerSelectionComboBox.ItemsSource = new List<string>() { "Album Art", "Spectrum", "Peak Meter", "Spectrum Peak" };
-            VisualizerSelectionComboBox.SelectedIndex = 0;
+            VisualizerSelectionComboBox.SelectedIndex = selected;
+            DecibelScaleCheckBox.IsChecked = useDecibel;
         }
 
         public void DoCloseSave(object sender, RoutedEventArgs args)

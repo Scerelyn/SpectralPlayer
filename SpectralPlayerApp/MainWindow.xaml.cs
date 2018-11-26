@@ -502,7 +502,29 @@ namespace SpectralPlayerApp
             string prevDetails = prevRP.Details;
             string prevState = prevRP.State;
             SendDiscordRPCUpdate("Changing some settings", "for their needs");
-            VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(ForegroundBrush, BackgroundBrush);
+            // get the active visualizer so i can set it as a default value for the settings window
+            int selectedVisualizer = 0;
+            bool useDecibel = false;
+            if (MusicPlayerControl.ImageHoldingLabel.Visibility == Visibility.Visible)
+            {
+                selectedVisualizer = 0;
+            }
+            else if (MusicPlayerControl.SpectrumAnalyzer.Visibility == Visibility.Visible)
+            {
+                selectedVisualizer = 1;
+                useDecibel = MusicPlayerControl.SpectrumAnalyzer.UseDecibelScale;
+            }
+            else if (MusicPlayerControl.PeakMeterAnalyzer.Visibility == Visibility.Visible)
+            {
+                selectedVisualizer = 2;
+            }
+            else if (MusicPlayerControl.SpectrumPeakAnalyzer.Visibility == Visibility.Visible)
+            {
+                selectedVisualizer = 3;
+                useDecibel = MusicPlayerControl.SpectrumPeakAnalyzer.UseDecibelScale;
+            }
+            
+            VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(ForegroundBrush, BackgroundBrush, selectedVisualizer, useDecibel);
             vsd.Closed += (s, e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
             vsd.ShowDialog();
             if (vsd.DialogResult ?? false)
