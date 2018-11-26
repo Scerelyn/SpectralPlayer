@@ -18,6 +18,7 @@
                   Background="{StaticResource Dark_BackGroundBrush}"
                   IsReadOnly="True"
                   SelectionChanged="DoSelectionChanged"
+                  BorderBrush="{StaticResource Dark_BackGroundBrush}"
                   >
         <DataGrid.Columns>
             <DataGridTextColumn Header="Song" Binding="{Binding Name}"/>
