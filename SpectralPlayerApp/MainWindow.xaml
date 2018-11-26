@@ -44,7 +44,14 @@
                      x:Name="LibraryDock">
                 <TabControl Background="{StaticResource Dark_BackGroundBrush}">
                     <TabItem Header="All Songs" Background="{StaticResource Dark_BackGroundBrush}">
-                        <libviews:LibraryAllSongsListViewControl x:Name="AllSongsControl" ScrollViewer.CanContentScroll="True"/>
+                        <DockPanel>
+                            <TextBox x:Name="AddSongHintTextBox" 
+                                     Foreground="{StaticResource Dark_FontBrush}" 
+                                     Background="{StaticResource Dark_BackGroundBrush}"  
+                                     DockPanel.Dock="Top"
+                                     Visibility="Collapsed"/>
+                            <libviews:LibraryAllSongsListViewControl x:Name="AllSongsControl" ScrollViewer.CanContentScroll="True" DockPanel.Dock="Top"/>
+                        </DockPanel>
                     </TabItem>
                     <TabItem Header="Albums" Background="{StaticResource Dark_SubBackgroundBrush}">
                         <libviews:LibraryAlbumListViewControl x:Name="AlbumsControl" ScrollViewer.CanContentScroll="True"/>

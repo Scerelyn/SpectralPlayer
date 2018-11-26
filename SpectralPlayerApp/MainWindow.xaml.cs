@@ -365,6 +365,10 @@ namespace SpectralPlayerApp
         /// <returns></returns>
         public async Task AsyncDeserialize(Func<Task> callBack)
         {
+            if (SongLibrary?.SongList != null)
+            {
+                SongLibrary.SongList.CollectionChanged -= UpdateHintTextBox; // remove old listener to avoid resource leaks
+            }
             Dispatcher.Invoke(() => {
                 BackgroundTaskLabel.Content = "Opening Library...";
                 BackgroundTaskDockPanel.Visibility = Visibility.Visible;
@@ -377,6 +381,7 @@ namespace SpectralPlayerApp
             {
                 SongLibrary = new Library();
             }
+            SongLibrary.SongList.CollectionChanged += UpdateHintTextBox;
             UpdateLists();
             await callBack();
         }
@@ -433,6 +438,19 @@ namespace SpectralPlayerApp
             }
             AsyncSerialize(BackgroundCallback);
             UpdateLists();
+        }
+
+        private void UpdateHintTextBox(object sender, EventArgs args)
+        {
+            if (SongLibrary.SongList.Count <= 0)
+            {
+                AddSongHintTextBox.Text = "You dont have any songs in yet!\nGo to File -> Add Song to Library to add songs";
+                AddSongHintTextBox.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                AddSongHintTextBox.Visibility = Visibility.Collapsed;
+            }
         }
 
         #endregion
