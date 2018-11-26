@@ -353,7 +353,7 @@
             <Border x:Name="Border"
                     CornerRadius="10,0,0,0"
                     BorderThickness="0,0,2,0"
-                    Background="{StaticResource Dark_SubBackgroundBrush}"
+                    Background="{StaticResource Dark_SubSubBackgroundBrush}"
                     BorderBrush="{StaticResource Dark_HighlightBrush}">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup x:Name="CommonStates">
@@ -363,7 +363,7 @@
                                 <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
                                           Storyboard.TargetProperty="(Panel.Background).Color">
                                     <EasingColorKeyFrame KeyTime="0"
-                                                         Value="{StaticResource Dark_SubSubBackgroundColor}" />
+                                                         Value="{StaticResource Dark_HighlightColor}" />
                                 </ColorAnimationUsingKeyFrames>
                             </Storyboard>
                         </VisualState>
@@ -372,7 +372,7 @@
                                 <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
                                                               Storyboard.TargetProperty="(Panel.Background).Color">
                                     <EasingColorKeyFrame KeyTime="0"
-                                                         Value="{StaticResource Dark_HighlightColor}" />
+                                                         Value="{StaticResource Dark_BrightHighlightColor}" />
                                 </ColorAnimationUsingKeyFrames>
                             </Storyboard>
                         </VisualState>
@@ -460,8 +460,8 @@
                                     Grid.Row="0"
                                     BorderThickness="0"
                                     CornerRadius="10,5,5,10"
-                                    BorderBrush="{StaticResource Dark_SubBackgroundBrush}"
-                                    Background="{StaticResource Dark_SubBackgroundBrush}"
+                                    BorderBrush="{StaticResource Dark_SubSubBackgroundBrush}"
+                                    Background="{StaticResource Dark_SubSubBackgroundBrush}"
                                     MinHeight="20">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
