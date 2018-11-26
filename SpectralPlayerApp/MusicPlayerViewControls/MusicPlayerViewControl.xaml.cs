@@ -418,7 +418,6 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         {
             if (UpNextControl.UpNext.SongList.Count > 0)
             {
-                previousSongs.Push(activeSong); // push just played song onto the history stack
                 prevRecord = true; //tell the stop we want to record the previous song
                 player.Stop(); //call the onstopped, this will take care of the rest, like the next song
                 if (activeSong != null)
@@ -444,7 +443,13 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 if (player.PlaybackState == PlaybackState.Stopped)
                 {
                     UpNextControl.UpNext.SongList.Insert(0, previousSongs.Pop());
+                    Song formerActive = activeSong;
+                    prevRecord = false;
                     SetupNextSong();
+                    if (formerActive != null)
+                    {
+                        UpNextControl.UpNext.SongList.Insert(0, formerActive);
+                    }
                     if (activeSong != null)
                     {
                         ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
@@ -456,6 +461,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 }
                 else
                 {
+                    UpNextControl.UpNext.SongList.Insert(0, activeSong);
                     UpNextControl.UpNext.SongList.Insert(0, previousSongs.Pop());
                     prevRecord = false; //tell the stop to not record the previous song
                     player.Stop();
