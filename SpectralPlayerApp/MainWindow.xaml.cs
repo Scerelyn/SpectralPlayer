@@ -465,20 +465,37 @@ namespace SpectralPlayerApp
             {
                 foreach(string name in OpenAudioFileDialog.FileNames)
                 {
-                    var tagFile = TagLib.File.Create(name);
-                    var tags = tagFile.Tag;
-
-                    SongLibrary.SongList.Add(new Song()
+                    try
                     {
-                        Name = tags.Title == "" ? "Unknown Song" : tags.Title,
-                        FilePath = name,
-                        Artist = tags.FirstPerformer == "" ? "Unknown Artist" : tags.FirstPerformer,
-                        AlbumName = tags.Album == "" ? "Unknown Album" : tags.Album,
-                        AlbumArtist = tags.FirstAlbumArtist,
-                        Genre = tags.FirstGenre,
-                        TrackNumber = (int)tags.Track,
-                        Year = tags.Year == 0 ? "" : tags.Year+"",
-                    });
+                        var tagFile = TagLib.File.Create(name);
+                        var tags = tagFile.Tag;
+
+                        SongLibrary.SongList.Add(new Song()
+                        {
+                            Name = tags.Title == "" ? "Unknown Song" : tags.Title,
+                            FilePath = name,
+                            Artist = tags.FirstPerformer == "" ? "Unknown Artist" : tags.FirstPerformer,
+                            AlbumName = tags.Album == "" ? "Unknown Album" : tags.Album,
+                            AlbumArtist = tags.FirstAlbumArtist,
+                            Genre = tags.FirstGenre,
+                            TrackNumber = (int)tags.Track,
+                            Year = tags.Year == 0 ? "1970" : tags.Year + "",
+                        });
+                    } catch(Exception e)
+                    {
+                        SongLibrary.SongList.Add(new Song()
+                        {
+                            Name = "Unknown Song",
+                            FilePath = name,
+                            Artist = "Unknown Artist",
+                            AlbumName = "Unknown Album",
+                            AlbumArtist = "",
+                            Genre = "",
+                            TrackNumber = 0,
+                            Year = "1970",
+                        });
+                    }
+                    
                 }
                 UpdateLists();
                 AsyncSerialize(BackgroundCallback);
