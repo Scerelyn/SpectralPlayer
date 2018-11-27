@@ -64,7 +64,7 @@ namespace SpectralPlayerApp
             MusicPlayerControl.ParentWindow = this;
 
             client.Initialize();
-            SendDiscordRPCUpdate("Sitting in the main window", "Listening to nothing");
+            SendDiscordRPCUpdate("Sitting in the main window", "Listening to nothing", "silence");
         }
 
         #region Public methods
@@ -414,16 +414,22 @@ namespace SpectralPlayerApp
         /// </summary>
         /// <param name="details">The details to send</param>
         /// <param name="state">The state to send</param>
-        public void SendDiscordRPCUpdate(string details, string state)
+        /// <param name="imageKey">The key of the image to use</param>
+        public void SendDiscordRPCUpdate(string details, string state, string imageKey="")
         {
             RichPresence rp = new RichPresence()
             {
                 Details = details,
                 State = state,
             };
+            if (!string.IsNullOrEmpty(imageKey))
+            {
+                rp.Assets = new Assets() { LargeImageKey = imageKey };
+            }
             client.SetPresence(rp);
             prevRP.Details = rp.Details;
             prevRP.State = rp.State;
+            prevRP.Assets = rp.Assets;
             client.Invoke();
         }
 
@@ -517,9 +523,10 @@ namespace SpectralPlayerApp
         {
             string prevDetails = prevRP.Details;
             string prevState = prevRP.State;
-            SendDiscordRPCUpdate("Converting an audio file", "of some kind");
+            string prevAssests = prevRP.Assets?.LargeImageKey;
+            SendDiscordRPCUpdate("Converting an audio file", "of some kind", "settings");
             ConvertFileDialog cfd = new ConvertFileDialog(this);
-            cfd.Closed += (s, e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
+            cfd.Closed += (s, e) => { SendDiscordRPCUpdate(prevDetails, prevState, prevAssests); };
             cfd.ShowDialog();
         }
 
@@ -527,9 +534,10 @@ namespace SpectralPlayerApp
         {
             string prevDetails = prevRP.Details;
             string prevState = prevRP.State;
-            SendDiscordRPCUpdate("Converting a song","of some kind");
+            string prevAssests = prevRP.Assets.LargeImageKey;
+            SendDiscordRPCUpdate("Converting a song","of some kind", "settings");
             ConvertSongDialog csd = new ConvertSongDialog(SongLibrary, this);
-            csd.Closed += (s,e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
+            csd.Closed += (s,e) => { SendDiscordRPCUpdate(prevDetails, prevState, prevAssests); };
             csd.ShowDialog();
         }
 
@@ -537,7 +545,8 @@ namespace SpectralPlayerApp
         {
             string prevDetails = prevRP.Details;
             string prevState = prevRP.State;
-            SendDiscordRPCUpdate("Changing some settings", "for their needs");
+            string prevAssests = prevRP.Assets.LargeImageKey;
+            SendDiscordRPCUpdate("Changing some settings", "for their needs", "settings");
             // get the active visualizer so i can set it as a default value for the settings window
             int selectedVisualizer = 0;
             bool useDecibel = false;
@@ -561,7 +570,7 @@ namespace SpectralPlayerApp
             }
             
             VisualizerSettingsDialog vsd = new VisualizerSettingsDialog(ForegroundBrush, BackgroundBrush, selectedVisualizer, useDecibel);
-            vsd.Closed += (s, e) => { SendDiscordRPCUpdate(prevDetails, prevState); };
+            vsd.Closed += (s, e) => { SendDiscordRPCUpdate(prevDetails, prevState, prevAssests); };
             vsd.ShowDialog();
             if (vsd.DialogResult ?? false)
             {

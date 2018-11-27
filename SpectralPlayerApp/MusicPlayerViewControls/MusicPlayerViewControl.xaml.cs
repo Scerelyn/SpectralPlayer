@@ -102,11 +102,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         //discord update
                         if (activeSong != null)
                         {
-                            ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
+                            ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}", "listening");
                         }
                         else
                         {
-                            ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                            ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life", "silence");
                         }
 
                         if (playerInputStream != null) //not null means a song after the finished on exists
@@ -138,7 +138,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                         SeekSlider.Value = 0;
                         SeekSlider.IsEnabled = false;
                         timer.Stop();
-                        ParentWindow.SendDiscordRPCUpdate("Sitting in the main window","Enjoying the silence");
+                        ParentWindow.SendDiscordRPCUpdate("Sitting in the main window","Enjoying the silence", "silence");
                     }
                 }
                 else // stop is called when seeking
@@ -240,11 +240,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 //discord update
                 if (activeSong != null)
                 {
-                    ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
+                    ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}", "listening");
                 }
                 else
                 {
-                    ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                    ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life", "silence");
                 }
 
                 //set the seek bar 
@@ -422,11 +422,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 player.Stop(); //call the onstopped, this will take care of the rest, like the next song
                 if (activeSong != null)
                 {
-                    ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
+                    ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}", "listening");
                 }
                 else
                 {
-                    ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                    ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life", "silence");
                 }
             }
         }
@@ -452,11 +452,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     }
                     if (activeSong != null)
                     {
-                        ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
+                        ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}", "listening");
                     }
                     else
                     {
-                        ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                        ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life", "silence");
                     }
                 }
                 else
@@ -467,11 +467,11 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                     player.Stop();
                     if (activeSong != null)
                     {
-                        ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}");
+                        ParentWindow.SendDiscordRPCUpdate($"Listening to {activeSong.Name}", $"by {activeSong.Artist}", "listening");
                     }
                     else
                     {
-                        ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life");
+                        ParentWindow.SendDiscordRPCUpdate("Sitting in silence", "and pondering life", "silence");
                     }
                 }
             }
