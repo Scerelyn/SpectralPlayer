@@ -28,7 +28,7 @@ namespace SpectralPlayerApp.Dialogs
         private OpenFileDialog openFileDialog = new OpenFileDialog()
         {
             Multiselect = true,
-            Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac;*.m4a)|*.mp3;*.wav;*.flac;*.ogg;*.aac;*.m4a"
+            Filter = "Audio (*.mp3;*.wav;*.flac;*.ogg;*.aac;*.m4a;*.wma)|*.mp3;*.wav;*.flac;*.ogg;*.aac;*.m4a;*.wma"
         };
         private VistaFolderBrowserDialog folderBrowserDialog = new VistaFolderBrowserDialog();
 
