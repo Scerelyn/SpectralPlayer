@@ -33,7 +33,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
         public Song GetNextSong()
         {
             Song s = UpNext.PopNextSong();
-            if (Looping)
+            if (Looping && s != null)
             {
                 UpNext.SongList.Add(s);
             }
