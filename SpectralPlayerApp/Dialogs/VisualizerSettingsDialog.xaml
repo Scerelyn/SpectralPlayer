@@ -29,7 +29,8 @@
                        FontSize="20"
                        Foreground="{StaticResource Dark_FontBrush}"/>
                 <ComboBox x:Name="VisualizerSelectionComboBox"
-                          FontSize="20"/>
+                          FontSize="20"
+                          SelectionChanged="DoSelectionChanged"/>
             </StackPanel>
             <StackPanel x:Name="BGColorStackPanel" Orientation="Horizontal" Margin="10">
                 <Label Content="Background Color: "

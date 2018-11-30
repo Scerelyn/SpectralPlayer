@@ -67,6 +67,7 @@ namespace SpectralPlayerApp.Dialogs
             VisualizerSelectionComboBox.ItemsSource = new List<string>() { "Album Art", "Spectrum", "Peak Meter", "Spectrum Peak" };
             VisualizerSelectionComboBox.SelectedIndex = selected;
             DecibelScaleCheckBox.IsChecked = useDecibel;
+            DoSelectionChanged(null, null);
         }
 
         public void DoCloseSave(object sender, RoutedEventArgs args)
@@ -151,6 +152,34 @@ namespace SpectralPlayerApp.Dialogs
             else
             {
                 BGColor2StackPanel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void DoSelectionChanged(object sender, SelectionChangedEventArgs args)
+        {
+            if (VisualizerSelectionComboBox.SelectedItem as string == "Peak Meter")
+            {
+                BGColorStackPanel.Visibility = Visibility.Visible;
+                FGColorStackPanel.Visibility = Visibility.Visible;
+                UseBGGradientBrushCheckBox.Visibility = Visibility.Visible;
+                UseFGGradientBrushCheckBox.Visibility = Visibility.Visible;
+                DecibelScaleCheckBox.Visibility = Visibility.Hidden;
+            }
+            else if (VisualizerSelectionComboBox.SelectedItem as string == "Spectrum" || VisualizerSelectionComboBox.SelectedItem as string == "Spectrum Peak")
+            {
+                BGColorStackPanel.Visibility = Visibility.Visible;
+                FGColorStackPanel.Visibility = Visibility.Visible;
+                UseBGGradientBrushCheckBox.Visibility = Visibility.Visible;
+                UseFGGradientBrushCheckBox.Visibility = Visibility.Visible;
+                DecibelScaleCheckBox.Visibility = Visibility.Visible;
+            }
+            else if(VisualizerSelectionComboBox.SelectedItem as string == "Album Art")
+            {
+                BGColorStackPanel.Visibility = Visibility.Hidden;
+                FGColorStackPanel.Visibility = Visibility.Hidden;
+                UseBGGradientBrushCheckBox.Visibility = Visibility.Hidden;
+                UseFGGradientBrushCheckBox.Visibility = Visibility.Hidden;
+                DecibelScaleCheckBox.Visibility = Visibility.Hidden;
             }
         }
     }
