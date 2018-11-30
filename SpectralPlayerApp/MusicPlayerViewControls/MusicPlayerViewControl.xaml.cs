@@ -117,6 +117,7 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                             SeekSlider.IsEnabled = true;
                             //setup the player
                             player.Init(playerInputStream);
+                            Playbutton.Content = new Image() { Source = new BitmapImage(new Uri("pack://application:,,,/SpectralPlayerApp;component/Images/PlayerUI/pause.png")) };
                             player.Play();
                             timer.Start();
                         }

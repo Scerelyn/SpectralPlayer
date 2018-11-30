@@ -127,6 +127,7 @@
       <DependentUpon>SpectrumPeakViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\FFTAnalyzer.cs" />
+    <Compile Include="Utils\MonoStereoSwapProvider.cs" />
     <Compile Include="Utils\VolumePeakAnalyzer.cs" />
     <Page Include="Dialogs\ConvertFileDialog.xaml">
       <SubType>Designer</SubType>
