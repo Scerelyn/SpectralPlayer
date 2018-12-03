@@ -56,7 +56,7 @@ namespace SpectralPlayerApp.LibraryViewControls
                 AddAlbumPlaylistMenuItem.Visibility = Visibility.Visible;
                 AddAlbumPlaylistMenuItem.Header = $"Add Album {(AlbumListBox.SelectedItems[0] as Song).AlbumName} to playlist...";
                 EditSongInfoMenuItem.Visibility = Visibility.Visible;
-                ShuffleAlbumIntoMenuItem.Header = $"Shuffle Album {(AlbumListBox.SelectedItems[0] as Song).AlbumName}";
+                ShuffleAlbumIntoMenuItem.Header = $"Shuffle Album {(AlbumListBox.SelectedItems[0] as Song).AlbumName} into Up-Next";
             }
             else
             {

@@ -39,12 +39,13 @@
                   Grid.Column="2"
                   Grid.Row="1"/>
         <Button Content="Export"
-                FontSize="24"
+                FontSize="20"
                 Grid.Column="1" 
                 Grid.Row="9"
                 Style="{StaticResource Dark_ButtonStyle}"
                 Click="DoFileConvert"
-                x:Name="Exportbutton"/>
+                x:Name="Exportbutton"
+                Margin="10"/>
         <ProgressBar x:Name="WaitingProgressBar" 
                      IsIndeterminate="True"
                      Grid.Column="2"
