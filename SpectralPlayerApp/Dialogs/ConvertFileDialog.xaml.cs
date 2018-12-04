@@ -269,17 +269,21 @@ namespace SpectralPlayerApp.Dialogs
         /// <returns>A converted IWaveProvider of the original input in either mono or stereo</returns>
         public IWaveProvider MonoStereoConvert(ISampleProvider input, bool toMono)
         {
-            if (toMono)
+            if (toMono && input.WaveFormat.Channels != 1)
             {
                 var stmp = new StereoToMonoSampleProvider(input);
                 return stmp.ToWaveProvider();
             }
-            else
+            else if (!toMono && input.WaveFormat.Channels != 2)
             {
                 var mtsp = new MonoToStereoSampleProvider(input);
                 mtsp.LeftVolume = 0.7f;
                 mtsp.RightVolume = 0.7f; //0.7 on each to avoid double loud
                 return mtsp.ToWaveProvider();
+            }
+            else
+            {
+                return input.ToWaveProvider();
             }
         }
 
