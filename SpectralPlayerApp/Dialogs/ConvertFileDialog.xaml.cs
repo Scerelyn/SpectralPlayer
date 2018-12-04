@@ -2,6 +2,7 @@
 using NAudio.Flac;
 using NAudio.Vorbis;
 using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
@@ -93,7 +94,7 @@ namespace SpectralPlayerApp.Dialogs
         private async Task ConvertFiles(Func<Task> callBack)
         {
             await Task.Delay(250); // give time for rendering changes
-            WaveStream inputStream = null;
+            ISampleProvider inputStream = null;
             for (int i = 0; i < filePaths.Count(); i++)
             {
                 try
@@ -135,7 +136,7 @@ namespace SpectralPlayerApp.Dialogs
                                 int bytesRead = 0;
                                 do
                                 {
-                                    bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                                    bytesRead = provider.Read(buffer, 0, buffer.Length);
                                     writer.Write(buffer, 0, bytesRead);
                                 } while (bytesRead > 0);
                             }
@@ -149,7 +150,8 @@ namespace SpectralPlayerApp.Dialogs
                                 int bytesRead = 0;
                                 do
                                 {
-                                    bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                                    IWaveProvider inputAsWave = inputStream.ToWaveProvider();
+                                    bytesRead = inputAsWave.Read(buffer, 0, buffer.Length);
                                     writer.Write(buffer, 0, bytesRead);
                                 } while (bytesRead > 0);
                             }
@@ -188,13 +190,13 @@ namespace SpectralPlayerApp.Dialogs
                         {
                             IWaveProvider provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
                             using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
-                            using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
+                            using (WaveFileWriter writer = new WaveFileWriter(fileStream, provider.WaveFormat))
                             {
                                 byte[] buffer = new byte[4096];
                                 int bytesRead = 0;
                                 do
                                 {
-                                    bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                                    bytesRead = provider.Read(buffer, 0, buffer.Length);
                                     writer.Write(buffer, 0, bytesRead);
                                 } while (bytesRead > 0);
                             }
@@ -208,7 +210,8 @@ namespace SpectralPlayerApp.Dialogs
                                 int bytesRead = 0;
                                 do
                                 {
-                                    bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                                    IWaveProvider inputAsWave = inputStream.ToWaveProvider();
+                                    bytesRead = inputAsWave.Read(buffer, 0, buffer.Length);
                                     writer.Write(buffer, 0, bytesRead);
                                 } while (bytesRead > 0);
                             }
@@ -235,7 +238,7 @@ namespace SpectralPlayerApp.Dialogs
                 }
                 finally
                 {
-                    inputStream?.Close();
+                    (inputStream as WaveStream)?.Close();
                 }
             }
             await callBack();
@@ -261,22 +264,22 @@ namespace SpectralPlayerApp.Dialogs
         /// <summary>
         /// Converts the given input wavestream into mono or stereo
         /// </summary>
-        /// <param name="input">The input WaveStream to convert</param>
+        /// <param name="input">The input SampleProvider to convert</param>
         /// <param name="toMono">True for mono output, or false for stereo output</param>
         /// <returns>A converted IWaveProvider of the original input in either mono or stereo</returns>
-        public IWaveProvider MonoStereoConvert(WaveStream input, bool toMono)
+        public IWaveProvider MonoStereoConvert(ISampleProvider input, bool toMono)
         {
             if (toMono)
             {
-                var stmp = new StereoToMonoProvider16(input);
-                return stmp;
+                var stmp = new StereoToMonoSampleProvider(input);
+                return stmp.ToWaveProvider();
             }
             else
             {
-                var mtsp = new MonoToStereoProvider16(input);
+                var mtsp = new MonoToStereoSampleProvider(input);
                 mtsp.LeftVolume = 0.7f;
                 mtsp.RightVolume = 0.7f; //0.7 on each to avoid double loud
-                return mtsp;
+                return mtsp.ToWaveProvider();
             }
         }
 
