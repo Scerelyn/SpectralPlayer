@@ -126,35 +126,25 @@ namespace SpectralPlayerApp.Dialogs
                         {
                             monoStereoSelection = MSConvertComboBox.SelectedItem as string;
                         });
+                        IWaveProvider provider;
                         if (monoStereoSelection != "Leave as is" && monoStereoSelection != "")
                         {
-                            IWaveProvider provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
-                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.mp3"))
-                            using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, provider.WaveFormat, 320000))
-                            {
-                                byte[] buffer = new byte[4096];
-                                int bytesRead = 0;
-                                do
-                                {
-                                    bytesRead = provider.Read(buffer, 0, buffer.Length);
-                                    writer.Write(buffer, 0, bytesRead);
-                                } while (bytesRead > 0);
-                            }
+                            provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
                         }
                         else
                         {
-                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.mp3"))
-                            using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, inputStream.WaveFormat, 320000))
+                            provider = inputStream.ToWaveProvider();
+                        }
+                        using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.mp3"))
+                        using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, provider.WaveFormat, 320000))
+                        {
+                            byte[] buffer = new byte[4096];
+                            int bytesRead = 0;
+                            do
                             {
-                                byte[] buffer = new byte[4096];
-                                int bytesRead = 0;
-                                do
-                                {
-                                    IWaveProvider inputAsWave = inputStream.ToWaveProvider();
-                                    bytesRead = inputAsWave.Read(buffer, 0, buffer.Length);
-                                    writer.Write(buffer, 0, bytesRead);
-                                } while (bytesRead > 0);
-                            }
+                                bytesRead = provider.Read(buffer, 0, buffer.Length);
+                                writer.Write(buffer, 0, bytesRead);
+                            } while (bytesRead > 0);
                         }
                         TagLib.File outputTags = TagLib.File.Create($"{outputPath}//{safeFileNames[i]}.mp3");
                         TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
@@ -186,35 +176,25 @@ namespace SpectralPlayerApp.Dialogs
                         {
                             monoStereoSelection = MSConvertComboBox.SelectedItem as string;
                         });
+                        IWaveProvider provider;
                         if (monoStereoSelection != "Leave as is" && monoStereoSelection != "")
                         {
-                            IWaveProvider provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
-                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
-                            using (WaveFileWriter writer = new WaveFileWriter(fileStream, provider.WaveFormat))
-                            {
-                                byte[] buffer = new byte[4096];
-                                int bytesRead = 0;
-                                do
-                                {
-                                    bytesRead = provider.Read(buffer, 0, buffer.Length);
-                                    writer.Write(buffer, 0, bytesRead);
-                                } while (bytesRead > 0);
-                            }
+                            provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
                         }
                         else
                         {
-                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
-                            using (WaveFileWriter writer = new WaveFileWriter(fileStream, inputStream.WaveFormat))
+                            provider = inputStream.ToWaveProvider();
+                        }
+                        using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
+                        using (WaveFileWriter writer = new WaveFileWriter(fileStream, provider.WaveFormat))
+                        {
+                            byte[] buffer = new byte[4096];
+                            int bytesRead = 0;
+                            do
                             {
-                                byte[] buffer = new byte[4096];
-                                int bytesRead = 0;
-                                do
-                                {
-                                    IWaveProvider inputAsWave = inputStream.ToWaveProvider();
-                                    bytesRead = inputAsWave.Read(buffer, 0, buffer.Length);
-                                    writer.Write(buffer, 0, bytesRead);
-                                } while (bytesRead > 0);
-                            }
+                                bytesRead = provider.Read(buffer, 0, buffer.Length);
+                                writer.Write(buffer, 0, bytesRead);
+                            } while (bytesRead > 0);
                         }
                         TagLib.File outputTags = TagLib.File.Create($"{outputPath}/{safeFileNames[i]}.wav");
                         TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
