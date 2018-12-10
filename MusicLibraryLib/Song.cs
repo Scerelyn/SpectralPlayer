@@ -114,7 +114,7 @@ namespace MusicLibraryLib
 
         public override string ToString()
         {
-            return $"{Name} by {Artist} on {AlbumName} ({Year})";
+            return $"{Name} by {Artist} on {AlbumName}" + (Year != "0" ? Year : "");
         }
 
         #endregion
