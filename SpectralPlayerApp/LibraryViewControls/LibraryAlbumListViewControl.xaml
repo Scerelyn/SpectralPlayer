@@ -14,7 +14,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Expander IsExpanded="True">
+                                    <Expander IsExpanded="False">
                                         <Expander.Header>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock  Style="{StaticResource Dark_TextBlockStyle}" Text="{Binding Name}" />
