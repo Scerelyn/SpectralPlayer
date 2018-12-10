@@ -79,6 +79,52 @@ namespace MusicLibraryLib
             return SongList.OrderBy(song => song.Year).ThenBy(song => song.Artist);
         }
 
+
+        public Dictionary<string, List<Song>> GroupByProperty(SongPropertyGroup propertyGroup)
+        {
+            Dictionary<string, List<Song>> Groupings = new Dictionary<string, List<Song>>();
+            foreach(Song s in SongList)
+            {
+                switch (propertyGroup)
+                {
+                    case SongPropertyGroup.Album:
+                        if (Groupings.Keys.Contains(s.AlbumName))
+                        {
+                            Groupings[s.AlbumName].Add(s);
+                        }
+                        else
+                        {
+                            Groupings.Add(s.AlbumName, new List<Song>());
+                            Groupings[s.AlbumName].Add(s);
+                        }
+                        break;
+                    case SongPropertyGroup.Artist:
+                        if (Groupings.Keys.Contains(s.Artist))
+                        {
+                            Groupings[s.Artist].Add(s);
+                        }
+                        else
+                        {
+                            Groupings.Add(s.Artist, new List<Song>());
+                            Groupings[s.Artist].Add(s);
+                        }
+                        break;
+                    case SongPropertyGroup.Genre:
+                        if (Groupings.Keys.Contains(s.Genre))
+                        {
+                            Groupings[s.Genre].Add(s);
+                        }
+                        else
+                        {
+                            Groupings.Add(s.Genre, new List<Song>());
+                            Groupings[s.Genre].Add(s);
+                        }
+                        break;
+                }
+            }
+            return Groupings;
+        }
+
         #endregion
 
         #region Events/Delegates
@@ -98,4 +144,9 @@ namespace MusicLibraryLib
         
         #endregion
     }
+
+    /// <summary>
+    /// Used for determining which property to group songs by
+    /// </summary>
+    public enum SongPropertyGroup { Artist, Album, Genre }
 }
