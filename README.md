@@ -1,7 +1,11 @@
+![logo](https://github.com/Scerelyn/SpectralPlayer/blob/master/SpectralPlayerApp/Images/PlayerUI/logo_small.png) 
 # SpectralPlayer
-![logo-2.jpg](https://github.com/candyskull920/SpectralPlayer/blob/master/SpectralPlayerApp/Images/PlayerUI/logo_small.png)
-A C# WPF Music player that provides a user with the ability to organize their locally store music collection by name, album, artist, etc. and play the audio however they wish.
-The music player includes controls such as play/pause, skip/back, volume control, and seeking.
-The user also has a choice in numerous visualizations such as spectrum analyzer, peak meter, or album art.
-This app also provides the abiltiy to edit the audio by editing meta data (tags), switching between mono and stereo, and converting to some other file types.
+
+### A C# WPF Music player that provides a user with the ability to organize their locally stored music collection and perform editing on those audio files.
+## Features
+##### Organization of locally stored audio files, such as sorting or grouping by album, artist, genre, etc.
+##### Ability to play audio files by queueing songs into a playlist
+##### A music player including controls such as play/pause, skip/back, volume control, and seeking.
+##### Customizable choices of audio visualizations such as spectrum analyzer, peak meter, or album art, with customizable colors
+##### Editing of audio files such as conversions to some other file types, editing of metadata/tags, converting between mono/stereo channels
 
