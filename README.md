@@ -1,5 +1,5 @@
 # SpectralPlayer
-![logo-2.jpg](https://github.com/candyskull920/SpectralPlayer/blob/master/SpectralPlayerApp/Images/PlayerUI/fantasma-logo-version-7-cambio.png?s=200)
+![logo-2.jpg](https://github.com/candyskull920/SpectralPlayer/blob/master/SpectralPlayerApp/Images/PlayerUI/logo_small.png)
 A C# WPF Music player that provides a user with the ability to organize their locally store music collection by name, album, artist, etc. and play the audio however they wish.
 The music player includes controls such as play/pause, skip/back, volume control, and seeking.
 The user also has a choice in numerous visualizations such as spectrum analyzer, peak meter, or album art.
