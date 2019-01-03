@@ -94,7 +94,7 @@ namespace SpectralPlayerApp.Dialogs
         private async Task ConvertFiles(Func<Task> callBack)
         {
             await Task.Delay(250); // give time for rendering changes
-            ISampleProvider inputStream = null;
+            WaveStream inputStream = null;
             for (int i = 0; i < filePaths.Count(); i++)
             {
                 try
@@ -126,26 +126,39 @@ namespace SpectralPlayerApp.Dialogs
                         {
                             monoStereoSelection = MSConvertComboBox.SelectedItem as string;
                         });
-                        IWaveProvider provider;
-                        if (monoStereoSelection != "Leave as is" && monoStereoSelection != "")
+                        if (inputStream.WaveFormat.BitsPerSample == 16)
                         {
-                            provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
-                        }
-                        else
-                        {
-                            provider = inputStream.ToWaveProvider();
-                        }
-                        using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.mp3"))
-                        using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, provider.WaveFormat, 320000))
-                        {
-                            byte[] buffer = new byte[4096];
-                            int bytesRead = 0;
-                            do
+                            IWaveProvider provider = MonoStereoConvert16(inputStream, monoStereoSelection == "Mono");
+                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.mp3"))
+                            using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, provider.WaveFormat, 320000))
                             {
-                                bytesRead = provider.Read(buffer, 0, buffer.Length);
-                                writer.Write(buffer, 0, bytesRead);
-                            } while (bytesRead > 0);
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    bytesRead = provider.Read(buffer, 0, buffer.Length);
+                                    writer.Write(buffer, 0, bytesRead);
+                                } while (bytesRead > 0);
+                            }
                         }
+                        else if(inputStream.WaveFormat.BitsPerSample == 32)
+                        {
+                            ISampleProvider provider = MonoStereoConvert32(inputStream as ISampleProvider, monoStereoSelection == "Mono");
+                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.mp3"))
+                            using (NAudio.Lame.LameMP3FileWriter writer = new NAudio.Lame.LameMP3FileWriter(fileStream, provider.WaveFormat, 320000))
+                            {
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    var providerAsWave = provider.ToWaveProvider(); // need to write with bytes not floats
+                                    bytesRead = providerAsWave.Read(buffer, 0, buffer.Length);
+                                    writer.Write(buffer, 0, bytesRead);
+                                } while (bytesRead > 0);
+                            }
+                        }
+                        
+                        
                         TagLib.File outputTags = TagLib.File.Create($"{outputPath}//{safeFileNames[i]}.mp3");
                         TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
                         outputTags.Tag.Album = inputTags.Tag.Album;
@@ -176,25 +189,36 @@ namespace SpectralPlayerApp.Dialogs
                         {
                             monoStereoSelection = MSConvertComboBox.SelectedItem as string;
                         });
-                        IWaveProvider provider;
-                        if (monoStereoSelection != "Leave as is" && monoStereoSelection != "")
+                        if (inputStream.WaveFormat.BitsPerSample == 16)
                         {
-                            provider = MonoStereoConvert(inputStream, monoStereoSelection == "Mono");
-                        }
-                        else
-                        {
-                            provider = inputStream.ToWaveProvider();
-                        }
-                        using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
-                        using (WaveFileWriter writer = new WaveFileWriter(fileStream, provider.WaveFormat))
-                        {
-                            byte[] buffer = new byte[4096];
-                            int bytesRead = 0;
-                            do
+                            IWaveProvider provider = MonoStereoConvert16(inputStream, monoStereoSelection == "Mono");
+                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
+                            using (WaveFileWriter writer = new WaveFileWriter(fileStream, provider.WaveFormat))
                             {
-                                bytesRead = provider.Read(buffer, 0, buffer.Length);
-                                writer.Write(buffer, 0, bytesRead);
-                            } while (bytesRead > 0);
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    bytesRead = provider.Read(buffer, 0, buffer.Length);
+                                    writer.Write(buffer, 0, bytesRead);
+                                } while (bytesRead > 0);
+                            }
+                        }
+                        else if (inputStream.WaveFormat.BitsPerSample == 32)
+                        {
+                            ISampleProvider provider = MonoStereoConvert32(inputStream as ISampleProvider, monoStereoSelection == "Mono");
+                            using (FileStream fileStream = File.Create($"{outputPath}/{safeFileNames[i]}.wav"))
+                            using (WaveFileWriter writer = new WaveFileWriter(fileStream, provider.WaveFormat))
+                            {
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    var providerAsWave = provider.ToWaveProvider(); // need to write with bytes not floats
+                                    bytesRead = providerAsWave.Read(buffer, 0, buffer.Length);
+                                    writer.Write(buffer, 0, bytesRead);
+                                } while (bytesRead > 0);
+                            }
                         }
                         TagLib.File outputTags = TagLib.File.Create($"{outputPath}/{safeFileNames[i]}.wav");
                         TagLib.File inputTags = TagLib.File.Create(filePaths[i]);
@@ -242,28 +266,54 @@ namespace SpectralPlayerApp.Dialogs
         }
 
         /// <summary>
-        /// Converts the given input wavestream into mono or stereo
+        /// Converts the given input wavestream into mono or stereo for 16 bit samples
         /// </summary>
-        /// <param name="input">The input SampleProvider to convert</param>
+        /// <param name="input">The input WaveProvider to convert</param>
         /// <param name="toMono">True for mono output, or false for stereo output</param>
         /// <returns>A converted IWaveProvider of the original input in either mono or stereo</returns>
-        public IWaveProvider MonoStereoConvert(ISampleProvider input, bool toMono)
+        public IWaveProvider MonoStereoConvert16(IWaveProvider input, bool toMono)
+        {
+            if (toMono && input.WaveFormat.Channels != 1)
+            {
+                var stmp = new StereoToMonoProvider16(input);
+                return stmp;
+            }
+            else if (!toMono && input.WaveFormat.Channels != 2)
+            {
+                var mtsp = new MonoToStereoProvider16(input);
+                mtsp.LeftVolume = 0.7f;
+                mtsp.RightVolume = 0.7f; //0.7 on each to avoid double loud
+                return mtsp;
+            }
+            else
+            {
+                return input;
+            }
+        }
+
+        /// <summary>
+        /// Converts between Stereo and Mono SampleProviders for 32 bit sampled audio
+        /// </summary>
+        /// <param name="input">The input 32 bit SampleProvider</param>
+        /// <param name="toMono">True for mono audio, falses for stereo</param>
+        /// <returns></returns>
+        public ISampleProvider MonoStereoConvert32(ISampleProvider input, bool toMono)
         {
             if (toMono && input.WaveFormat.Channels != 1)
             {
                 var stmp = new StereoToMonoSampleProvider(input);
-                return stmp.ToWaveProvider();
+                return stmp;
             }
             else if (!toMono && input.WaveFormat.Channels != 2)
             {
                 var mtsp = new MonoToStereoSampleProvider(input);
                 mtsp.LeftVolume = 0.7f;
                 mtsp.RightVolume = 0.7f; //0.7 on each to avoid double loud
-                return mtsp.ToWaveProvider();
+                return mtsp;
             }
             else
             {
-                return input.ToWaveProvider();
+                return input;
             }
         }
 
