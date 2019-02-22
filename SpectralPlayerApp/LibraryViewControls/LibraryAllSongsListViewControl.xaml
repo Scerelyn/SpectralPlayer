@@ -19,6 +19,7 @@
                   IsReadOnly="True"
                   SelectionChanged="DoSelectionChanged"
                   BorderBrush="{StaticResource Dark_BackGroundBrush}"
+                  MouseDoubleClick="DoAddToUpNext"
                   >
         <DataGrid.Columns>
             <DataGridTextColumn Header="Song" Binding="{Binding Name}"/>

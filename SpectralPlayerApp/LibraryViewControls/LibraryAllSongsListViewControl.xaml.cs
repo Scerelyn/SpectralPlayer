@@ -103,5 +103,20 @@ namespace SpectralPlayerApp.LibraryViewControls
                 MessageBox.Show("Songs removed from library");
             }
         }
+
+        public void DoAddToUpNext(object sender, RoutedEventArgs args)
+        {
+            DataGrid songsView = sender as DataGrid;
+
+            //for some strange reason, each single selected item is added into SelectedItems 5 times
+            //since selecting via clicks on the datagrid can never really give duplicates, this has no impact on user selections
+            //shoutouts to https://stackoverflow.com/questions/1300088/distinct-with-lambda/4158364#4158364
+            IEnumerable<DataGridCellInfo> noDuplicates = songsView.SelectedCells.GroupBy(cellInfo => cellInfo.Item).Select(grouping => grouping.First());
+
+            foreach(DataGridCellInfo s in noDuplicates)
+            {
+                UpNextControl.UpNext.SongList.Add(s.Item as Song);
+            }
+        }
     }
 }
