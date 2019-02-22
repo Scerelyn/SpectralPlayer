@@ -6,7 +6,12 @@
              xmlns:local="clr-namespace:SpectralPlayerApp.LibraryViewControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListBox x:Name="AlbumListBox" SelectionMode="Extended" Background="{StaticResource Dark_BackGroundBrush}" Selector.SelectionChanged="DoSelectionChanged" ItemContainerStyle="{StaticResource ListBoxStyle}">
+    <ListBox x:Name="AlbumListBox" 
+             SelectionMode="Extended" 
+             Background="{StaticResource Dark_BackGroundBrush}" 
+             Selector.SelectionChanged="DoSelectionChanged" 
+             ItemContainerStyle="{StaticResource ListBoxStyle}"
+             MouseDoubleClick="DoAddToUpNext">
         <ListBox.GroupStyle>
             <GroupStyle>
                 <GroupStyle.ContainerStyle>

@@ -134,5 +134,14 @@ namespace SpectralPlayerApp.LibraryViewControls
                 MessageBox.Show("Songs removed from library");
             }
         }
+
+        public void DoAddToUpNext(object sender, RoutedEventArgs args)
+        {
+            ListBox songsListBox = sender as ListBox;
+            foreach(Song s in songsListBox.SelectedItems)
+            {
+                UpNextControl.UpNext.SongList.Add(s);
+            }
+        }
     }
 }
