@@ -3,6 +3,7 @@ using NAudio.Flac;
 using NAudio.Vorbis;
 using NAudio.Wave;
 using Ookii.Dialogs.Wpf;
+using SpectralPlayerApp.UIComponents;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,19 +68,19 @@ namespace SpectralPlayerApp.Dialogs
                 WaitingProgressBar.Visibility = Visibility.Visible;
                 WaitingLabel.Visibility = Visibility.Visible;
                 WaitingLabel.Content = "Converting files, hang on...";
+                BackgroundTaskControl bgtc = null;
                 if (parentWindow != null)
                 {
-                    parentWindow.BackgroundTaskDockPanel.Visibility = Visibility.Visible;
-                    parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
+                    bgtc = new BackgroundTaskControl(parentWindow.BackgroundTaskStackPanel, WaitingLabel.Content + "");
                 }
                 Exportbutton.IsEnabled = false;
                 await Task.Factory.StartNew(async () => {
-                    await ConvertFiles(ConvertCallBack);
+                    await ConvertFiles(ConvertCallBack, bgtc);
                 });
             }
         }
 
-        private async Task ConvertFiles(Func<Task> callBack)
+        private async Task ConvertFiles(Func<BackgroundTaskControl, Task> callBack, BackgroundTaskControl bgtc)
         {
             await Task.Delay(250); // give time for rendering changes
             WaveStream inputStream = null;
@@ -105,7 +106,7 @@ namespace SpectralPlayerApp.Dialogs
                     {
                         selectedFileType = OutputFileTypeComboBox.SelectedItem as string;
                         WaitingLabel.Content = $"Now converting {selectedSongs[i].Name} to {selectedFileType.Substring(selectedFileType.IndexOf("(") + 1, 4)}";
-                        parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
+                        bgtc.BackgroundTaskLabel.Content = WaitingLabel.Content;
                     });
                     if (selectedFileType.EndsWith("(.mp3)"))
                     {
@@ -167,7 +168,7 @@ namespace SpectralPlayerApp.Dialogs
                 catch (Exception e)
                 {
                     MessageBox.Show("Error converting " + selectedSongs[i].FilePath + ", message: " + e.Message);
-                    await callBack();
+                    await callBack(bgtc);
                     inputStream?.Close();
                     return;
                 }
@@ -176,11 +177,11 @@ namespace SpectralPlayerApp.Dialogs
                     inputStream?.Close();
                 }
             }
-            await callBack();
+            await callBack(bgtc);
             MessageBox.Show("File(s) successfully converted!");
         }
 
-        private async Task ConvertCallBack()
+        private async Task ConvertCallBack(BackgroundTaskControl bgtc)
         {
             Dispatcher.Invoke(() =>
             {
@@ -190,8 +191,7 @@ namespace SpectralPlayerApp.Dialogs
                 Exportbutton.IsEnabled = true;
                 if (parentWindow != null)
                 {
-                    parentWindow.BackgroundTaskDockPanel.Visibility = Visibility.Collapsed;
-                    parentWindow.BackgroundTaskLabel.Content = WaitingLabel.Content;
+                    bgtc?.Dispose();
                 }
                 selectedSongs.Clear();
             });

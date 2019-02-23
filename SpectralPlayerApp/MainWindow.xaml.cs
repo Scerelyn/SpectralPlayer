@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using MusicLibraryLib;
 using NAudio.Wave;
 using SpectralPlayerApp.Dialogs;
+using SpectralPlayerApp.UIComponents;
 using SpectralPlayerApp.Utils;
 using System;
 using System.Collections.Generic;
@@ -363,15 +364,15 @@ namespace SpectralPlayerApp
         /// </summary>
         /// <param name="callBack">The function to callback when deserialization is finished</param>
         /// <returns></returns>
-        public async Task AsyncDeserialize(Func<Task> callBack)
+        public async Task AsyncDeserialize(Func<BackgroundTaskControl, Task> callBack)
         {
             if (SongLibrary?.SongList != null)
             {
                 SongLibrary.SongList.CollectionChanged -= UpdateHintTextBox; // remove old listener to avoid resource leaks
             }
+            BackgroundTaskControl bgtc = null;
             Dispatcher.Invoke(() => {
-                BackgroundTaskLabel.Content = "Opening Library...";
-                BackgroundTaskDockPanel.Visibility = Visibility.Visible;
+                bgtc = new BackgroundTaskControl(this.BackgroundTaskStackPanel, "Opening Library...");
             });
             bool result = false;
             await Task.Factory.StartNew(() => {
@@ -384,7 +385,7 @@ namespace SpectralPlayerApp
             SongLibrary.SongList.CollectionChanged += UpdateHintTextBox;
             UpdateHintTextBox(this, null);
             UpdateLists();
-            await callBack();
+            await callBack(bgtc);
         }
 
         /// <summary>
@@ -392,21 +393,21 @@ namespace SpectralPlayerApp
         /// </summary>
         /// <param name="callBack">The function to callback when the serialization is finished</param>
         /// <returns></returns>
-        public async Task AsyncSerialize(Func<Task> callBack)
+        public async Task AsyncSerialize(Func<BackgroundTaskControl, Task> callBack)
         {
+            BackgroundTaskControl bgtc = null;
             Dispatcher.Invoke(() => {
-                BackgroundTaskLabel.Content = "Saving Library...";
-                BackgroundTaskDockPanel.Visibility = Visibility.Visible;
+                bgtc = new BackgroundTaskControl(this.BackgroundTaskStackPanel, "Saving Library...");
             });
             await Task.Factory.StartNew(() => {
                 XMLSerializeLibrary(SongLibrary);
             });
-            await callBack();
+            await callBack(bgtc);
         }
 
-        public async Task BackgroundCallback()
+        public async Task BackgroundCallback(BackgroundTaskControl bgtc)
         {
-            BackgroundTaskDockPanel.Visibility = Visibility.Collapsed;
+            bgtc?.Dispose();
         }
 
         /// <summary>

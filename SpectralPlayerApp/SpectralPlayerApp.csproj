@@ -126,6 +126,9 @@
     <Compile Include="MusicPlayerViewControls\SpectrumPeakViewControl.xaml.cs">
       <DependentUpon>SpectrumPeakViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIComponents\BackgroundTaskControl.xaml.cs">
+      <DependentUpon>BackgroundTaskControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\FFTAnalyzer.cs" />
     <Compile Include="Utils\MonoStereoSwapProvider.cs" />
     <Compile Include="Utils\VolumePeakAnalyzer.cs" />
@@ -219,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MusicPlayerViewControls\UpNextPlaylistViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIComponents\BackgroundTaskControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

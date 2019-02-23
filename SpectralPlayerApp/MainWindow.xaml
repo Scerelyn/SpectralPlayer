@@ -30,10 +30,9 @@
             </MenuItem>
         </Menu>
         <!-- Background task notifier -->
-        <DockPanel DockPanel.Dock="Top" x:Name="BackgroundTaskDockPanel" Visibility="Collapsed">
-            <Label x:Name="BackgroundTaskLabel" Content="Text" Foreground="{StaticResource Dark_FontBrush}"/>
-            <ProgressBar x:Name="BackgroundTaskProgressBar" IsIndeterminate="True"/>
-        </DockPanel>
+        <StackPanel DockPanel.Dock="Top" x:Name="BackgroundTaskStackPanel" Visibility="Visible">
+            
+        </StackPanel>
         <Grid> <!-- Body of player -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40*"/>
