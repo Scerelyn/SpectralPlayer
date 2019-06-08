@@ -218,6 +218,18 @@ namespace SpectralPlayerApp.MusicPlayerViewControls
                 SpectrumAnalyzer.FFTAnalyzer = fft;
                 PeakMeterAnalyzer.PeakAnalyzer = vpa;
                 SpectrumPeakAnalyzer.FFTAnalyzer = fft;
+                if (SpectrumAnalyzer.Visibility == Visibility.Visible)
+                {
+                    SpectrumAnalyzer.FFTAnalyzer.Enabled = true;
+                }
+                else if (SpectrumPeakAnalyzer.Visibility == Visibility.Visible)
+                {
+                    SpectrumPeakAnalyzer.FFTAnalyzer.Enabled = true;
+                }
+                else if (PeakMeterAnalyzer.Visibility == Visibility.Visible)
+                {
+                    PeakMeterAnalyzer.PeakAnalyzer.Enabled = true;
+                }
             }
         }
 

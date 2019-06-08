@@ -52,6 +52,11 @@ namespace SpectralPlayerApp.Utils
         public WaveStream WaveStream { get; set; }
 
         /// <summary>
+        /// Enables and disables the analyzer
+        /// </summary>
+        public bool Enabled { get; set; } = false;
+
+        /// <summary>
         /// Creates a Fourier Fast Transform analyzer ISampleProvider
         /// </summary>
         /// <param name="samples">The ISampleProvider to use</param>
@@ -96,13 +101,14 @@ namespace SpectralPlayerApp.Utils
         public int Read(float[] buffer, int offset, int count)
         {
             int samplesRead = Samples.Read(buffer, offset, count); //let the other sampleprovider to that work
-            
-            //analyze the floats that came in
-            for(int i = 0; i < samplesRead; i++)
+            if (Enabled)
             {
-                AnalyzeStep(buffer[i]);
+                //analyze the floats that came in
+                for(int i = 0; i < samplesRead; i++)
+                {
+                    AnalyzeStep(buffer[i]);
+                }
             }
-
             //then give the samples read
             return samplesRead;
         }

@@ -634,24 +634,40 @@ namespace SpectralPlayerApp
                         MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Visible;
                         MusicPlayerControl.SpectrumPeakAnalyzer.Visibility = Visibility.Collapsed;
+
+                        MusicPlayerControl.SpectrumPeakAnalyzer.FFTAnalyzer.Enabled = false;
+                        MusicPlayerControl.SpectrumAnalyzer.FFTAnalyzer.Enabled = false;
+                        MusicPlayerControl.PeakMeterAnalyzer.PeakAnalyzer.Enabled = false;
                         break;
                     case "Spectrum":
                         MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Visible;
                         MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.SpectrumPeakAnalyzer.Visibility = Visibility.Collapsed;
+
+                        MusicPlayerControl.SpectrumPeakAnalyzer.FFTAnalyzer.Enabled = false;
+                        MusicPlayerControl.SpectrumAnalyzer.FFTAnalyzer.Enabled = true;
+                        MusicPlayerControl.PeakMeterAnalyzer.PeakAnalyzer.Enabled = false;
                         break;
                     case "Peak Meter":
                         MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Visible;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.SpectrumPeakAnalyzer.Visibility = Visibility.Collapsed;
+
+                        MusicPlayerControl.SpectrumPeakAnalyzer.FFTAnalyzer.Enabled = false;
+                        MusicPlayerControl.SpectrumAnalyzer.FFTAnalyzer.Enabled = false;
+                        MusicPlayerControl.PeakMeterAnalyzer.PeakAnalyzer.Enabled = true;
                         break;
                     case "Spectrum Peak":
                         MusicPlayerControl.SpectrumAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.PeakMeterAnalyzer.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.ImageHoldingLabel.Visibility = Visibility.Collapsed;
                         MusicPlayerControl.SpectrumPeakAnalyzer.Visibility = Visibility.Visible;
+
+                        MusicPlayerControl.SpectrumAnalyzer.FFTAnalyzer.Enabled = false;
+                        MusicPlayerControl.SpectrumPeakAnalyzer.FFTAnalyzer.Enabled = true;
+                        MusicPlayerControl.PeakMeterAnalyzer.PeakAnalyzer.Enabled = false;
                         break;
                     default:
                         break;

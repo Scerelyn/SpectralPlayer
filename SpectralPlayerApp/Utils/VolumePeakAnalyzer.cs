@@ -44,6 +44,11 @@ namespace SpectralPlayerApp.Utils
         private int PeakGroupingCounter { get; set; } = 0;
 
         /// <summary>
+        /// Enables and disables the analyzer
+        /// </summary>
+        public bool Enabled { get; set; } = false;
+
+        /// <summary>
         /// Creates a VolumePeakAnalayzer instance to analyze for peaks while reading the samples provided
         /// </summary>
         /// <param name="sampleProvider">The sample provider to read and analyzer from</param>
@@ -59,31 +64,34 @@ namespace SpectralPlayerApp.Utils
         public int Read(float[] buffer, int offset, int count)
         {
             int readSamples = SampleProvider.Read(buffer, offset, count); // let the other sample provider to that work
-            for (int i = 0; i < readSamples; i+=Channels)
+            if (Enabled)
             {
-                if (Channels == 2 && i < buffer.Length)
+                for (int i = 0; i < readSamples; i+=Channels)
                 {
-                    Max1 = Math.Max(Max1, buffer[i]);
-                    Max2 = Math.Max(Max2, buffer[i+1]);
-                    PeakGroupingCounter++;
-                    if (PeakGroupingCounter >= PeakGrouping)
+                    if (Channels == 2 && i < buffer.Length)
                     {
-                        PeakGroupingCounter = 0;
-                        PeakFindingDone(this, (Max1, Max2));
-                        Max1 = float.MinValue;
-                        Max2 = float.MinValue;
+                        Max1 = Math.Max(Max1, buffer[i]);
+                        Max2 = Math.Max(Max2, buffer[i+1]);
+                        PeakGroupingCounter++;
+                        if (PeakGroupingCounter >= PeakGrouping)
+                        {
+                            PeakGroupingCounter = 0;
+                            PeakFindingDone(this, (Max1, Max2));
+                            Max1 = float.MinValue;
+                            Max2 = float.MinValue;
+                        }
                     }
-                }
-                else
-                {
-                    Max1 = Math.Max(Max1, buffer[i]);
-                    PeakGroupingCounter++;
-                    if (PeakGroupingCounter >= PeakGrouping)
+                    else
                     {
-                        PeakGroupingCounter = 0;
-                        PeakFindingDone(this, (Max1, -1));
-                        Max1 = float.MinValue;
-                        Max2 = float.MinValue;
+                        Max1 = Math.Max(Max1, buffer[i]);
+                        PeakGroupingCounter++;
+                        if (PeakGroupingCounter >= PeakGrouping)
+                        {
+                            PeakGroupingCounter = 0;
+                            PeakFindingDone(this, (Max1, -1));
+                            Max1 = float.MinValue;
+                            Max2 = float.MinValue;
+                        }
                     }
                 }
             }
