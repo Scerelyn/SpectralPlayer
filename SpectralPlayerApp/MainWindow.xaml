@@ -15,6 +15,7 @@
                 <MenuItem Header="_Add file to library" Click="DoAddFile"/>
                 <MenuItem Header="_Save Library" Click="DoExport"/>
                 <MenuItem Header="_Load Library" Click="DoImport"/>
+                <MenuItem Header="S_can for errors" Click="DoFileCheck"/>
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Convert File" Click="DoConvertFile"/>

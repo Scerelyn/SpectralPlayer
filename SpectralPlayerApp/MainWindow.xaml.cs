@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -311,7 +312,15 @@ namespace SpectralPlayerApp
                     UpdateLists();
                     AsyncSerialize(BackgroundCallback);
                 }
+                catch (NotSupportedException nse)
+                {
+                    MessageBox.Show("Cannot save tags to the given file, but the tags will still be saved on the program.");
+                }
                 catch (UnsupportedFormatException ufe)
+                {
+                    MessageBox.Show("Cannot save tags to the given file, but the tags will still be saved on the program.");
+                }
+                catch (DirectoryNotFoundException dnfe)
                 {
                     MessageBox.Show("Cannot save tags to the given file, but the tags will still be saved on the program.");
                 }
@@ -459,6 +468,41 @@ namespace SpectralPlayerApp
             {
                 AddSongHintTextBox.Visibility = Visibility.Collapsed;
             }
+        }
+
+        /// <summary>
+        /// Checks all songs in the library if any files are missing
+        /// </summary>
+        private async void CheckFiles(Func<BackgroundTaskControl, Task> callBack)
+        {
+            BackgroundTaskControl bgtc = null;
+            Dispatcher.Invoke(() => {
+                bgtc = new BackgroundTaskControl(this.BackgroundTaskStackPanel, "Checking for errors...");
+            });
+            await Task.Factory.StartNew(() => {
+                List<string> ErrorSongs = new List<string>();
+                foreach (Song song in SongLibrary.SongList)
+                {
+                    if (!System.IO.File.Exists(song.FilePath))
+                    {
+                        ErrorSongs.Add(song.Name);
+                    }
+                }
+                if (ErrorSongs.Any())
+                {
+                    string errString = "The following songs have incorrect filepaths:\n";
+                    foreach(string song in ErrorSongs)
+                    {
+                        errString += song+'\n';
+                    }
+                    MessageBox.Show(errString, "Errors found", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }    
+                else
+                {
+                    MessageBox.Show("No errors found.");
+                }
+            });
+            await callBack(bgtc);
         }
 
         #endregion
@@ -639,6 +683,11 @@ namespace SpectralPlayerApp
             StereoChannelMenuItem.Header = "Use Stereo";
             MonoChannelMenuItem.Header = "Use Mono";
             DefaultChannelMenuItem.Header = "Use Default (Selected)";
+        }
+
+        public void DoFileCheck(object sender, RoutedEventArgs args)
+        {
+            CheckFiles(BackgroundCallback);
         }
 
         public void DoOnClose(object sender, EventArgs args)
